@@ -1,0 +1,45 @@
+package com.algaworks.algafood.infrastructure.repositories;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.repositories.CozinhaRepository;
+
+@Component
+public class CozinhaRepositoryImpl implements CozinhaRepository{
+
+	@PersistenceContext //Injetando o EntityManager com a própria anotação do JPA;
+	private EntityManager manager;
+	
+	@Override
+	public List<Cozinha> listar(){
+		return manager.createQuery("from Cozinha", Cozinha.class)
+				.getResultList();
+	}
+	
+	@Override
+	public Cozinha buscar(Long id) {
+		return manager.find(Cozinha.class, id);
+	}
+	
+	@Override
+	@Transactional
+	public Cozinha salvar(Cozinha cozinha) {
+		return manager.merge(cozinha);
+	}
+	
+	@Override
+	@Transactional
+	public void remover(Cozinha cozinha) {
+		// Apenas é possível remover uma instancia gerenciada pelo manager, por isso buscamos ela antes;
+		cozinha = buscar(cozinha.getId()); 
+		manager.remove(cozinha);
+	}
+}
+
