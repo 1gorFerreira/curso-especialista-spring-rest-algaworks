@@ -33,18 +33,15 @@ public class CozinhaController {
 
 	@GetMapping
 	public List<Cozinha> listar(){
-		return cozinhaRepository.listar();
+		return cozinhaRepository.findAll();
 	}
 	
 	@GetMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
-		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
-		
-		if(cozinha != null) {
-			return ResponseEntity.ok(cozinha);
-		}
-		
-		return ResponseEntity.notFound().build();
+		Cozinha cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(
+				() -> new EntidadeNaoEncontradaException("Não existe cadastro de cozinha com código: " + cozinhaId));
+
+		return ResponseEntity.ok(cozinha);
 	}
 	
 	@PostMapping
@@ -55,15 +52,13 @@ public class CozinhaController {
 	
 	@PutMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha){
-		Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
-		
-		if(cozinhaAtual != null) {
-			cozinhaAtual.setNome(cozinha.getNome());
-			cozinhaAtual = cadastroCozinhaService.salvar(cozinhaAtual);
-			return ResponseEntity.ok(cozinhaAtual);
-		}
-		
-		return ResponseEntity.notFound().build();
+		Cozinha cozinhaAtual = cozinhaRepository.findById(cozinhaId).orElseThrow(
+				() -> new EntidadeNaoEncontradaException("Não existe cadastro de cozinha com código: " + cozinhaId));
+
+		cozinhaAtual.setNome(cozinha.getNome());
+			
+		Cozinha cozinhaSalva = cadastroCozinhaService.salvar(cozinhaAtual);
+		return ResponseEntity.ok(cozinhaSalva);
 	}
 	
 	@DeleteMapping("/{cozinhaId}")

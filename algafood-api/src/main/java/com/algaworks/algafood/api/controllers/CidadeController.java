@@ -23,68 +23,60 @@ import com.algaworks.algafood.domain.services.CadastroCidadeService;
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
-	
+
 	@Autowired
 	private CidadeRepository cidadeRepository;
 
 	@Autowired
 	private CadastroCidadeService cadastroCidadeService;
-	
+
 	@GetMapping
 	public List<Cidade> listar() {
-		return cidadeRepository.listar();
+		return cidadeRepository.findAll();
 	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<Cidade> buscar(@PathVariable Long id){
-		Cidade cidade = cidadeRepository.buscar(id);
-		
-		if (cidade != null) {
-			return ResponseEntity.ok(cidade);
-		}
-		
-		return ResponseEntity.notFound().build();
+
+	@GetMapping("/{cidadeId}")
+	public ResponseEntity<Cidade> buscar(@PathVariable Long cidadeId) {
+		Cidade cidade = cidadeRepository.findById(cidadeId).orElseThrow(
+				() -> new EntidadeNaoEncontradaException("Não existe cadastro de cidade com código: " + cidadeId));
+
+		return ResponseEntity.ok(cidade);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<?> adicionar(@RequestBody Cidade cidade){
+	public ResponseEntity<?> adicionar(@RequestBody Cidade cidade) {
 		try {
 			cidade = cadastroCidadeService.salvar(cidade);
 			return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
 		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.badRequest()
-					.body(e.getMessage());
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+
 	@PutMapping("/{id}")
 	public ResponseEntity<Cidade> atualizar(@PathVariable Long id, @RequestBody Cidade cidade) {
-		Cidade cidadeAtual = cidadeRepository.buscar(id);
-		
-		if (cidadeAtual != null) {
-//			BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-			cidadeAtual.setNome(cidade.getNome());
-			cidadeAtual.setEstado(cidade.getEstado());
-			
-			cidadeAtual = cadastroCidadeService.salvar(cidadeAtual);
-			return ResponseEntity.ok(cidadeAtual);
-		}
-		
-		return ResponseEntity.notFound().build();
+		Cidade cidadeAtual = cidadeRepository.findById(id).orElseThrow(
+				() -> new EntidadeNaoEncontradaException("Não existe cadastro de cidade com código: " + id));
+
+//		BeanUtils.copyProperties(cidade, cidadeAtual, "id");
+		cidadeAtual.setNome(cidade.getNome());
+		cidadeAtual.setEstado(cidade.getEstado());
+
+		cidadeAtual = cadastroCidadeService.salvar(cidadeAtual);
+		return ResponseEntity.ok(cidadeAtual);
 	}
-	
+
 	@DeleteMapping("/{cidadeId}")
 	public ResponseEntity<?> remover(@PathVariable Long cidadeId) {
 		try {
-			cadastroCidadeService.excluir(cidadeId);	
+			cadastroCidadeService.excluir(cidadeId);
 			return ResponseEntity.noContent().build();
-			
+
 		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.notFound().build();
-			
+
 		} catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT)
-					.body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 		}
 	}
 }

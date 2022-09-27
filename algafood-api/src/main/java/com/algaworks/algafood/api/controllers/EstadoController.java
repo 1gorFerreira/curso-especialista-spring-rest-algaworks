@@ -31,21 +31,18 @@ public class EstadoController {
 
 	@Autowired
 	private CadastroEstadoService cadastroEstadoService;
-	
+
 	@GetMapping
 	public List<Estado> listar() {
-		return estadoRepository.listar();
+		return estadoRepository.findAll();
 	}
 
 	@GetMapping("/{estadoId}")
 	public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
-		Estado estado = estadoRepository.buscar(estadoId);
+		Estado estado = estadoRepository.findById(estadoId).orElseThrow(
+				() -> new EntidadeNaoEncontradaException("Não existe cadastro de estado com código: " + estadoId));
 
-		if (estado != null) {
-			return ResponseEntity.ok(estado);
-		}
-
-		return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(estado);
 	}
 
 	@PostMapping
@@ -56,16 +53,14 @@ public class EstadoController {
 
 	@PutMapping("/{estadoId}")
 	public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
-		Estado estadoAtual = estadoRepository.buscar(estadoId);
+		Estado estadoAtual = estadoRepository.findById(estadoId).orElseThrow(
+				() -> new EntidadeNaoEncontradaException("Não existe cadastro de estado com código: " + estadoId));
 
-		if (estadoAtual != null) {
-			BeanUtils.copyProperties(estado, estadoAtual, "id");
+		BeanUtils.copyProperties(estado, estadoAtual, "id");
 
-			estadoAtual = cadastroEstadoService.salvar(estadoAtual);
-			return ResponseEntity.ok(estadoAtual);
-		}
+		estadoAtual = cadastroEstadoService.salvar(estadoAtual);
+		return ResponseEntity.ok(estadoAtual);
 
-		return ResponseEntity.notFound().build();
 	}
 
 	@DeleteMapping("/{estadoId}")
