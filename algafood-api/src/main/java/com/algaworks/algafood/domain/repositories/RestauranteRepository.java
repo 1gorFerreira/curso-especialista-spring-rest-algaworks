@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.algaworks.algafood.domain.model.Restaurante;
 
 @Repository
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long>{
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries{
 	
 	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 	
@@ -30,6 +30,6 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long>{
 //	o SpringDataJPA ao invés de tentar criar uma consulta pelo nome do método, orm.xml etc, ele vai
 //	identificar que há uma implementação customizada e chamar esse método. (Para isso ser possível
 //	é obrigatório que o sufixo seja (nome do repositorio) + Impl;
-	List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
+//	List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
 	
 }
