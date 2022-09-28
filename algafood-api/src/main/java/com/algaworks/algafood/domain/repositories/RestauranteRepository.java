@@ -26,4 +26,10 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long>{
 	
 	int countByCozinhaId(Long cozinha);
 	
+//	Mesmo sem ter uma ligação explicita de RestauranteRepository com RestauranteRepositoryImpl,
+//	o SpringDataJPA ao invés de tentar criar uma consulta pelo nome do método, orm.xml etc, ele vai
+//	identificar que há uma implementação customizada e chamar esse método. (Para isso ser possível
+//	é obrigatório que o sufixo seja (nome do repositorio) + Impl;
+	List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
+	
 }
