@@ -62,7 +62,8 @@ public class RestauranteController {
 			Restaurante restauranteAtual = restauranteRepository.findById(restauranteId).orElseThrow(
 					() -> new EntidadeNaoEncontradaException("Não existe cadastro de restaurante com código: " + restauranteId));;
 
-//			BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+//			BeanUtils.copyProperties(restaurante, restauranteAtual, 
+//			        "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 			restauranteAtual.setNome(restaurante.getNome());
 			restauranteAtual.setTaxaFrete(restaurante.getTaxaFrete());
 			restauranteAtual.setCozinha(restaurante.getCozinha());
