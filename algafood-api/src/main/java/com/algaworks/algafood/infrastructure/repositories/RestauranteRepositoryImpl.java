@@ -1,5 +1,8 @@
 package com.algaworks.algafood.infrastructure.repositories;
 
+import static com.algaworks.algafood.infrastructure.repositories.specs.RestauranteSpecs.comFreteGratis;
+import static com.algaworks.algafood.infrastructure.repositories.specs.RestauranteSpecs.comNomeSemelhante;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +15,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repositories.RestauranteRepository;
 import com.algaworks.algafood.domain.repositories.RestauranteRepositoryQueries;
 
 @Repository
@@ -23,6 +29,9 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@Autowired @Lazy // Resolvendo erro de referencia circular (entre os 3 repositorios) @Lazy faz com que só seja instanciado quando precisar;
+	private RestauranteRepository restauranteRepository;
 
 	@Override
 	public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
@@ -51,5 +60,10 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
 		TypedQuery<Restaurante> query = manager.createQuery(criteria);
 		return query.getResultList();
+	}
+
+	@Override
+	public List<Restaurante> findComFreteGratis(String nome) {
+		return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
 	}
 }
