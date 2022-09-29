@@ -35,7 +35,12 @@ public class RestauranteController {
 
 	@GetMapping
 	public List<Restaurante> listar() {
-		return restauranteRepository.findAll();
+		List<Restaurante> restaurantes = restauranteRepository.findAll();
+		
+//		System.out.println("O nome da cozinha é:");
+//		restaurantes.get(0).getCozinha().getNome(); A cozinha só será procurada na query quando algum método dela for chamado (estando em Lazy loading);
+		
+		return restaurantes;
 	}
 
 	@GetMapping("/{restauranteId}")
