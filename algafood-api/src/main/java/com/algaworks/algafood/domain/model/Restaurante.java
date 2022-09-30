@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,8 +44,8 @@ public class Restaurante {
 	private BigDecimal taxaFrete;
 	
 //	@JsonIgnoreProperties("hibernateLazyInitializer") //Com essa anotação podemos ignorar alguma própriedade dentro de cozinha ao inves do objeto cozinha;
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY) // O padrão das relações que terminam com ToOne é EAGER;
+//	@JsonIgnore
+	@ManyToOne // (fetch = FetchType.LAZY) O padrão das relações que terminam com ToOne é EAGER;
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 
@@ -64,8 +63,8 @@ public class Restaurante {
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;
 	
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER) //  O padrão das relações que terminam com ToMany é LAZY; PS: Dificilmente usaremos EAGER em ToMany;
+//	@JsonIgnore
+	@ManyToMany // (fetch = FetchType.EAGER)  O padrão das relações que terminam com ToMany é LAZY; PS: Dificilmente usaremos EAGER em ToMany;
 	@JoinTable(name = "tb_restaurante_forma_pagamento",
 			joinColumns = @JoinColumn(name = "restaurante_id"),
 			inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))

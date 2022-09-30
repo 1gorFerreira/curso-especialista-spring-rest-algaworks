@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,11 @@ import com.algaworks.algafood.domain.model.Restaurante;
 @Repository
 public interface RestauranteRepository
 		extends CustomJpaRepository<Restaurante, Long>, RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
+	
+//	Se um restaurante não tiver nenhuma forma de pg associada a ele, esse restaurante não será retornado.
+//	Para resolver isso, temos que usar o LEFT JOIN FETCH, no lugar de JOIN FETCH;
+	@Query("from Restaurante r join fetch r.cozinha left join fetch r.formasPagamento")
+	List<Restaurante> findAll();
 
 	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 
