@@ -17,7 +17,7 @@ public interface RestauranteRepository
 	
 //	Se um restaurante não tiver nenhuma forma de pg associada a ele, esse restaurante não será retornado.
 //	Para resolver isso, temos que usar o LEFT JOIN FETCH, no lugar de JOIN FETCH;
-	@Query("from Restaurante r join fetch r.cozinha left join fetch r.formasPagamento")
+	@Query("from Restaurante r join fetch r.cozinha") //left join fetch r.formasPagamento")
 	List<Restaurante> findAll();
 
 	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);

@@ -44,7 +44,7 @@ public class Restaurante {
 	private BigDecimal taxaFrete;
 	
 //	@JsonIgnoreProperties("hibernateLazyInitializer") //Com essa anotação podemos ignorar alguma própriedade dentro de cozinha ao inves do objeto cozinha;
-//	@JsonIgnore
+	@JsonIgnore
 	@ManyToOne // (fetch = FetchType.LAZY) O padrão das relações que terminam com ToOne é EAGER;
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
