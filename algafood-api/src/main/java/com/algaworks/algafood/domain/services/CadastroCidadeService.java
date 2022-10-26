@@ -10,34 +10,48 @@ import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repositories.CidadeRepository;
-import com.algaworks.algafood.domain.repositories.EstadoRepository;
 
 @Service
 public class CadastroCidadeService {
+	
+	private static final String MSG_CIDADE_EM_USO 
+    	= "Cidade de código %d não pode ser removida, pois está em uso";
+
+	private static final String MSG_CIDADE_NAO_ENCONTRADA 
+		= "Não existe um cadastro de cidade com código %d";
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
 
 	@Autowired
-	private EstadoRepository estadoRepository;
+	private CadastroEstadoService cadastroEstadoService;
+	
+	public Cidade buscarOuFalhar(Long cidadeId) {
+		Cidade cidade = cidadeRepository.findById(cidadeId)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException(
+						String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId)));
+		return cidade;
+	}
 
 	public Cidade salvar(Cidade cidade) {
 		Long estadoId = cidade.getEstado().getId();
-		Estado estado = estadoRepository.findById(estadoId).orElseThrow(
-				() -> new EntidadeNaoEncontradaException("Não existe cadastro de estado com código: " + estadoId));
-
+		
+		Estado estado = cadastroEstadoService.buscarOuFalhar(estadoId);
+				
 		cidade.setEstado(estado);
 
 		return cidadeRepository.save(cidade);
 	}
 
-	public void excluir(Long id) {
+	public void excluir(Long cidadeId) {
 		try {
-			cidadeRepository.deleteById(id);
+			cidadeRepository.deleteById(cidadeId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException("Não existe um cadastro de cozinha de código: " + id);
+			throw new EntidadeNaoEncontradaException(
+					String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId));
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException("Cozinha de código: " + id + " não pode ser removida, pois está em uso");
+			throw new EntidadeEmUsoException(
+					String.format(MSG_CIDADE_EM_USO, cidadeId));
 		}
 	}
 }
