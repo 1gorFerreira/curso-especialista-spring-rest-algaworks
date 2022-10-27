@@ -63,7 +63,7 @@ public class CidadeController {
 		cidadeAtual.setEstado(cidade.getEstado());
 
 		try {
-			cidade = cadastroCidadeService.salvar(cidade);
+			cidadeAtual = cadastroCidadeService.salvar(cidadeAtual);
 		} catch (EntidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
