@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.repositories.CidadeRepository;
@@ -46,8 +46,8 @@ public class CidadeController {
 	public ResponseEntity<?> adicionar(@RequestBody Cidade cidade) {
 		try {
 			cidade = cadastroCidadeService.salvar(cidade);
-		} catch (EntidadeNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage());
+		} catch (EstadoNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
 		}
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(cidade.getId()).toUri();
@@ -56,18 +56,18 @@ public class CidadeController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Cidade> atualizar(@PathVariable Long id, @RequestBody Cidade cidade) {
-		Cidade cidadeAtual = cadastroCidadeService.buscarOuFalhar(id);
-
-//		BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-		cidadeAtual.setNome(cidade.getNome());
-		cidadeAtual.setEstado(cidade.getEstado());
-
 		try {
+			Cidade cidadeAtual = cadastroCidadeService.buscarOuFalhar(id);
+
+//			BeanUtils.copyProperties(cidade, cidadeAtual, "id");
+			cidadeAtual.setNome(cidade.getNome());
+			cidadeAtual.setEstado(cidade.getEstado());
+			
 			cidadeAtual = cadastroCidadeService.salvar(cidadeAtual);
-		} catch (EntidadeNaoEncontradaException e) {
-			throw new NegocioException(e.getMessage());
+			return ResponseEntity.ok(cidadeAtual);
+		} catch (EstadoNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
 		}
-		return ResponseEntity.ok(cidadeAtual);
 	}
 
 	@DeleteMapping("/{cidadeId}")
