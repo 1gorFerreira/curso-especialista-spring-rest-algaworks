@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		ProblemType problemType = ProblemType.ERRO_NEGOCIO;
 		String detail = ex.getMessage();
 		
-		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(detail)
+				.build();
 		
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
@@ -50,7 +53,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
 		String detail = ex.getMessage();
 		
-		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(detail)
+				.build();
 		
 //		Problem problem = Problem.builder()
 //				.status(status.value())
@@ -69,7 +74,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		ProblemType problemType = ProblemType.ENTIDADE_EM_USO;
 		String detail = ex.getMessage();
 		
-		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(detail)
+				.build();
 		
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
@@ -85,11 +92,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 			body = Problem.builder()
 					.title(status.getReasonPhrase())//Pequena descrição que descreve o Status retornado na resposta;
 					.status(status.value())
+					.timestamp(LocalDateTime.now())
+					.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
 					.build();
 		} else if (body instanceof String) {
 			body = Problem.builder()
 					.title((String) body)//Caso haja String no corpo, retornamos a String dentro da MSG do problema;
 					.status(status.value())
+					.timestamp(LocalDateTime.now())
+					.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
 					.build();
 		}
 		
@@ -113,7 +124,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
 		String detail = "O corpo da requisição está inválido. Verifique erro de sintaxe";//ex.getMessage() -> Descreve detalhes internos;
 		
-		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+				.build();
 		
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
@@ -152,7 +165,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		String detail = String.format("O recurso '%s', que você tentou acessar, é inexistente.", 
 				ex.getRequestURL());
 		
-		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+				.build();
 		
 		return super.handleExceptionInternal(ex, problem, headers, status, request);
 	}
@@ -170,7 +185,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 	    // para você durante, especialmente na fase de desenvolvimento
 	    ex.printStackTrace();
 		
-		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(detail)
+				.build();
 		
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);		
 	}
@@ -222,7 +239,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 				+ "Corrija e informe um valor compatível com o tipo '%s'", 
 				ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 		
-		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+				.build();
 	    
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
@@ -234,6 +253,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 				.status(status.value())
 				.type(problemType.getUri())
 				.title(problemType.getTitle())
+				.timestamp(LocalDateTime.now())
 				.detail(detail);
 	}
 	
