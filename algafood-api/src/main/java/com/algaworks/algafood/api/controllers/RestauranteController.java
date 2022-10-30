@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class RestauranteController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Restaurante> adicionar(@RequestBody Restaurante restaurante) {
+	public ResponseEntity<Restaurante> adicionar(@Valid @RequestBody Restaurante restaurante) {
 		try {
 			restaurante = cadastroRestauranteService.salvar(restaurante);
 		} catch (CozinhaNaoEncontradaException e) {
