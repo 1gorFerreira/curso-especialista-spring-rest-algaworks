@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -211,7 +212,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
 	
-	//Esse método vai tratar especificamente do erro específico de PropertyBindingException no handleHttpMessageNotReadable;
+	//Esse método vai tratar do erro específico de PropertyBindingException no handleHttpMessageNotReadable;
 	//Lembrando que o PropertyBindingException tem as subClasses: IgnoredPropertyException, UnrecognizedPropertyException
 	//E por isso, ambos esses erros estão recebendo o mesmo tratamento;
 	private ResponseEntity<Object> handlePropertyBinding(PropertyBindingException ex, HttpHeaders headers,
@@ -245,7 +246,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 	    
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
-
+	
+	//Tratando exceção de validation;
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+		String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente";
+		
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(detail)
+				.build();
+		
+		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+	
 	
 	//Método para ajudar a criar um Problem;
 	private Problem.ProblemBuilder createProblemBuilder(HttpStatus status, ProblemType problemType, String detail) {
