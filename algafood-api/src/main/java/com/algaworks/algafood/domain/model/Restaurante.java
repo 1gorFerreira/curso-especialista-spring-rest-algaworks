@@ -17,7 +17,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -49,6 +51,8 @@ public class Restaurante {
 	
 //	@JsonIgnoreProperties("hibernateLazyInitializer") //Com essa anotação podemos ignorar alguma própriedade dentro de cozinha ao inves do objeto cozinha;
 //	@JsonIgnore
+	@Valid // Com essa anotação, iremos validar as propriedades de COZINHA; 
+	@NotNull
 	@ManyToOne // (fetch = FetchType.LAZY) O padrão das relações que terminam com ToOne é EAGER;
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
