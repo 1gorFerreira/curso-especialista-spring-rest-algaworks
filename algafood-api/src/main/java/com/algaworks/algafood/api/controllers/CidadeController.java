@@ -3,6 +3,8 @@ package com.algaworks.algafood.api.controllers;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,7 +45,7 @@ public class CidadeController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> adicionar(@RequestBody Cidade cidade) {
+	public ResponseEntity<?> adicionar(@Valid @RequestBody Cidade cidade) {
 		try {
 			cidade = cadastroCidadeService.salvar(cidade);
 		} catch (EstadoNaoEncontradoException e) {
@@ -55,7 +57,7 @@ public class CidadeController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Cidade> atualizar(@PathVariable Long id, @RequestBody Cidade cidade) {
+	public ResponseEntity<Cidade> atualizar(@PathVariable Long id, @Valid @RequestBody Cidade cidade) {
 		try {
 			Cidade cidadeAtual = cadastroCidadeService.buscarOuFalhar(id);
 
