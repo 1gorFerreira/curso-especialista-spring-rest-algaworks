@@ -12,11 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.services.CadastroCozinhaService;
 
 @SpringBootTest
-public class CadastroCozinhaIntegrationTests {
+public class CadastroCozinhaIT {
 
 	@Autowired
 	private CadastroCozinhaService cadastroCozinha;
