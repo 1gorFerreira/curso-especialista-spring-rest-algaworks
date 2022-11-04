@@ -1,8 +1,10 @@
 package com.algaworks.algafood;
 
+import org.flywaydb.core.Flyway;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,18 @@ public class CadastroCozinhaIT {
 	@LocalServerPort
 	private int port;
 	
+	@Autowired
+	private Flyway flyway;
+	
+	//Será executado antes de cada teste:
 	@BeforeEach
 	public void setUp() {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();//Esse método ajudará a debbugar caso o teste falhe;
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
+		
+		//Chmamos o migrate para executar o afterMigrate para "resetar" o banco de dados;
+		flyway.migrate();
 	}
 	
 //	@Test
