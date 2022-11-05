@@ -11,7 +11,7 @@ import com.algaworks.algafood.domain.model.Produto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class RestauranteMixin {
+public abstract class RestauranteMixin {
 	
 //	@JsonIgnoreProperties("hibernateLazyInitializer") //Com essa anotação podemos ignorar alguma própriedade dentro de cozinha ao inves do objeto cozinha;
 	@JsonIgnoreProperties(value = "nome", allowGetters = true) //AllowGetters não irá ignorar no getNome, apenas no setNome;
