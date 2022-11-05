@@ -30,6 +30,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.algaworks.algafood.core.validation.Groups;
 import com.algaworks.algafood.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -58,6 +59,7 @@ public class Restaurante {
 	
 //	@JsonIgnoreProperties("hibernateLazyInitializer") //Com essa anotação podemos ignorar alguma própriedade dentro de cozinha ao inves do objeto cozinha;
 //	@JsonIgnore
+	@JsonIgnoreProperties(value = "nome", allowGetters = true) //AllowGetters não irá ignorar no getNome, apenas no setNome;
 	@Valid // Com essa anotação, iremos validar as propriedades de COZINHA; 
 	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)//Valida os atributos dentro de Cozinha que possuem o Group.CozinhaId;
 	@NotNull
