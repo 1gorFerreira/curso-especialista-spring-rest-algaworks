@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,14 +102,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 			body = Problem.builder()
 					.title(status.getReasonPhrase())//Pequena descrição que descreve o Status retornado na resposta;
 					.status(status.value())
-					.timestamp(LocalDateTime.now())
+					.timestamp(OffsetDateTime.now())
 					.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
 					.build();
 		} else if (body instanceof String) {
 			body = Problem.builder()
 					.title((String) body)//Caso haja String no corpo, retornamos a String dentro da MSG do problema;
 					.status(status.value())
-					.timestamp(LocalDateTime.now())
+					.timestamp(OffsetDateTime.now())
 					.userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
 					.build();
 		}
@@ -308,7 +308,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 				.status(status.value())
 				.type(problemType.getUri())
 				.title(problemType.getTitle())
-				.timestamp(LocalDateTime.now())
+				.timestamp(OffsetDateTime.now())
 				.detail(detail);
 	}
 	
