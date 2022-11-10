@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.algaworks.algafood.api.model.CozinhaModel;
+import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
 import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
@@ -40,17 +40,20 @@ public class RestauranteController {
 	@Autowired
 	private CadastroCozinhaService cadastroCozinhaService;
 
+	@Autowired
+	private RestauranteModelAssembler restauranteModelAssembler;
+	
 	@GetMapping
 	public List<RestauranteModel> listar() {
 		List<Restaurante> restaurantes = restauranteRepository.findAll();
-		return toCollectionModel(restaurantes);
+		return restauranteModelAssembler.toCollectionModel(restaurantes);
 	}
 
 	@GetMapping("/{restauranteId}")
 	public ResponseEntity<RestauranteModel> buscar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 		
-		RestauranteModel restauranteModel = toModel(restaurante);
+		RestauranteModel restauranteModel = restauranteModelAssembler.toModel(restaurante);
 		
 		return ResponseEntity.ok(restauranteModel);
 	}
@@ -61,7 +64,7 @@ public class RestauranteController {
 			Restaurante restaurante = toDomainObject(restauranteInput);
 			restaurante = cadastroRestauranteService.salvar(restaurante);
 			
-			RestauranteModel restauranteDto = toModel(restaurante);
+			RestauranteModel restauranteDto = restauranteModelAssembler.toModel(restaurante);
 			
 			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 					.buildAndExpand(restaurante.getId()).toUri();
@@ -90,26 +93,9 @@ public class RestauranteController {
 		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
-		return ResponseEntity.ok(toModel(restauranteAtual));
+		return ResponseEntity.ok(restauranteModelAssembler.toModel(restauranteAtual));
 	}
-	
-	private RestauranteModel toModel(Restaurante restaurante) {
-		CozinhaModel cozinhaModel = new CozinhaModel();
-		cozinhaModel.setId(restaurante.getCozinha().getId());
-		cozinhaModel.setNome(restaurante.getCozinha().getNome());
-		
-		RestauranteModel restauranteModel = new RestauranteModel();
-		restauranteModel.setId(restaurante.getId());
-		restauranteModel.setNome(restaurante.getNome());
-		restauranteModel.setTaxaFrete(restaurante.getTaxaFrete());
-		restauranteModel.setCozinha(cozinhaModel);
-		return restauranteModel;
-	}
-	
-	private List<RestauranteModel> toCollectionModel(List<Restaurante> restaurantes){
-		return restaurantes.stream().map(restaurante -> toModel(restaurante)).toList();
-	}
-	
+
 	private Restaurante toDomainObject(RestauranteInput restauranteInput) {
 		Restaurante restaurante = new Restaurante();
 		restaurante.setNome(restauranteInput.getNome());
