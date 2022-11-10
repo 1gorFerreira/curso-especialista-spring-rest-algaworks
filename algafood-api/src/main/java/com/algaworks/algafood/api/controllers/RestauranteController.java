@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.algaworks.algafood.api.assembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
 import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
@@ -43,6 +44,9 @@ public class RestauranteController {
 	@Autowired
 	private RestauranteModelAssembler restauranteModelAssembler;
 	
+	@Autowired
+	private RestauranteInputDisassembler restauranteInputDisassembler;
+	
 	@GetMapping
 	public List<RestauranteModel> listar() {
 		List<Restaurante> restaurantes = restauranteRepository.findAll();
@@ -61,7 +65,7 @@ public class RestauranteController {
 	@PostMapping
 	public ResponseEntity<RestauranteModel> adicionar(@Valid @RequestBody RestauranteInput restauranteInput) {
 		try {
-			Restaurante restaurante = toDomainObject(restauranteInput);
+			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 			restaurante = cadastroRestauranteService.salvar(restaurante);
 			
 			RestauranteModel restauranteDto = restauranteModelAssembler.toModel(restaurante);
@@ -96,16 +100,4 @@ public class RestauranteController {
 		return ResponseEntity.ok(restauranteModelAssembler.toModel(restauranteAtual));
 	}
 
-	private Restaurante toDomainObject(RestauranteInput restauranteInput) {
-		Restaurante restaurante = new Restaurante();
-		restaurante.setNome(restauranteInput.getNome());
-		restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
-		
-		Cozinha cozinha = new Cozinha();
-		cozinha.setId(restauranteInput.getCozinha().getId());
-		
-		restaurante.setCozinha(cozinha);
-		
-		return restaurante;
-	}
 }
