@@ -22,10 +22,8 @@ import com.algaworks.algafood.api.model.RestauranteModel;
 import com.algaworks.algafood.api.model.input.RestauranteInput;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
-import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repositories.RestauranteRepository;
-import com.algaworks.algafood.domain.services.CadastroCozinhaService;
 import com.algaworks.algafood.domain.services.CadastroRestauranteService;
 
 @RestController
@@ -37,9 +35,6 @@ public class RestauranteController {
 
 	@Autowired
 	private CadastroRestauranteService cadastroRestauranteService;
-	
-	@Autowired
-	private CadastroCozinhaService cadastroCozinhaService;
 
 	@Autowired
 	private RestauranteModelAssembler restauranteModelAssembler;
@@ -84,13 +79,7 @@ public class RestauranteController {
 	public ResponseEntity<RestauranteModel> atualizar(@PathVariable Long restauranteId, @Valid @RequestBody RestauranteInput restauranteInput) {
 		Restaurante restauranteAtual = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
-//		BeanUtils.copyProperties(restaurante, restauranteAtual, 
-//			      "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
-		restauranteAtual.setNome(restauranteInput.getNome());
-		restauranteAtual.setTaxaFrete(restauranteInput.getTaxaFrete());
-		
-		Cozinha cozinha = cadastroCozinhaService.buscarOuFalhar(restauranteInput.getCozinha().getId());
-		restauranteAtual.setCozinha(cozinha);
+		restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 
 		try {
 			restauranteAtual = cadastroRestauranteService.salvar(restauranteAtual);
