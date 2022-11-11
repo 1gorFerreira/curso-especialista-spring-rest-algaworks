@@ -77,6 +77,7 @@ public class RestauranteController {
 
 	@PutMapping("/{restauranteId}")
 	public ResponseEntity<RestauranteModel> atualizar(@PathVariable Long restauranteId, @Valid @RequestBody RestauranteInput restauranteInput) {
+		
 		Restaurante restauranteAtual = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 
 		restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);

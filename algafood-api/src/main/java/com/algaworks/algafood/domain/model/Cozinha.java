@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,7 +29,7 @@ public class Cozinha {
 	
 //	@JsonIgnore -> Ignora a propriedade na hora de serializar a representacao (Remove da representacao);
 //	@JsonProperty("titulo") -> Forma que a propriedade será representada no JSON;
-	@NotBlank
+//	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 	
