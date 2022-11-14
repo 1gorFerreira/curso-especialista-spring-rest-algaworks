@@ -35,4 +35,18 @@ public class CadastroRestauranteService {
 
 		return restauranteRepository.save(restaurante);
 	}
+	
+	@Transactional
+	public void ativar(Long restauranteId) {
+		//Não é preciso fazer um save, o próprio JPA vai sincronizar com o BD (Fazer um update na tabela);
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+		//restaurante.setAtivo(true);
+		restauranteAtual.ativar();
+	}
+	
+	@Transactional
+	public void desativar(Long restauranteId) {
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+		restauranteAtual.inativar();;
+	}
 }
