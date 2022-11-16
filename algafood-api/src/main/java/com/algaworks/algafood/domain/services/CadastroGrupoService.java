@@ -64,9 +64,11 @@ public class CadastroGrupoService {
 		return grupoModelAssembler.toModel(grupo);
 	}
 	
+	@Transactional
 	public void deletar (Long grupoId) {
 		try {
 			grupoRepository.deleteById(grupoId);
+			grupoRepository.flush();
 		} catch (EmptyResultDataAccessException e) {
             throw new GrupoNaoEncontradoException(grupoId);
         } catch (DataIntegrityViolationException e) {
