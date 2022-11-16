@@ -40,8 +40,7 @@ public class CadastroFormaPagamentoService {
 	
 	@Transactional(readOnly = true)
 	public FormaPagamentoModel buscar(Long formaPagamentoId){
-		FormaPagamento formaPagamento = formaPagamentoRepository.findById(formaPagamentoId)
-				.orElseThrow(() -> new FormaPagamentoNaoEncontradaException(formaPagamentoId));
+		FormaPagamento formaPagamento = buscarOuFalhar(formaPagamentoId);
 		return formaPagamentoModelAssembler.toModel(formaPagamento);
 	}
 	
@@ -54,8 +53,7 @@ public class CadastroFormaPagamentoService {
 	
 	@Transactional
 	public FormaPagamentoModel atualizar(Long formaPagamentoId, FormaPagamentoInput formaPagamentoInput) {
-		FormaPagamento formaPagamento = formaPagamentoRepository.findById(formaPagamentoId)
-				.orElseThrow(() -> new FormaPagamentoNaoEncontradaException(formaPagamentoId));
+		FormaPagamento formaPagamento = buscarOuFalhar(formaPagamentoId);
 		
 		formaPagamentoInputDisassembler.copyToDomainObject(formaPagamentoInput, formaPagamento);
 		
@@ -75,5 +73,11 @@ public class CadastroFormaPagamentoService {
             throw new EntidadeEmUsoException(
                 String.format(MSG_FORMA_PAGAMENTO_EM_USO, formaPagamentoId));
         }
+	}
+	
+	public FormaPagamento buscarOuFalhar(Long formaPagamentoId) {
+		FormaPagamento formaPagamento = formaPagamentoRepository.findById(formaPagamentoId)
+				.orElseThrow(() -> new FormaPagamentoNaoEncontradaException(formaPagamentoId));
+		return formaPagamento;
 	}
 }
