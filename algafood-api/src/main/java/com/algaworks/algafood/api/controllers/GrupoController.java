@@ -30,7 +30,7 @@ public class GrupoController {
 	
 	@GetMapping
 	public ResponseEntity<List<GrupoModel>> buscarTodos(){
-		List<GrupoModel> grupos = cadastroGrupoService.buscarTodos();
+		List<GrupoModel> grupos = cadastroGrupoService.listarGrupos();
 		return ResponseEntity.ok(grupos);
 	}
 	

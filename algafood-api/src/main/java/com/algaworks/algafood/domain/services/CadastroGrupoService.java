@@ -10,11 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.api.assembler.GrupoInputDisassembler;
 import com.algaworks.algafood.api.assembler.GrupoModelAssembler;
+import com.algaworks.algafood.api.assembler.PermissaoModelAssembler;
 import com.algaworks.algafood.api.model.GrupoModel;
+import com.algaworks.algafood.api.model.PermissaoModel;
 import com.algaworks.algafood.api.model.input.GrupoInput;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Grupo;
+import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repositories.GrupoRepository;
 
 @Service
@@ -32,16 +35,21 @@ public class CadastroGrupoService {
 	@Autowired
 	private GrupoInputDisassembler grupoInputDisassembler;
 	
+	@Autowired
+	private PermissaoModelAssembler permissaoModelAssembler;
+	
+	@Autowired
+	private CadastroPermissaoService cadastroPermissaoService;
+	
 	@Transactional(readOnly = true)
-	public List<GrupoModel> buscarTodos() {
+	public List<GrupoModel> listarGrupos() {
 		List<Grupo> grupos = grupoRepository.findAll();
 		return grupoModelAssembler.toCollectionModel(grupos);
 	}
 	
 	@Transactional(readOnly = true)
 	public GrupoModel buscar(Long grupoId){
-		Grupo grupo = grupoRepository.findById(grupoId)
-				.orElseThrow(() -> new GrupoNaoEncontradoException(grupoId));
+		Grupo grupo = buscarOuFalhar(grupoId);
 		return grupoModelAssembler.toModel(grupo);
 	}
 	
@@ -54,8 +62,7 @@ public class CadastroGrupoService {
 	
 	@Transactional
 	public GrupoModel atualizar(Long grupoId, GrupoInput grupoInput){
-		Grupo grupo = grupoRepository.findById(grupoId)
-				.orElseThrow(() -> new GrupoNaoEncontradoException(grupoId));
+		Grupo grupo = buscarOuFalhar(grupoId);
 		
 		grupoInputDisassembler.copyToDomainObject(grupoInput, grupo);
 		
@@ -75,5 +82,35 @@ public class CadastroGrupoService {
             throw new EntidadeEmUsoException(
                 String.format(MSG_GRUPO_EM_USO, grupoId));
         }
+	}
+	
+	@Transactional
+	public List<PermissaoModel> listarPermissoes(Long grupoId) {
+		Grupo grupo = buscarOuFalhar(grupoId);
+		return permissaoModelAssembler.toCollectionModel(grupo.getPermissoes());
+	}
+	
+	@Transactional
+	public void associarPermissao(Long grupoId, Long permissaoId) {
+		Grupo grupo = buscarOuFalhar(grupoId);
+		Permissao permissao = cadastroPermissaoService.buscarOuFalhar(permissaoId);
+		
+		grupo.associarPermissao(permissao);
+	}
+	
+	@Transactional
+	public void desassociarPermissao(Long grupoId, Long permissaoId) {
+		Grupo grupo = buscarOuFalhar(grupoId);
+		Permissao permissao = cadastroPermissaoService.buscarOuFalhar(permissaoId);
+		
+		grupo.deassociarPermissao(permissao);
+	}
+	
+	
+	@Transactional
+	public Grupo buscarOuFalhar(Long grupoId){
+		Grupo grupo = grupoRepository.findById(grupoId)
+				.orElseThrow(() -> new GrupoNaoEncontradoException(grupoId));
+		return grupo;
 	}
 }
