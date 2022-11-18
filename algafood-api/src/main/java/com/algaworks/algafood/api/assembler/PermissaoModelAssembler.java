@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class PermissaoModelAssembler {
 		return modelMapper.map(permissao, PermissaoModel.class);
 	}
 	
-	public List<PermissaoModel> toCollectionModel(Set<Permissao> permissoes){
+	public List<PermissaoModel> toCollectionModel(Collection<Permissao> permissoes){
 		return permissoes.stream().map(permissao -> toModel(permissao)).toList(); 
 	}
 }
