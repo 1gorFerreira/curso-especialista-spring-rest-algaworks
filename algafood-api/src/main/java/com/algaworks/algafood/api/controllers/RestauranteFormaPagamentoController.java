@@ -33,14 +33,14 @@ public class RestauranteFormaPagamentoController {
 	}
 	
 	@PutMapping("/{formaPagamentoId}")
-	public ResponseEntity<Void> associar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
-		cadastroRestauranteService.associarFormaPagamento(restauranteId, formaPagamentoId);
+	public ResponseEntity<Void> adicionarFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
+		cadastroRestauranteService.adicionarFormaPagamento(restauranteId, formaPagamentoId);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/{formaPagamentoId}")
-	public ResponseEntity<Void> desassociar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
-		cadastroRestauranteService.desassociarFormaPagamento(restauranteId, formaPagamentoId);
+	public ResponseEntity<Void> removerFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
+		cadastroRestauranteService.removerFormaPagamento(restauranteId, formaPagamentoId);
 		return ResponseEntity.noContent().build();
 	}
 	
