@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.api.assembler.PedidoModelAssembler;
+import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.algaworks.algafood.api.model.PedidoModel;
+import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.domain.exception.PedidoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.repositories.PedidoRepository;
@@ -21,10 +23,13 @@ public class EmissaoPedidoService {
 	@Autowired
 	private PedidoModelAssembler pedidoModelAssembler;
 	
+	@Autowired
+	private PedidoResumoModelAssembler pedidoResumoModelAssembler;
+	
 	@Transactional(readOnly = true)
-	public List<PedidoModel> buscarTodos(){
+	public List<PedidoResumoModel> buscarTodos(){
 		List<Pedido> pedidos = pedidoRepository.findAll();
-		return pedidoModelAssembler.toCollectionModel(pedidos);
+		return pedidoResumoModelAssembler.toCollectionModel(pedidos);
 	}
 	
 	@Transactional(readOnly = true)

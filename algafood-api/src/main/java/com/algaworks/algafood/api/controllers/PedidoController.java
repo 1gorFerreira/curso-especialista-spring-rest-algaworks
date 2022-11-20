@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.model.PedidoModel;
+import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.domain.services.EmissaoPedidoService;
 
 @RestController
@@ -20,8 +21,8 @@ public class PedidoController {
 	private EmissaoPedidoService emissaoPedidoService;
 	
 	@GetMapping
-	public ResponseEntity<List<PedidoModel>> buscarTodos(){
-		List<PedidoModel> pedidos = emissaoPedidoService.buscarTodos();
+	public ResponseEntity<List<PedidoResumoModel>> buscarTodos(){
+		List<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos();
 		return ResponseEntity.ok(pedidos);
 	}
 	
