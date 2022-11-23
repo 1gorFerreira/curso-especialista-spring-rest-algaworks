@@ -75,6 +75,7 @@ public class CadastroRestauranteService {
 	
 	@Transactional
 	public void ativar(List<Long> restauranteIds) {
+		//Uso do try-catch para lançar 400 na resposta ao invés de 404;
 		try {
 			restauranteIds.forEach(this::ativar);
 		} catch (RestauranteNaoEncontradoException e) {

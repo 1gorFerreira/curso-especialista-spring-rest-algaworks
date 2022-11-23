@@ -73,7 +73,7 @@ public class CadastroProdutoService {
 	@Transactional(readOnly = true)
 	public Produto buscarOuFalhar(Long restauranteId, Long produtoId) {
 		Produto produto = produtoRepository.findById(restauranteId, produtoId)
-				.orElseThrow(() -> new ProdutoNaoEncontradoException(produtoId));
+				.orElseThrow(() -> new ProdutoNaoEncontradoException(produtoId, restauranteId));
 		return produto;
 	}
 	

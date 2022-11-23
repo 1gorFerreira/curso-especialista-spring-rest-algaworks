@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.algaworks.algafood.api.model.EnderecoModel;
+import com.algaworks.algafood.api.model.input.ItemPedidoInput;
 import com.algaworks.algafood.domain.model.Endereco;
+import com.algaworks.algafood.domain.model.ItemPedido;
 
 @Configuration
 public class ModelMapperConfig {
@@ -28,6 +30,10 @@ public class ModelMapperConfig {
 		enderecoToEnderecoModelTypeMapmodelMapper.<String>addMapping(
 				enderecoSrc -> enderecoSrc.getCidade().getEstado().getNome(), 
 				(enderecoModelDest, value) -> enderecoModelDest.getCidade().setEstado(value));
+		
+		//Dizendo para o MM não atribuir o id para o itemPedido, para evitar o erro de Detach;
+		modelMapper.createTypeMap(ItemPedidoInput.class, ItemPedido.class)
+			.addMappings(mapper -> mapper.skip(ItemPedido::setId));  
 		
 		return modelMapper;
 	}

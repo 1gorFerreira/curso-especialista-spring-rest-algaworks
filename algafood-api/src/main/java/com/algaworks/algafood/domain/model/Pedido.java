@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -67,22 +68,7 @@ public class Pedido {
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status = StatusPedido.CRIADO;
 	
-	@OneToMany(mappedBy ="pedido")
+	@OneToMany(mappedBy ="pedido", cascade = CascadeType.ALL)//Cascade vai forçar que os os itens de pedido também sejam salvos (Salva em cascata);
 	private List<ItemPedido> itens = new ArrayList<>();
-	
-	public void calcularValorTotal() {
-		for(ItemPedido item : itens) {
-	    	this.subtotal = subtotal.add(item.getPrecoTotal());
-	    }
-		this.valorTotal = this.subtotal.add(taxaFrete);
-	}
-
-	public void definirFrete() {
-		this.taxaFrete = restaurante.getTaxaFrete();
-	}
-
-	public void atribuirPedidoAosItens() {
-		this.itens.forEach(item -> item.setPedido(this));
-	}
 	
 }
