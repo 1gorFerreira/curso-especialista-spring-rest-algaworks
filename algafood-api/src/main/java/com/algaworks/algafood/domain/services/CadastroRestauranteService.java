@@ -55,6 +55,7 @@ public class CadastroRestauranteService {
 
 		restaurante.setCozinha(cozinha);
 		restaurante.getEndereco().setCidade(cidade);
+		restaurante.abrir();
 
 		return restauranteRepository.save(restaurante);
 	}
