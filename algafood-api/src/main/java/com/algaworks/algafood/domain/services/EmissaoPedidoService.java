@@ -62,8 +62,8 @@ public class EmissaoPedidoService {
 	}
 	
 	@Transactional(readOnly = true)
-	public PedidoModel buscar(Long pedidoId) {
-		Pedido pedido = buscarOuFalhar(pedidoId);
+	public PedidoModel buscar(String codigoPedido) {
+		Pedido pedido = buscarOuFalhar(codigoPedido);
 		return pedidoModelAssembler.toModel(pedido);
 	}
 	
@@ -123,8 +123,8 @@ public class EmissaoPedidoService {
 	}
 	
 	
-	public Pedido buscarOuFalhar(Long pedidoId) {
-		return pedidoRepository.findById(pedidoId)
-				.orElseThrow(() -> new PedidoNaoEncontradoException(pedidoId));
+	public Pedido buscarOuFalhar(String codigoPedido) {
+		return pedidoRepository.findByCodigo(codigoPedido)
+				.orElseThrow(() -> new PedidoNaoEncontradoException(codigoPedido));
 	}
 }

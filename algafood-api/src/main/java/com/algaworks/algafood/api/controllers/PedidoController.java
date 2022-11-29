@@ -33,9 +33,9 @@ public class PedidoController {
 		return ResponseEntity.ok(pedidos);
 	}
 	
-	@GetMapping("/{pedidoId}")
-	public ResponseEntity<PedidoModel> buscar(@PathVariable Long pedidoId){
-		PedidoModel pedido = emissaoPedidoService.buscar(pedidoId);
+	@GetMapping("/{codigoPedido}")
+	public ResponseEntity<PedidoModel> buscar(@PathVariable String codigoPedido){
+		PedidoModel pedido = emissaoPedidoService.buscar(codigoPedido);
 		return ResponseEntity.ok(pedido);
 	}
 	
@@ -44,7 +44,7 @@ public class PedidoController {
 		PedidoModel pedido = emissaoPedidoService.emitir(pedidoInput);
 	        
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(pedido.getId()).toUri();
+				.buildAndExpand(pedido.getCodigo()).toUri();
 		
 		return ResponseEntity.created(uri).body(pedido);
 	}
