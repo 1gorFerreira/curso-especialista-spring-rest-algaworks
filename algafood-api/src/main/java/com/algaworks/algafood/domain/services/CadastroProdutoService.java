@@ -33,11 +33,18 @@ public class CadastroProdutoService {
 	private ProdutoInputDisassembler produtoInputDisassembler;
 	
 	@Transactional(readOnly = true)
-	public List<ProdutoModel> listarProdutos(Long restauranteId){
+	public List<ProdutoModel> listarProdutos(Long restauranteId, boolean incluirInativos){
 		Restaurante restaurante = restauranteRepository.findById(restauranteId)
 				.orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
 		
-		List<Produto> produtos = produtoRepository.findByRestaurante(restaurante);
+		List<Produto> produtos = null;
+		
+		if(incluirInativos) {
+			produtos = produtoRepository.findTodosByRestaurante(restaurante);
+		} else {			
+			produtos = produtoRepository.findAtivosByRestaurante(restaurante);
+		}
+		
 		return produtoModelAssembler.toCollectionModel(produtos);
 	}
 	

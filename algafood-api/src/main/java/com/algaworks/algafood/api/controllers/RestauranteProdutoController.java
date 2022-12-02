@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,8 +29,8 @@ public class RestauranteProdutoController {
 	private CadastroProdutoService cadastroProdutoService;
 	
 	@GetMapping
-	public ResponseEntity<List<ProdutoModel>> listarProdutos(@PathVariable Long restauranteId) {
-		List<ProdutoModel> produtos = cadastroProdutoService.listarProdutos(restauranteId);
+	public ResponseEntity<List<ProdutoModel>> listarProdutos(@PathVariable Long restauranteId, @RequestParam(required = false) boolean incluirInativos) {
+		List<ProdutoModel> produtos = cadastroProdutoService.listarProdutos(restauranteId, incluirInativos);
 		return ResponseEntity.ok(produtos);
 	}
 	
