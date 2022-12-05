@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.algaworks.algafood.api.model.PedidoModel;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.domain.repositories.filter.PedidoFilter;
 import com.algaworks.algafood.domain.services.EmissaoPedidoService;
 
 @RestController
@@ -46,8 +47,8 @@ public class PedidoController {
 //	}
 	
 	@GetMapping
-	public ResponseEntity<List<PedidoResumoModel>> buscarTodos(){
-		List<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos();
+	public ResponseEntity<List<PedidoResumoModel>> pesquisar(PedidoFilter filtro){
+		List<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos(filtro);
 		return ResponseEntity.ok(pedidos);
 	}
 	

@@ -24,6 +24,8 @@ import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repositories.PedidoRepository;
+import com.algaworks.algafood.domain.repositories.filter.PedidoFilter;
+import com.algaworks.algafood.infrastructure.repositories.specs.PedidoSpecs;
 
 @Service
 public class EmissaoPedidoService {
@@ -56,8 +58,8 @@ public class EmissaoPedidoService {
 	private PedidoInputDisassembler pedidoInputDisassembler;
 	
 	@Transactional(readOnly = true)
-	public List<PedidoResumoModel> buscarTodos(){
-		List<Pedido> pedidos = pedidoRepository.findAll();
+	public List<PedidoResumoModel> buscarTodos(PedidoFilter filtro){
+		List<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
 		return pedidoResumoModelAssembler.toCollectionModel(pedidos);
 	}
 	
