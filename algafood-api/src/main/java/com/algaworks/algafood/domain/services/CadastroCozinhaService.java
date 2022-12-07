@@ -1,11 +1,20 @@
 package com.algaworks.algafood.domain.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.algafood.api.assembler.CozinhaInputDisassembler;
+import com.algaworks.algafood.api.assembler.CozinhaModelAssembler;
+import com.algaworks.algafood.api.model.CozinhaModel;
+import com.algaworks.algafood.api.model.input.CozinhaInput;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -15,20 +24,52 @@ import com.algaworks.algafood.domain.repositories.CozinhaRepository;
 public class CadastroCozinhaService {
 	
 	private static final String MSG_COZINHA_EM_USO
-		= "Cozinha de código %d não pode ser removida, pois está em uso";
+	= "Cozinha de código %d não pode ser removida, pois está em uso";
+	
+	@Autowired
+	private CozinhaModelAssembler cozinhaModelAssembler;
+	
+	@Autowired
+	private CozinhaInputDisassembler cozinhaInputDisassembler;
 	
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 	
 	@Transactional(readOnly = true)
-	public Cozinha buscarOuFalhar(Long cozinhaId) {
-		return cozinhaRepository.findById(cozinhaId).orElseThrow(
-				() -> new CozinhaNaoEncontradaException(cozinhaId));
+	public Page<CozinhaModel> listar(Pageable pageable) {
+		Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
+		
+		List<CozinhaModel> cozinhasModel = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
+		
+		Page<CozinhaModel> cozinhasModelPage = new PageImpl<>(cozinhasModel, pageable, cozinhasPage.getTotalElements());
+		
+		return cozinhasModelPage;
+	}
+	
+	@Transactional(readOnly = true)
+	public CozinhaModel buscar(Long cozinhaId) {
+		Cozinha cozinha = buscarOuFalhar(cozinhaId);
+		return cozinhaModelAssembler.toModel(cozinha);
 	}
 	
 	@Transactional
-	public Cozinha salvar(Cozinha cozinha) {
-		return cozinhaRepository.save(cozinha);
+	public CozinhaModel adicionar(CozinhaInput cozinhaInput) {
+		Cozinha cozinha = cozinhaInputDisassembler.toDomainObject(cozinhaInput);
+		
+		cozinha = cozinhaRepository.save(cozinha);
+		
+		return cozinhaModelAssembler.toModel(cozinha);
+	}
+	
+	@Transactional
+	public CozinhaModel atualizar(Long cozinhaId, CozinhaInput cozinhaInput) {
+		Cozinha cozinha = buscarOuFalhar(cozinhaId);
+		
+		cozinhaInputDisassembler.copyToDomainObject(cozinhaInput, cozinha);
+		
+		cozinha = cozinhaRepository.save(cozinha);
+		
+		return cozinhaModelAssembler.toModel(cozinha);
 	}
 	
 	@Transactional
@@ -43,5 +84,11 @@ public class CadastroCozinhaService {
 			throw new EntidadeEmUsoException(
 					String.format(MSG_COZINHA_EM_USO, cozinhaId));
 		}
+	}
+	
+	@Transactional(readOnly = true)
+	public Cozinha buscarOuFalhar(Long cozinhaId) {
+		return cozinhaRepository.findById(cozinhaId).orElseThrow(
+				() -> new CozinhaNaoEncontradaException(cozinhaId));
 	}
 }
