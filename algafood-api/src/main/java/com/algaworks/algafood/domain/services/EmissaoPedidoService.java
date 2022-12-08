@@ -14,6 +14,7 @@ import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.algaworks.algafood.api.model.PedidoModel;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.PedidoNaoEncontradoException;
@@ -27,6 +28,7 @@ import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repositories.PedidoRepository;
 import com.algaworks.algafood.domain.repositories.filter.PedidoFilter;
 import com.algaworks.algafood.infrastructure.repositories.specs.PedidoSpecs;
+import com.google.common.collect.ImmutableMap;
 
 @Service
 public class EmissaoPedidoService {
@@ -60,6 +62,8 @@ public class EmissaoPedidoService {
 	
 	@Transactional(readOnly = true)
 	public Page<PedidoResumoModel> buscarTodos(PedidoFilter filtro, Pageable pageable){
+		pageable = traduzirPageable(pageable);
+		
 		Page<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
 		Page<PedidoResumoModel> pedidosModel = pedidos.map(pedido -> pedidoResumoModelAssembler.toModel(pedido));
 		return pedidosModel;
@@ -130,5 +134,16 @@ public class EmissaoPedidoService {
 	public Pedido buscarOuFalhar(String codigoPedido) {
 		return pedidoRepository.findByCodigo(codigoPedido)
 				.orElseThrow(() -> new PedidoNaoEncontradoException(codigoPedido));
+	}
+	
+	private Pageable traduzirPageable(Pageable apiPageable) {
+		var mapeamento = ImmutableMap.of(
+				"codigo", "codigo",
+				"restaurante.nome", "restaurante.nome",
+				"nomeCliente", "cliente.nome",
+				"valorTotal", "valorTotal"
+			);
+		
+		return PageableTranslator.translate(apiPageable, mapeamento);
 	}
 }
