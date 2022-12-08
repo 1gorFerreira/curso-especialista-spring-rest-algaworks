@@ -1,9 +1,10 @@
 package com.algaworks.algafood.domain.services;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,9 +59,10 @@ public class EmissaoPedidoService {
 	private PedidoInputDisassembler pedidoInputDisassembler;
 	
 	@Transactional(readOnly = true)
-	public List<PedidoResumoModel> buscarTodos(PedidoFilter filtro){
-		List<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
-		return pedidoResumoModelAssembler.toCollectionModel(pedidos);
+	public Page<PedidoResumoModel> buscarTodos(PedidoFilter filtro, Pageable pageable){
+		Page<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+		Page<PedidoResumoModel> pedidosModel = pedidos.map(pedido -> pedidoResumoModelAssembler.toModel(pedido));
+		return pedidosModel;
 	}
 	
 	@Transactional(readOnly = true)

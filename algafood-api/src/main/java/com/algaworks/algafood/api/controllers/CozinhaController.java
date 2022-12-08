@@ -28,7 +28,7 @@ public class CozinhaController {
 	
 	@Autowired
 	private CadastroCozinhaService cadastroCozinhaService;
-
+	
 	@GetMapping
 	public ResponseEntity<Page<CozinhaModel>> listar(@PageableDefault(size = 10) Pageable pageable){
 		Page<CozinhaModel> cozinhas = cadastroCozinhaService.listar(pageable);

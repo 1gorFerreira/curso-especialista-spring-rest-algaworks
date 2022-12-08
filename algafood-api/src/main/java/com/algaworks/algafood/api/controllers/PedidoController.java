@@ -1,11 +1,12 @@
 package com.algaworks.algafood.api.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,8 +48,8 @@ public class PedidoController {
 //	}
 	
 	@GetMapping
-	public ResponseEntity<List<PedidoResumoModel>> pesquisar(PedidoFilter filtro){
-		List<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos(filtro);
+	public ResponseEntity<Page<PedidoResumoModel>> pesquisar(PedidoFilter filtro, Pageable pageable){
+		Page<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos(filtro, pageable);
 		return ResponseEntity.ok(pedidos);
 	}
 	
