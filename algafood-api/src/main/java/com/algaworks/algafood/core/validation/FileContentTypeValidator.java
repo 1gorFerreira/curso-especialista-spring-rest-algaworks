@@ -17,7 +17,7 @@ public class FileContentTypeValidator implements ConstraintValidator<FileContent
 	@Override
 	public boolean isValid(MultipartFile value, ConstraintValidatorContext context) {
 		for(String type : allowedFiles) {
-			if(type.equals(value.getContentType())) {
+			if(value == null || type.equals(value.getContentType())) {
 				return true;
 			}
 		}
