@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.algaworks.algafood.api.assembler.FotoProdutoModelAssembler;
 import com.algaworks.algafood.api.model.FotoProdutoModel;
 import com.algaworks.algafood.api.model.input.FotoProdutoInput;
+import com.algaworks.algafood.domain.exception.FotoProdutoNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.repositories.ProdutoRepository;
@@ -29,6 +30,11 @@ public class CatalogoFotoProdutoService {
 	
 	@Autowired
 	private CadastroProdutoService cadastroProdutoService;
+	
+	@Transactional(readOnly = true)
+	public FotoProdutoModel buscar(Long restauranteId, Long produtoId) {
+		return fotoProdutoModelAssembler.toModel(buscarOuFalhar(restauranteId, produtoId));
+	}
 	
 	@Transactional
 	public FotoProdutoModel salvar(Long restauranteId, Long produtoId, FotoProdutoInput fotoProdutoInput, InputStream dadosArquivo) {
@@ -63,6 +69,12 @@ public class CatalogoFotoProdutoService {
 		fotoStorageService.substituir(nomeArquivoExistente, novaFoto);
 		
 		return fotoProdutoModelAssembler.toModel(foto);
+	}
+	
+	@Transactional(readOnly = true)
+	public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
+		return produtoRepository.findFotoById(restauranteId, produtoId)
+				.orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
 	}
 	
 }
