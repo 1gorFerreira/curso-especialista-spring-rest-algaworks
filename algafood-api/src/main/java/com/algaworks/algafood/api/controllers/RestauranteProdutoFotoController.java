@@ -1,5 +1,7 @@
 package com.algaworks.algafood.api.controllers;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,12 @@ public class RestauranteProdutoFotoController {
 	private CatalogoFotoProdutoService catalogoFotoProdutoService;
 	
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<FotoProdutoModel> atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid FotoProdutoInput fotoProdutoInput) {
-		FotoProdutoModel fotoSalva = catalogoFotoProdutoService.salvar(restauranteId, produtoId, fotoProdutoInput);
+	public ResponseEntity<FotoProdutoModel> atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, 
+			@Valid FotoProdutoInput fotoProdutoInput) throws IOException {
+		
+		FotoProdutoModel fotoSalva = catalogoFotoProdutoService.salvar(restauranteId, produtoId, fotoProdutoInput, 
+				fotoProdutoInput.getArquivo().getInputStream());
+		
 		return ResponseEntity.ok(fotoSalva);
 	}
 
