@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +34,19 @@ public class CatalogoFotoProdutoService {
 	
 	@Transactional(readOnly = true)
 	public FotoProdutoModel buscar(Long restauranteId, Long produtoId) {
-		return fotoProdutoModelAssembler.toModel(buscarOuFalhar(restauranteId, produtoId));
+		FotoProduto fotoProduto = buscarOuFalhar(restauranteId, produtoId);
+		return fotoProdutoModelAssembler.toModel(fotoProduto);
 	}
+	
+	@Transactional
+	public InputStreamResource servirFoto(Long restauranteId, Long produtoId) {
+		FotoProduto fotoProduto = buscarOuFalhar(restauranteId, produtoId);
+		
+		InputStream inputStream = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
+		
+		return new InputStreamResource(inputStream);
+	}
+	
 	
 	@Transactional
 	public FotoProdutoModel salvar(Long restauranteId, Long produtoId, FotoProdutoInput fotoProdutoInput, InputStream dadosArquivo) {
