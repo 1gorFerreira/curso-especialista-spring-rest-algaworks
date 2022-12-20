@@ -1,12 +1,15 @@
 package com.algaworks.algafood.domain.services;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 
 import com.algaworks.algafood.api.assembler.FotoProdutoModelAssembler;
 import com.algaworks.algafood.api.model.FotoProdutoModel;
@@ -39,8 +42,17 @@ public class CatalogoFotoProdutoService {
 	}
 	
 	@Transactional
-	public InputStreamResource servirFoto(Long restauranteId, Long produtoId) {
+	public InputStreamResource servirFoto(Long restauranteId, Long produtoId, String acceptHeader) throws HttpMediaTypeNotAcceptableException {
 		FotoProduto fotoProduto = buscarOuFalhar(restauranteId, produtoId);
+		
+		//Verificando se o conteúdo informado no header é compatível com a foto armazenada;
+		
+		MediaType mediaTypeFoto = MediaType.parseMediaType(fotoProduto.getContentType());
+		List<MediaType> mediaTypesAceitas = MediaType.parseMediaTypes(acceptHeader);
+		
+		verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
+		
+		//
 		
 		InputStream inputStream = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
 		
@@ -87,6 +99,21 @@ public class CatalogoFotoProdutoService {
 	public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
 		return produtoRepository.findFotoById(restauranteId, produtoId)
 				.orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
+	}
+	
+	public MediaType getMediaTypeFoto(Long restauranteId, Long produtoId) {
+		FotoProduto fotoProduto = buscarOuFalhar(restauranteId, produtoId);
+		
+		return MediaType.parseMediaType(fotoProduto.getContentType());
+	}
+	
+	private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
+		boolean compativel = mediaTypesAceitas.stream()
+				.anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaTypeFoto));
+		
+		if(!compativel) {
+			throw new HttpMediaTypeNotAcceptableException(mediaTypesAceitas);
+		}
 	}
 	
 }
