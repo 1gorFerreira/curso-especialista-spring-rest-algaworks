@@ -95,6 +95,17 @@ public class CatalogoFotoProdutoService {
 		return fotoProdutoModelAssembler.toModel(foto);
 	}
 	
+	@Transactional
+	public void deletar(Long restauranteId, Long produtoId) {
+		FotoProduto fotoProduto = buscarOuFalhar(restauranteId, produtoId);
+		
+		produtoRepository.delete(fotoProduto);
+		produtoRepository.flush();
+		
+		fotoStorageService.remover(fotoProduto.getNomeArquivo());
+	}
+	
+	
 	@Transactional(readOnly = true)
 	public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
 		return produtoRepository.findFotoById(restauranteId, produtoId)
