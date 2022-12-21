@@ -6,9 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.flywaydb.core.internal.util.FileCopyUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.algaworks.algafood.core.storage.StorageProperties;
 import com.algaworks.algafood.domain.services.FotoStorageService;
 
 @Service
@@ -17,8 +18,8 @@ public class LocalFotoStorageService implements FotoStorageService {
 	// Estamos usando o NovaFoto e não o MultipartFile para não ficar dependente de um pacote externo;
 	// Perceba que o método MultipartFile.transferTo faz exatamente o que estamos fazendo com o FileCopyUtils.copy();
 	
-	@Value("${algafood.storage.local.diretorio-fotos}")
-	private Path diretorioFotos;
+	@Autowired
+	private StorageProperties storageProperties;
 	
 	@Override
 	public void armazenar(NovaFoto novaFoto) {
@@ -57,7 +58,7 @@ public class LocalFotoStorageService implements FotoStorageService {
 	
 	private Path getArquivoPath(String nomeArquivo) {
 		// diretorio da pasta + nome do arquivo = Path, resolve faz essa união;
-		return diretorioFotos.resolve(Path.of(nomeArquivo));
+		return storageProperties.getLocal().getDiretorioFotos().resolve(Path.of(nomeArquivo));
 	}
 
 }
