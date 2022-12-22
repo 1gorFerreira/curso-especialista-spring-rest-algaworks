@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +17,7 @@ import com.algaworks.algafood.domain.exception.FotoProdutoNaoEncontradaException
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.repositories.ProdutoRepository;
+import com.algaworks.algafood.domain.services.FotoStorageService.FotoRecuperada;
 import com.algaworks.algafood.domain.services.FotoStorageService.NovaFoto;
 
 @Service
@@ -42,7 +42,7 @@ public class CatalogoFotoProdutoService {
 	}
 	
 	@Transactional
-	public InputStreamResource servirFoto(Long restauranteId, Long produtoId, String acceptHeader) throws HttpMediaTypeNotAcceptableException {
+	public FotoRecuperada servirFoto(Long restauranteId, Long produtoId, String acceptHeader) throws HttpMediaTypeNotAcceptableException {
 		FotoProduto fotoProduto = buscarOuFalhar(restauranteId, produtoId);
 		
 		//Verificando se o conteúdo informado no header é compatível com a foto armazenada;
@@ -54,9 +54,9 @@ public class CatalogoFotoProdutoService {
 		
 		//
 		
-		InputStream inputStream = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
+		FotoRecuperada fotoRecuperada = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
 		
-		return new InputStreamResource(inputStream);
+		return fotoRecuperada;
 	}
 	
 	
