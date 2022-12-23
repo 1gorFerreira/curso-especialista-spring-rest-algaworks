@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.algaworks.algafood.core.storage.StorageProperties;
 import com.algaworks.algafood.domain.services.FotoStorageService;
 
-//@Service
 public class LocalFotoStorageService implements FotoStorageService {
 
 	// Estamos usando o NovaFoto e não o MultipartFile para não ficar dependente de um pacote externo;

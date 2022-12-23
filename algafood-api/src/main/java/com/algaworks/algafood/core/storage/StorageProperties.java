@@ -18,6 +18,13 @@ public class StorageProperties {
 
 	private Local local = new Local();
 	private S3 s3 = new S3();
+	private TipoStorage tipo = TipoStorage.LOCAL; // Se nao for especificado, padrao = LOCAL;
+	
+	public enum TipoStorage {
+		
+		LOCAL, S3
+		
+	}
 	
 	@Getter
 	@Setter
