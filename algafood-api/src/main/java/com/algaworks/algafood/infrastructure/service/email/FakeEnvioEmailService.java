@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import com.algaworks.algafood.core.email.EmailProperties;
 import com.algaworks.algafood.domain.services.EnvioEmailService;
 
 import freemarker.template.Configuration;
@@ -20,6 +21,9 @@ public class FakeEnvioEmailService implements EnvioEmailService{
 	private Configuration freemarkerConfig;
 	
 	@Autowired
+	private EmailProperties emailProperties;
+	
+	@Autowired
 	private JavaMailSender mailSender;
 	
 	@Override
@@ -30,12 +34,12 @@ public class FakeEnvioEmailService implements EnvioEmailService{
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-			helper.setFrom("algafood@algaworks.com.br");
+			helper.setFrom(emailProperties.getRemetente());
 			helper.setTo(mensagem.getDestinatarios().toArray(new String[0]));
 			helper.setSubject(mensagem.getAssunto());
 			helper.setText(corpo, true);
 			
-			log.info(corpo);
+			log.info("[FAKE E-MAIL] De: {}, Para: {}\n{}", emailProperties.getRemetente(), mensagem.getDestinatarios(), corpo);
 		} catch (Exception e) {
 			throw new EmailException("Não foi possível enviar e-mail", e);
 		}
