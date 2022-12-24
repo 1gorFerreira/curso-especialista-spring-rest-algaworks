@@ -7,22 +7,20 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import com.algaworks.algafood.core.email.EmailProperties;
 import com.algaworks.algafood.domain.services.EnvioEmailService;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import lombok.extern.slf4j.Slf4j;
 
-public class SmtpEnvioEmailService implements EnvioEmailService {
+@Slf4j
+public class FakeEnvioEmailService implements EnvioEmailService{
 
-	@Autowired
-	private JavaMailSender mailSender;
-	
-	@Autowired
-	private EmailProperties emailProperties;
-	
 	@Autowired
 	private Configuration freemarkerConfig;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@Override
 	public void enviar(Mensagem mensagem) {
@@ -32,12 +30,12 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-			helper.setFrom(emailProperties.getRemetente());
+			helper.setFrom("algafood@algaworks.com.br");
 			helper.setTo(mensagem.getDestinatarios().toArray(new String[0]));
 			helper.setSubject(mensagem.getAssunto());
 			helper.setText(corpo, true);
 			
-			mailSender.send(mimeMessage);
+			log.info(corpo);
 		} catch (Exception e) {
 			throw new EmailException("Não foi possível enviar e-mail", e);
 		}
@@ -53,5 +51,20 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 			throw new EmailException("Não foi possível montar o template do e-mail", e);
 		}
 	}
-
+	
+	// OU
+	
+//	@Slf4j
+//	public class FakeEnvioEmailService extends SmtpEnvioEmailService {
+//
+//		@Override
+//		public void enviar(Mensagem mensagem) {
+//			// Foi necessário alterar o modificador de acesso do método processarTemplate
+//			// da classe pai para "protected", para poder chamar aqui
+//			String corpo = processarTemplate(mensagem);
+//
+//			log.info("[FAKE E-MAIL] Para: {}\n{}", mensagem.getDestinatarios(), corpo);
+//		}
+//
+//	}
 }
