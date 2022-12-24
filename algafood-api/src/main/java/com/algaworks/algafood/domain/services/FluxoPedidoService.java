@@ -5,41 +5,36 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.domain.model.Pedido;
-import com.algaworks.algafood.domain.services.EnvioEmailService.Mensagem;
+import com.algaworks.algafood.domain.repositories.PedidoRepository;
 
 @Service
 public class FluxoPedidoService {
 
 	@Autowired
-	private EmissaoPedidoService cadastroPedidoService;
+	private EmissaoPedidoService emissaoPedidoService;
 	
 	@Autowired
-	private EnvioEmailService envioEmailService;
+	private PedidoRepository pedidoRepository;
 	
 	@Transactional
 	public void confirmar(String codigoPedido) {
-		Pedido pedido = cadastroPedidoService.buscarOuFalhar(codigoPedido);
+		Pedido pedido = emissaoPedidoService.buscarOuFalhar(codigoPedido);
 		pedido.confirmar();
 		
-		var mensagem = Mensagem.builder()
-				.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
-				.corpo("pedido-confirmado.html")
-				.variavel("pedido", pedido)
-				.destinatario(pedido.getCliente().getEmail())
-				.build();
-		
-		envioEmailService.enviar(mensagem);
+		// Sabemos que não é necessario o save, mas para o spring registrar e publicar 
+		// eventos é necessario chamar um save de um repositorio do spring data.
+		pedidoRepository.save(pedido); 
 	}
 	
 	@Transactional
 	public void cancelar(String codigoPedido) {
-		Pedido pedido = cadastroPedidoService.buscarOuFalhar(codigoPedido);
+		Pedido pedido = emissaoPedidoService.buscarOuFalhar(codigoPedido);
 		pedido.cancelar();
 	}
 	
 	@Transactional
 	public void entregar(String codigoPedido) {
-		Pedido pedido = cadastroPedidoService.buscarOuFalhar(codigoPedido);
+		Pedido pedido = emissaoPedidoService.buscarOuFalhar(codigoPedido);
 		pedido.entregar();
 	}
 	
