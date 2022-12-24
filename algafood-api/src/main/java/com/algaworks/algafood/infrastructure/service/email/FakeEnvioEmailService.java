@@ -1,10 +1,6 @@
 package com.algaworks.algafood.infrastructure.service.email;
 
-import javax.mail.internet.MimeMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.algaworks.algafood.core.email.EmailProperties;
@@ -23,21 +19,10 @@ public class FakeEnvioEmailService implements EnvioEmailService{
 	@Autowired
 	private EmailProperties emailProperties;
 	
-	@Autowired
-	private JavaMailSender mailSender;
-	
 	@Override
 	public void enviar(Mensagem mensagem) {
 		try {
 			String corpo = processarTemplate(mensagem);
-			
-			MimeMessage mimeMessage = mailSender.createMimeMessage();
-			
-			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-			helper.setFrom(emailProperties.getRemetente());
-			helper.setTo(mensagem.getDestinatarios().toArray(new String[0]));
-			helper.setSubject(mensagem.getAssunto());
-			helper.setText(corpo, true);
 			
 			log.info("[FAKE E-MAIL] De: {}, Para: {}\n{}", emailProperties.getRemetente(), mensagem.getDestinatarios(), corpo);
 		} catch (Exception e) {

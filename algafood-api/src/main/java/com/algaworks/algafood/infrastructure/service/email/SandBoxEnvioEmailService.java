@@ -16,29 +16,29 @@ import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SmtpEnvioEmailService implements EnvioEmailService {
+public class SandBoxEnvioEmailService implements EnvioEmailService{
 
 	@Autowired
-	private JavaMailSender mailSender;
+	private Configuration freemarkerConfig;
 	
 	@Autowired
 	private EmailProperties emailProperties;
 	
 	@Autowired
-	private Configuration freemarkerConfig;
+	private JavaMailSender mailSender;
 	
 	@Override
 	public void enviar(Mensagem mensagem) {
-	    try {
+		try {
 	        MimeMessage mimeMessage = criarMimeMessage(mensagem);
 	        
-	        log.info("[E-MAIL] De: {}, Para: {}", emailProperties.getRemetente(), mensagem.getDestinatarios());
+	        log.info("[SANDBOX] De: {}, Para: {}", emailProperties.getRemetente(), emailProperties.getSandbox().getDestinatario());
 	        mailSender.send(mimeMessage);
 	    } catch (Exception e) {
 	        throw new EmailException("Não foi possível enviar e-mail", e);
 	    }
 	}
-
+	
 	private MimeMessage criarMimeMessage(Mensagem mensagem) throws MessagingException {
 	    String corpo = processarTemplate(mensagem);
 	    
@@ -46,7 +46,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 	    
 	    MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
 	    helper.setFrom(emailProperties.getRemetente());
-	    helper.setTo(mensagem.getDestinatarios().toArray(new String[0]));
+	    helper.setTo(emailProperties.getSandbox().getDestinatario());
 	    helper.setSubject(mensagem.getAssunto());
 	    helper.setText(corpo, true);
 	    
@@ -63,5 +63,25 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 			throw new EmailException("Não foi possível montar o template do e-mail", e);
 		}
 	}
+	
+	// OU
+	
+//	public class SandboxEnvioEmailService extends SmtpEnvioEmailService {
+//
+//	    @Autowired
+//	    private EmailProperties emailProperties;
+//	    
+//	    // Separei a criação de MimeMessage em um método na classe pai (criarMimeMessage),
+//	    // para possibilitar a sobrescrita desse método aqui
+//	    @Override
+//	    protected MimeMessage criarMimeMessage(Mensagem mensagem) throws MessagingException {
+//	        MimeMessage mimeMessage = super.criarMimeMessage(mensagem);
+//	        
+//	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+//	        helper.setTo(emailProperties.getSandbox().getDestinatario());
+//	        
+//	        return mimeMessage;
+//	    }        
+//	}     
 
 }
