@@ -2,10 +2,12 @@ package com.algaworks.algafood.api.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,9 @@ public class FormaPagamentoController {
 	@GetMapping
 	public ResponseEntity<List<FormaPagamentoModel>> buscarTodos(){
 		List<FormaPagamentoModel> formasPagamento = cadastroFormaPagamentoService.buscarTodos();
-		return ResponseEntity.ok(formasPagamento);
+		return ResponseEntity.ok()
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.body(formasPagamento);
 	}
 	
 	@GetMapping("/{formaPagamentoId}")
