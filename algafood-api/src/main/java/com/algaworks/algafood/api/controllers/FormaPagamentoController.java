@@ -42,7 +42,11 @@ public class FormaPagamentoController {
 	public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId){
 		FormaPagamentoModel formaPagamento = cadastroFormaPagamentoService.buscar(formaPagamentoId);
 		return ResponseEntity.ok()
-				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+//				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate())
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
+//				.cacheControl(CacheControl.noCache()) // Diz que sempre havera uma validacao no servidor (Sempre em stale);
+//				.cacheControl(CacheControl.noStore()) // Diz que nenhum cache pode armazenar a resposta;
 				.body(formaPagamento);
 	}
 	
