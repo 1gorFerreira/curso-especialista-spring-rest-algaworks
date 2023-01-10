@@ -93,4 +93,16 @@ public class CadastroFormaPagamentoService {
 		
 		return eTag;
 	}
+	
+	public String gerandoETagParaRecursoUnico(Long formaPagamentoId) {
+		String eTag = "0";
+		
+		OffsetDateTime dataUltimaAtualizacao = formaPagamentoRepository.getDataAtualizacaoById(formaPagamentoId);
+		
+		if(dataUltimaAtualizacao != null) {
+			eTag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
+		}
+		
+		return eTag;
+	}
 }

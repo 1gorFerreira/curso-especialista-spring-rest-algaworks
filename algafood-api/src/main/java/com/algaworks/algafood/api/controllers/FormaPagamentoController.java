@@ -50,7 +50,15 @@ public class FormaPagamentoController {
 	}
 	
 	@GetMapping("/{formaPagamentoId}")
-	public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId){
+	public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId, ServletWebRequest request){
+		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+		
+		String eTag = cadastroFormaPagamentoService.gerandoETagParaRecursoUnico(formaPagamentoId);
+		
+		if (request.checkNotModified(eTag)) {
+			return null;
+		}
+		
 		FormaPagamentoModel formaPagamento = cadastroFormaPagamentoService.buscar(formaPagamentoId);
 		return ResponseEntity.ok()
 //				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
@@ -58,6 +66,7 @@ public class FormaPagamentoController {
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
 //				.cacheControl(CacheControl.noCache()) // Diz que sempre havera uma validacao no servidor (Sempre em stale);
 //				.cacheControl(CacheControl.noStore()) // Diz que nenhum cache pode armazenar a resposta;
+				.eTag(eTag)
 				.body(formaPagamento);
 	}
 	
