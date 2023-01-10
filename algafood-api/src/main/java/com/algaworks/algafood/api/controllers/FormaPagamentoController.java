@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.algaworks.algafood.api.model.FormaPagamentoModel;
@@ -31,10 +33,19 @@ public class FormaPagamentoController {
 	private CadastroFormaPagamentoService cadastroFormaPagamentoService;
 	
 	@GetMapping
-	public ResponseEntity<List<FormaPagamentoModel>> buscarTodos(){
+	public ResponseEntity<List<FormaPagamentoModel>> buscarTodos(ServletWebRequest request){
+		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+		
+		String eTag = cadastroFormaPagamentoService.gerandoETag();
+		
+		if (request.checkNotModified(eTag)) {
+			return null;
+		}
+		
 		List<FormaPagamentoModel> formasPagamento = cadastroFormaPagamentoService.buscarTodos();
 		return ResponseEntity.ok()
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.eTag(eTag)
 				.body(formasPagamento);
 	}
 	

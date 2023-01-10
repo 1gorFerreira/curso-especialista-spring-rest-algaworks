@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.services;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +80,17 @@ public class CadastroFormaPagamentoService {
 		FormaPagamento formaPagamento = formaPagamentoRepository.findById(formaPagamentoId)
 				.orElseThrow(() -> new FormaPagamentoNaoEncontradaException(formaPagamentoId));
 		return formaPagamento;
+	}
+	
+	public String gerandoETag() {
+		String eTag = "0";
+		
+		OffsetDateTime dataUltimaAtualizacao = formaPagamentoRepository.getDataUltimaAtualizacao();
+		
+		if(dataUltimaAtualizacao != null) {
+			eTag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
+		}
+		
+		return eTag;
 	}
 }
