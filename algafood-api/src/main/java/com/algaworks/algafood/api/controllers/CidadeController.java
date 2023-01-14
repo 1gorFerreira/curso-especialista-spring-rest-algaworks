@@ -29,6 +29,7 @@ import com.algaworks.algafood.domain.services.CadastroCidadeService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @Api(tags = "Cidades")
 @RestController
@@ -55,14 +56,15 @@ public class CidadeController {
 
 	@ApiOperation("Busca uma cidade por ID")
 	@GetMapping("/{cidadeId}")
-	public ResponseEntity<CidadeModel> buscar(@PathVariable Long cidadeId) {
+	public ResponseEntity<CidadeModel> buscar(@ApiParam("ID de uma cidade") @PathVariable Long cidadeId) {
 		Cidade cidade = cadastroCidadeService.buscarOuFalhar(cidadeId);
 		return ResponseEntity.ok(cidadeModelAssembler.toModel(cidade));
 	}
 
 	@ApiOperation("Cadastra uma cidade")
 	@PostMapping
-	public ResponseEntity<CidadeModel> adicionar(@Valid @RequestBody CidadeInput cidadeInput) {
+	public ResponseEntity<CidadeModel> adicionar(@ApiParam(name = "corpo", value = "Representacao de uma nova cidade") 
+			@Valid @RequestBody CidadeInput cidadeInput) {
 		try {
 			Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
 			cidade = cadastroCidadeService.salvar(cidade);
@@ -78,7 +80,8 @@ public class CidadeController {
 
 	@ApiOperation("Atualiza uma cidade por ID")
 	@PutMapping("/{id}")
-	public ResponseEntity<CidadeModel> atualizar(@PathVariable Long id, @Valid @RequestBody CidadeInput cidadeInput) {
+	public ResponseEntity<CidadeModel> atualizar(@ApiParam(value = "ID de uma cidade") @PathVariable Long id, 
+			@ApiParam(name = "corpo", value = "Representacao de uma cidade com os novos dados") @Valid @RequestBody CidadeInput cidadeInput) {
 		
 		Cidade cidadeAtual = cadastroCidadeService.buscarOuFalhar(id);
 
@@ -94,7 +97,7 @@ public class CidadeController {
 
 	@ApiOperation("Exclui uma cidade por ID")
 	@DeleteMapping("/{cidadeId}")
-	public ResponseEntity<?> remover(@PathVariable Long cidadeId) {
+	public ResponseEntity<?> remover(@ApiParam("ID de uma cidade") @PathVariable Long cidadeId) {
 		cadastroCidadeService.excluir(cidadeId);
 		return ResponseEntity.noContent().build();
 	}
