@@ -29,10 +29,10 @@ public class Problem {
 	@ApiModelProperty(example = "2023-01-18T01:26:03.1355129Z")
 	private OffsetDateTime timestamp;
 	
-	@ApiModelProperty(value = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.")
+	@ApiModelProperty(example = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente")
 	private String detail;
 	
-	@ApiModelProperty(value = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.")
+	@ApiModelProperty(example = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente")
 	private String userMessage;
 	
 	@ApiModelProperty(value = "Lista de objetos ou campos que geraram o erro (opcional)")
