@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +29,6 @@ import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.repositories.CidadeRepository;
 import com.algaworks.algafood.domain.services.CadastroCidadeService;
 
-import io.swagger.annotations.ApiOperation;
-
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController implements CidadeControllerOpenApi{
@@ -46,19 +45,18 @@ public class CidadeController implements CidadeControllerOpenApi{
 	@Autowired
 	private CidadeInputDisassembler cidadeInputDisassembler;
 	
-	@ApiOperation("Lista as cidades")
-	@GetMapping
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<CidadeModel> listar() {
 		return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
 	}
 
-	@GetMapping("/{cidadeId}")
+	@GetMapping(path = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CidadeModel> buscar(@PathVariable Long cidadeId) {
 		Cidade cidade = cadastroCidadeService.buscarOuFalhar(cidadeId);
 		return ResponseEntity.ok(cidadeModelAssembler.toModel(cidade));
 	}
 
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CidadeModel> adicionar(@Valid @RequestBody CidadeInput cidadeInput) {
 		try {
 			Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
@@ -73,7 +71,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 		}
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CidadeModel> atualizar(@PathVariable Long id, @Valid @RequestBody CidadeInput cidadeInput) {
 		
 		Cidade cidadeAtual = cadastroCidadeService.buscarOuFalhar(id);

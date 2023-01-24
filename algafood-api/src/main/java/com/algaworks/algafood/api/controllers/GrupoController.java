@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,19 +30,19 @@ public class GrupoController implements GrupoControllerOpenApi {
 	@Autowired
 	private CadastroGrupoService cadastroGrupoService;
 	
-	@GetMapping
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<GrupoModel>> buscarTodos(){
 		List<GrupoModel> grupos = cadastroGrupoService.listarGrupos();
 		return ResponseEntity.ok(grupos);
 	}
 	
-	@GetMapping("/{grupoId}")
+	@GetMapping(path = "/{grupoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> buscar(@PathVariable Long grupoId){
 		GrupoModel grupo = cadastroGrupoService.buscar(grupoId);
 		return ResponseEntity.ok(grupo);
 	}
 	
-	@PostMapping
+	@PostMapping(MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> adicionar(@Valid @RequestBody GrupoInput grupoInput){
 		GrupoModel grupo = cadastroGrupoService.adicionar(grupoInput);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -49,7 +50,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 		return ResponseEntity.created(uri).body(grupo);
 	}
 	
-	@PutMapping("/{grupoId}")
+	@PutMapping(path = "/{grupoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> atualizar(@PathVariable Long grupoId, @Valid @RequestBody GrupoInput grupoInput){
 		GrupoModel grupo = cadastroGrupoService.atualizar(grupoId, grupoInput);
 		return ResponseEntity.ok(grupo);
