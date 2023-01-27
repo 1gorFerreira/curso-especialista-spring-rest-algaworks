@@ -19,15 +19,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.algaworks.algafood.api.model.PedidoModel;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.api.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.domain.model.filter.PedidoFilter;
 import com.algaworks.algafood.domain.services.EmissaoPedidoService;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-
 @RestController
 @RequestMapping("/pedidos")
-public class PedidoController {
+public class PedidoController implements PedidoControllerOpenApi {
 
 	@Autowired
 	private EmissaoPedidoService emissaoPedidoService;
@@ -49,20 +47,13 @@ public class PedidoController {
 //		
 //		return pedidosWrapper;
 //	}
-	@ApiImplicitParams({
-		@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
-				name = "campos", paramType = "query", dataTypeClass = String.class)
-	})
+	
 	@GetMapping
 	public ResponseEntity<Page<PedidoResumoModel>> pesquisar(PedidoFilter filtro, Pageable pageable){
 		Page<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos(filtro, pageable);
 		return ResponseEntity.ok(pedidos);
 	}
 	
-	@ApiImplicitParams({
-		@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
-				name = "campos", paramType = "query", dataTypeClass = String.class)
-	})
 	@GetMapping("/{codigoPedido}")
 	public ResponseEntity<PedidoModel> buscar(@PathVariable String codigoPedido){
 		PedidoModel pedido = emissaoPedidoService.buscar(codigoPedido);
