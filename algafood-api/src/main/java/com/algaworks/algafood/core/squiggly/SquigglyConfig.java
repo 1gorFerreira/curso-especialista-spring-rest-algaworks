@@ -1,5 +1,7 @@
 package com.algaworks.algafood.core.squiggly;
 
+import java.util.Arrays;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,12 +19,12 @@ public class SquigglyConfig {
 	public FilterRegistrationBean<SquigglyRequestFilter> squigglyRequestFilter(ObjectMapper objectMapper){
 		Squiggly.init(objectMapper, new RequestSquigglyContextProvider("campos", null)); //Padrão = Filter
 		
-		//var urlPatterns = Arrays.asList("/pedidos/*", "/restaurantes/*");
+		var urlPatterns = Arrays.asList("/pedidos/*", "/restaurantes/*");
 		
 		var filterRegistration = new FilterRegistrationBean<SquigglyRequestFilter>();
 		filterRegistration.setFilter(new SquigglyRequestFilter());
 		filterRegistration.setOrder(1);
-		//filterRegistration.setUrlPatterns(urlPatterns); Dizendo os caminhos que quer que o Squiggly funcione;
+		filterRegistration.setUrlPatterns(urlPatterns); // Dizendo os caminhos que quer que o Squiggly funcione;
 		
 		return filterRegistration;
 	}
