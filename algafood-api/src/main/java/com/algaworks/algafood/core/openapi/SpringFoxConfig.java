@@ -60,7 +60,8 @@ public class SpringFoxConfig {
 						CozinhasModelOpenApi.class))
 				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerencia as cidades"),
-						new Tag("Grupos", "Gerencia os grupos de usuários"));
+						new Tag("Grupos", "Gerencia os grupos de usuários"),
+						new Tag("Cozinhas", "Gerencia as cozinhas"));
 	}
 	
 	private List<Response> globalGetResponseMessages(){
