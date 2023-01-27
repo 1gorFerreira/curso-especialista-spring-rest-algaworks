@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,17 +24,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.algaworks.algafood.api.model.FormaPagamentoModel;
 import com.algaworks.algafood.api.model.input.FormaPagamentoInput;
+import com.algaworks.algafood.api.openapi.controller.FormaPagamentoControllerOpenApi;
 import com.algaworks.algafood.domain.services.CadastroFormaPagamentoService;
 
 @RestController
 @RequestMapping("/formas-pagamento")
-public class FormaPagamentoController {
+public class FormaPagamentoController implements FormaPagamentoControllerOpenApi{
 
 	@Autowired
 	private CadastroFormaPagamentoService cadastroFormaPagamentoService;
 	
-	@GetMapping
-	public ResponseEntity<List<FormaPagamentoModel>> buscarTodos(ServletWebRequest request){
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request){
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 		
 		String eTag = cadastroFormaPagamentoService.gerandoETag();
@@ -49,7 +51,7 @@ public class FormaPagamentoController {
 				.body(formasPagamento);
 	}
 	
-	@GetMapping("/{formaPagamentoId}")
+	@GetMapping(path = "/{formaPagamentoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId, ServletWebRequest request){
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 		
@@ -70,7 +72,7 @@ public class FormaPagamentoController {
 				.body(formaPagamento);
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FormaPagamentoModel> adicionar(@Valid @RequestBody FormaPagamentoInput formaPagamentoInput){
 		FormaPagamentoModel formaPagamento = cadastroFormaPagamentoService.adicionar(formaPagamentoInput);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -78,7 +80,7 @@ public class FormaPagamentoController {
 		return ResponseEntity.created(uri).body(formaPagamento);
 	}
 	
-	@PutMapping("/{formaPagamentoId}")
+	@PutMapping(path = "/{formaPagamentoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FormaPagamentoModel> atualizar(@Valid @PathVariable Long formaPagamentoId, @RequestBody FormaPagamentoInput formaPagamentoInput){
 		FormaPagamentoModel formaPagamentoModel = cadastroFormaPagamentoService.atualizar(formaPagamentoId, formaPagamentoInput);
 		return ResponseEntity.ok(formaPagamentoModel);
