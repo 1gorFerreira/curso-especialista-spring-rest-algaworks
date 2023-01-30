@@ -27,20 +27,20 @@ public interface CidadeControllerOpenApi {
 	@ApiResponses({
 		@ApiResponse(responseCode = "400", description = "ID da cidade inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))})
-	public ResponseEntity<CidadeModel> buscar(@ApiParam("ID de uma cidade") Long cidadeId);
+	public ResponseEntity<CidadeModel> buscar(@ApiParam(value = "ID de uma cidade", example = "1", required = true) Long cidadeId);
 
 	
 	@ApiOperation("Cadastra uma cidade")
 	@ApiResponses({
 		@ApiResponse(responseCode = "201", description = "Cidade cadastrada")})
-	public ResponseEntity<CidadeModel> adicionar(@ApiParam(name = "corpo", value = "Representacao de uma nova cidade") CidadeInput cidadeInput);
+	public ResponseEntity<CidadeModel> adicionar(@ApiParam(name = "corpo", value = "Representacao de uma nova cidade", required = true) CidadeInput cidadeInput);
 
 	
 	@ApiOperation("Atualiza uma cidade por ID")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "Cidade atualizada"),
 		@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))})
-	public ResponseEntity<CidadeModel> atualizar(@ApiParam(value = "ID de uma cidade") Long id, 
+	public ResponseEntity<CidadeModel> atualizar(@ApiParam(value = "ID de uma cidade", example = "1", required = true) Long id, 
 			@ApiParam(name = "corpo", value = "Representacao de uma cidade com os novos dados") CidadeInput cidadeInput);
 
 	
@@ -48,5 +48,5 @@ public interface CidadeControllerOpenApi {
 	@ApiResponses({
 		@ApiResponse(responseCode = "204", description = "Cidade excluída"),
 		@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(schema = @Schema(implementation = Problem.class)))})
-	public ResponseEntity<?> remover(@ApiParam("ID de uma cidade") Long cidadeId);
+	public ResponseEntity<?> remover(@ApiParam(value = "ID de uma cidade", example = "1", required = true) Long cidadeId);
 }

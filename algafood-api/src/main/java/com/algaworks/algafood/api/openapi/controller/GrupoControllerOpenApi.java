@@ -28,7 +28,7 @@ public interface GrupoControllerOpenApi {
         @ApiResponse(responseCode = "400", description = "ID da grupo inválido", content = @Content(schema = @Schema(implementation = Problem.class))),
         @ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = @Content(schema = @Schema(implementation = Problem.class)))})
     public ResponseEntity<GrupoModel> buscar(
-            @ApiParam(value = "ID de um grupo", example = "1")
+            @ApiParam(value = "ID de um grupo", example = "1", required = true)
             Long grupoId);
     
     
@@ -36,7 +36,7 @@ public interface GrupoControllerOpenApi {
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "Grupo cadastrado")})
     public ResponseEntity<GrupoModel> adicionar(
-            @ApiParam(name = "corpo", value = "Representação de um novo grupo")
+            @ApiParam(name = "corpo", value = "Representação de um novo grupo", required = true)
             GrupoInput grupoInput);
     
     
@@ -45,10 +45,10 @@ public interface GrupoControllerOpenApi {
         @ApiResponse(responseCode = "200", description = "Grupo atualizado"),
         @ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = @Content(schema = @Schema(implementation = Problem.class)))})
     public ResponseEntity<GrupoModel> atualizar(
-            @ApiParam(value = "ID de um grupo", example = "1")
+            @ApiParam(value = "ID de um grupo", example = "1", required = true)
             Long grupoId,
             
-            @ApiParam(name = "corpo", value = "Representação de um grupo com os novos dados")
+            @ApiParam(name = "corpo", value = "Representação de um grupo com os novos dados", required = true)
             GrupoInput grupoInput);
     
     
@@ -57,7 +57,7 @@ public interface GrupoControllerOpenApi {
         @ApiResponse(responseCode = "204", description = "Grupo excluído"),
         @ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = @Content(schema = @Schema(implementation = Problem.class)))})
     public ResponseEntity<Void> deletar(
-            @ApiParam(value = "ID de um grupo", example = "1")
+            @ApiParam(value = "ID de um grupo", example = "1", required = true)
             Long grupoId);
     
 }
