@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import com.algaworks.algafood.api.openapi.controller.UsuarioGrupoControllerOpenA
 import com.algaworks.algafood.domain.services.CadastroUsuarioService;
 
 @RestController
-@RequestMapping("/usuarios/{usuarioId}/grupos")
+@RequestMapping(path = "/usuarios/{usuarioId}/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 
 	@Autowired

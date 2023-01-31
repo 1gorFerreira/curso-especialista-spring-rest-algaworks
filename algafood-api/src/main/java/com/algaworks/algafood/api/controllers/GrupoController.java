@@ -24,7 +24,7 @@ import com.algaworks.algafood.api.openapi.controller.GrupoControllerOpenApi;
 import com.algaworks.algafood.domain.services.CadastroGrupoService;
 
 @RestController
-@RequestMapping("/grupos")
+@RequestMapping(path = "/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GrupoController implements GrupoControllerOpenApi {
 
 	@Autowired
