@@ -21,11 +21,12 @@ import com.algaworks.algafood.api.model.UsuarioModel;
 import com.algaworks.algafood.api.model.input.SenhaInput;
 import com.algaworks.algafood.api.model.input.UsuarioComSenhaInput;
 import com.algaworks.algafood.api.model.input.UsuarioInput;
+import com.algaworks.algafood.api.openapi.controller.UsuarioControllerOpenApi;
 import com.algaworks.algafood.domain.services.CadastroUsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerOpenApi{
 
 	@Autowired
 	private CadastroUsuarioService cadastroUsuarioService;
