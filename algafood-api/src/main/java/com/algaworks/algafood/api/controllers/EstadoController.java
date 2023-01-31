@@ -21,13 +21,14 @@ import com.algaworks.algafood.api.assembler.EstadoInputDisassembler;
 import com.algaworks.algafood.api.assembler.EstadoModelAssembler;
 import com.algaworks.algafood.api.model.EstadoModel;
 import com.algaworks.algafood.api.model.input.EstadoInput;
+import com.algaworks.algafood.api.openapi.controller.EstadoControllerOpenApi;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repositories.EstadoRepository;
 import com.algaworks.algafood.domain.services.CadastroEstadoService;
 
 @RestController
 @RequestMapping("/estados")
-public class EstadoController {
+public class EstadoController implements EstadoControllerOpenApi {
 
 	@Autowired
 	private EstadoRepository estadoRepository;

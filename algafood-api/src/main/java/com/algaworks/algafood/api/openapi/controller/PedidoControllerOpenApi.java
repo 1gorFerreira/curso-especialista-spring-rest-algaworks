@@ -28,7 +28,7 @@ public interface PedidoControllerOpenApi {
 				name = "campos", paramType = "query", dataTypeClass = String.class)
 	})
     @ApiOperation("Pesquisa os pedidos")
-    public ResponseEntity<Page<PedidoResumoModel>> pesquisar(PedidoFilter filtro, Pageable pageable);
+    ResponseEntity<Page<PedidoResumoModel>> pesquisar(PedidoFilter filtro, Pageable pageable);
     
 	@ApiImplicitParams({
 		@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
@@ -38,7 +38,7 @@ public interface PedidoControllerOpenApi {
     @ApiResponses({
         @ApiResponse(responseCode = "404", description = "Pedido não encontrado", content = @Content(schema = @Schema(implementation = Problem.class)))
     })
-    public ResponseEntity<PedidoModel> buscar(
+    ResponseEntity<PedidoModel> buscar(
             @ApiParam(value = "Código de um pedido", example = "f9981ca4-5a5e-4da3-af04-933861df3e55", required = true)
             String codigoPedido);   
     
@@ -46,7 +46,7 @@ public interface PedidoControllerOpenApi {
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "Pedido registrado"),
     })
-    public ResponseEntity<PedidoModel> emitir(
+    ResponseEntity<PedidoModel> emitir(
             @ApiParam(name = "corpo", value = "Representação de um novo pedido", required = true)
             PedidoInput pedidoInput);
     
