@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.model.GrupoModel;
+import com.algaworks.algafood.api.openapi.controller.UsuarioGrupoControllerOpenApi;
 import com.algaworks.algafood.domain.services.CadastroUsuarioService;
 
 @RestController
 @RequestMapping("/usuarios/{usuarioId}/grupos")
-public class UsuarioGrupoController {
+public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 
 	@Autowired
 	private CadastroUsuarioService cadastroUsuarioService;
