@@ -42,7 +42,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 		return ResponseEntity.ok(grupo);
 	}
 	
-	@PostMapping(MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> adicionar(@Valid @RequestBody GrupoInput grupoInput){
 		GrupoModel grupo = cadastroGrupoService.adicionar(grupoInput);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

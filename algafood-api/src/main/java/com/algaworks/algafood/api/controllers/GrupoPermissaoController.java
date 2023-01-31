@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.model.PermissaoModel;
+import com.algaworks.algafood.api.openapi.controller.GrupoPermissaoControllerOpenApi;
 import com.algaworks.algafood.domain.services.CadastroGrupoService;
 
 @RestController
 @RequestMapping("grupos/{grupoId}/permissoes")
-public class GrupoPermissaoController {
+public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi{
 
 	@Autowired
 	private CadastroGrupoService cadastroGrupoService;
@@ -28,16 +29,15 @@ public class GrupoPermissaoController {
 	}
 	
 	@PutMapping("/{permissaoId}")
-	public ResponseEntity<Void> asasociar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
+	public ResponseEntity<Void> associar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
 		cadastroGrupoService.associarPermissao(grupoId, permissaoId);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/{permissaoId}")
-	public ResponseEntity<Void> dessasociar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
+	public ResponseEntity<Void> desassociar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
 		cadastroGrupoService.desassociarPermissao(grupoId, permissaoId);
 		return ResponseEntity.noContent().build();
 	}
-	
-	
+
 }
