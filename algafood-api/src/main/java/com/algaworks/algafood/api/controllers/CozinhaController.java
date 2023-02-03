@@ -3,9 +3,9 @@ package com.algaworks.algafood.api.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +32,8 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	private CadastroCozinhaService cadastroCozinhaService;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Page<CozinhaModel>> listar(@PageableDefault(size = 10) Pageable pageable){
-		Page<CozinhaModel> cozinhas = cadastroCozinhaService.listar(pageable);
+	public ResponseEntity<PagedModel<CozinhaModel>> listar(@PageableDefault(size = 10) Pageable pageable){
+		PagedModel<CozinhaModel> cozinhas = cadastroCozinhaService.listar(pageable);
 		return ResponseEntity.ok(cozinhas);
 	}
 	
@@ -43,7 +43,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 		return ResponseEntity.ok(cozinha);
 	}
 	
-	@PostMapping(value = "/{cozinhaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaModel adicionar(@Valid @RequestBody CozinhaInput cozinhaInput) {
 		CozinhaModel cozinha = cadastroCozinhaService.adicionar(cozinhaInput);
