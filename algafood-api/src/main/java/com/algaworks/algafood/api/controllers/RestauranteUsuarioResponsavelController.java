@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +26,11 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	@GetMapping
 	public ResponseEntity<CollectionModel<UsuarioModel>> listarResponsaveis(@PathVariable Long restauranteId){
 		CollectionModel<UsuarioModel> responsaveis = cadastroRestauranteService.listarResponsaveis(restauranteId);
-		return ResponseEntity.ok(responsaveis);
+		return ResponseEntity.ok(responsaveis
+				.removeLinks()
+				.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class)
+						.listarResponsaveis(restauranteId))
+						.withSelfRel()));
 	}
 	
 	@PutMapping("/{responsavelId}")
