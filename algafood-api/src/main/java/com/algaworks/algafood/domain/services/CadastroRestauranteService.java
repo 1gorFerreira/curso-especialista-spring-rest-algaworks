@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -123,7 +124,7 @@ public class CadastroRestauranteService {
 	}
 	
 	@Transactional
-	public List<UsuarioModel> listarResponsaveis(Long restauranteId) {
+	public CollectionModel<UsuarioModel> listarResponsaveis(Long restauranteId) {
 		Restaurante restaurante = buscarOuFalhar(restauranteId);
 		return usuarioModelAssembler.toCollectionModel(restaurante.getResponsaveis());
 	}

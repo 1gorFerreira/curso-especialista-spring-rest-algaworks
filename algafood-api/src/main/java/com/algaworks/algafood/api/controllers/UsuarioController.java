@@ -1,11 +1,11 @@
 package com.algaworks.algafood.api.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,8 +33,8 @@ public class UsuarioController implements UsuarioControllerOpenApi{
 	private CadastroUsuarioService cadastroUsuarioService;
 	
 	@GetMapping
-	public ResponseEntity<List<UsuarioModel>> buscarTodos(){
-		List<UsuarioModel> usuarios = cadastroUsuarioService.buscarTodos();
+	public ResponseEntity<CollectionModel<UsuarioModel>> buscarTodos(){
+		CollectionModel<UsuarioModel> usuarios = cadastroUsuarioService.buscarTodos();
 		return ResponseEntity.ok(usuarios);
 	}
 	

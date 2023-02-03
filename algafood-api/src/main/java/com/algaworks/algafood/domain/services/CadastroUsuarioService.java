@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,8 +48,10 @@ public class CadastroUsuarioService {
 	private CadastroGrupoService cadastroGrupoService;
 	
 	@Transactional(readOnly = true)
-	public List<UsuarioModel> buscarTodos() {
-		return usuarioModelAssembler.toCollectionModel(usuarioRepository.findAll());
+	public CollectionModel<UsuarioModel> buscarTodos() {
+		List<Usuario> todosUsuarios = usuarioRepository.findAll();
+		
+		return usuarioModelAssembler.toCollectionModel(todosUsuarios);
 	}
 	
 	@Transactional(readOnly = true)
