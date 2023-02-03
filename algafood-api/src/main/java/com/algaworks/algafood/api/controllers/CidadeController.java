@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,24 +48,9 @@ public class CidadeController implements CidadeControllerOpenApi{
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public CollectionModel<CidadeModel> listar() {
-		List<CidadeModel> cidadesModel = cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
+		List<Cidade> todasCidades = cidadeRepository.findAll();
 		
-		CollectionModel<CidadeModel> cidadesCollectionModel = CollectionModel.of(cidadesModel);
-		
-		cidadesModel.forEach(cidadeModel -> {
-			cidadeModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-					.buscar(cidadeModel.getId())).withSelfRel());
-			
-			cidadeModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-					.listar()).withRel("cidades"));
-			
-			cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class)
-					.buscar(cidadeModel.getEstado().getId())).withSelfRel());
-		});
-		
-		cidadesCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
-		
-		return cidadesCollectionModel;
+		return cidadeModelAssembler.toCollectionModel(todasCidades);
 	}
 
 	@GetMapping(path = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,29 +58,6 @@ public class CidadeController implements CidadeControllerOpenApi{
 		Cidade cidade = cadastroCidadeService.buscarOuFalhar(cidadeId);
 		
 		CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
-		
-//		cidadeModel.add(Link.of("http://api.algafood.local:8080/cidades/1"));
-//		cidadeModel.add(Link.of("http://api.algafood.local:8080/cidades/1", IanaLinkRelations.SELF));
-//		cidadeModel.add(Link.of("http://api.algafood.local:8080/cidades", IanaLinkRelations.COLLECTION));
-//		cidadeModel.getEstado().add(Link.of("http://api.algafood.local:8080/estados/1"));
-		
-//		cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-//				.slash(cidadeModel.getId()).withSelfRel());
-//		
-//		cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-//				.withRel("cidades"));
-//		
-//		cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
-//				.slash(cidadeModel.getEstado().getId()).withSelfRel());
-		
-		cidadeModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-				.buscar(cidadeModel.getId())).withSelfRel());
-		
-		cidadeModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-				.listar()).withRel("cidades"));
-		
-		cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class)
-				.buscar(cidadeModel.getEstado().getId())).withSelfRel());
 		
 		return ResponseEntity.ok(cidadeModel);
 	}
