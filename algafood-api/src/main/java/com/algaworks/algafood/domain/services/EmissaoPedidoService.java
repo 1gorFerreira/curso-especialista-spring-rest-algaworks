@@ -16,6 +16,7 @@ import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.algaworks.algafood.api.model.PedidoModel;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
@@ -79,10 +80,13 @@ public class EmissaoPedidoService {
 //  IMPL USANDO PAGEDMODEL PARA HATEOAS;
 	@Transactional(readOnly = true)
 	public PagedModel<PedidoResumoModel> buscarTodos(PedidoFilter filtro, Pageable pageable){
-		pageable = traduzirPageable(pageable);
+		Pageable pageableTraduzido = traduzirPageable(pageable);
 		
-		Page<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
-		return pagedResourcesAssembler.toModel(pedidos, pedidoResumoModelAssembler);
+		Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
+		
+		pedidosPage = new PageWrapper<>(pedidosPage, pageable);
+		
+		return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
 	}
 	
 	@Transactional(readOnly = true)
@@ -155,7 +159,7 @@ public class EmissaoPedidoService {
 	private Pageable traduzirPageable(Pageable apiPageable) {
 		var mapeamento = ImmutableMap.of(
 				"codigo", "codigo",
-				"restaurante.nome", "restaurante.nome",
+				"nomeRestaurante", "restaurante.nome",
 				"nomeCliente", "cliente.nome",
 				"valorTotal", "valorTotal"
 			);
