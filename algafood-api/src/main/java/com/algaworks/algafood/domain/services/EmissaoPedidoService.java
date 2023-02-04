@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,13 +62,27 @@ public class EmissaoPedidoService {
 	@Autowired
 	private PedidoInputDisassembler pedidoInputDisassembler;
 	
+	@Autowired
+	private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;	
+	
+//	IMPLEMENTACAO SEM HATEOAS
+//	@Transactional(readOnly = true)
+//	public Page<PedidoResumoModel> buscarTodos(PedidoFilter filtro, Pageable pageable){
+//		pageable = traduzirPageable(pageable);
+//		
+//		Page<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+//		Page<PedidoResumoModel> pedidosModel = pedidos.map(pedido -> pedidoResumoModelAssembler.toModel(pedido));
+//		
+//		return pedidosModel;
+//	}
+
+//  IMPL USANDO PAGEDMODEL PARA HATEOAS;
 	@Transactional(readOnly = true)
-	public Page<PedidoResumoModel> buscarTodos(PedidoFilter filtro, Pageable pageable){
+	public PagedModel<PedidoResumoModel> buscarTodos(PedidoFilter filtro, Pageable pageable){
 		pageable = traduzirPageable(pageable);
 		
 		Page<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
-		Page<PedidoResumoModel> pedidosModel = pedidos.map(pedido -> pedidoResumoModelAssembler.toModel(pedido));
-		return pedidosModel;
+		return pagedResourcesAssembler.toModel(pedidos, pedidoResumoModelAssembler);
 	}
 	
 	@Transactional(readOnly = true)

@@ -5,8 +5,8 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,8 +50,8 @@ public class PedidoController implements PedidoControllerOpenApi {
 //	}
 	
 	@GetMapping
-	public ResponseEntity<Page<PedidoResumoModel>> pesquisar(PedidoFilter filtro, Pageable pageable){
-		Page<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos(filtro, pageable);
+	public ResponseEntity<PagedModel<PedidoResumoModel>> pesquisar(PedidoFilter filtro, Pageable pageable){
+		PagedModel<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos(filtro, pageable);
 		return ResponseEntity.ok(pedidos);
 	}
 	
