@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.services;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,6 @@ import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.model.filter.PedidoFilter;
 import com.algaworks.algafood.domain.repositories.PedidoRepository;
 import com.algaworks.algafood.infrastructure.repositories.specs.PedidoSpecs;
-import com.google.common.collect.ImmutableMap;
 
 @Service
 public class EmissaoPedidoService {
@@ -157,11 +157,16 @@ public class EmissaoPedidoService {
 	}
 	
 	private Pageable traduzirPageable(Pageable apiPageable) {
-		var mapeamento = ImmutableMap.of(
+		var mapeamento = Map.of(
 				"codigo", "codigo",
-				"nomeRestaurante", "restaurante.nome",
-				"nomeCliente", "cliente.nome",
-				"valorTotal", "valorTotal"
+				"subtotal", "subtotal",
+				"taxaFrete", "taxaFrete",
+				"valorTotal", "valorTotal",
+				"dataCriacao", "dataCriacao",
+				"restaurante.nome", "restaurante.nome",
+				"restaurante.id", "restaurante.id",
+				"cliente.id", "cliente.id",
+				"cliente.nome", "cliente.nome"
 			);
 		
 		return PageableTranslator.translate(apiPageable, mapeamento);
