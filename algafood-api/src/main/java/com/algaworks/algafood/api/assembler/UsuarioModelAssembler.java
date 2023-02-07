@@ -7,8 +7,8 @@ import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSuppor
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
+import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.controllers.UsuarioController;
-import com.algaworks.algafood.api.controllers.UsuarioGrupoController;
 import com.algaworks.algafood.api.model.UsuarioModel;
 import com.algaworks.algafood.domain.model.Usuario;
 
@@ -18,22 +18,21 @@ public class UsuarioModelAssembler extends RepresentationModelAssemblerSupport<U
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private AlgaLinks algaLinks;
+	
 	public UsuarioModelAssembler() {
 		super(UsuarioController.class, UsuarioModel.class);
 	}
 	
 	@Override
 	public UsuarioModel toModel(Usuario usuario) {
-		UsuarioModel usuarioModel = modelMapper.map(usuario, UsuarioModel.class);
-		
-		usuarioModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class)
-				.buscarTodos()).withRel("usuarios"));
-		
-		usuarioModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class)
-				.buscar(usuarioModel.getId())).withSelfRel());
-		
-		usuarioModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class)
-                .listar(usuario.getId())).withRel("grupos-usuario"));
+		UsuarioModel usuarioModel = createModelWithId(usuario.getId(), usuario);
+	    modelMapper.map(usuario, usuarioModel);
+	    
+	    usuarioModel.add(algaLinks.linkToUsuarios("usuarios"));
+	    
+	    usuarioModel.add(algaLinks.linkToGruposUsuario(usuario.getId(), "grupos-usuario"));
 		
 		return usuarioModel;
 	}
