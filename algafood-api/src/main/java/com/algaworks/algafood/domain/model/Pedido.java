@@ -101,11 +101,23 @@ public class Pedido extends AbstractAggregateRoot<Pedido>{
 	}
 	
 	private void setStatus(StatusPedido novoStatus) {
-		if(!getStatus().naoPodeAlterarPara(novoStatus)) {
+		if(getStatus().naoPodeAlterarPara(novoStatus)) {
 			throw new NegocioException(String.format("Status do pedido %s não pode ser alterado de %s para %s",
 				getCodigo(), getStatus().getDescricao(), novoStatus.getDescricao()));
 		}
 		this.status = novoStatus;
+	}
+	
+	public boolean podeSerConfirmado() {
+		return getStatus().podeAlterarPara(StatusPedido.CONFIRMADO);
+	}
+	
+	public boolean podeSerEntregue() {
+		return getStatus().podeAlterarPara(StatusPedido.ENTREGUE);
+	}
+	
+	public boolean podeSerCancelado() {
+		return getStatus().podeAlterarPara(StatusPedido.CANCELADO);
 	}
 	
 	@PrePersist // Método de callBack do JPA;
