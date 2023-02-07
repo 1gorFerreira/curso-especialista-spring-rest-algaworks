@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.controllers.CidadeController;
 import com.algaworks.algafood.api.controllers.CozinhaController;
 import com.algaworks.algafood.api.controllers.EstadoController;
+import com.algaworks.algafood.api.controllers.FluxoPedidoController;
 import com.algaworks.algafood.api.controllers.FormaPagamentoController;
 import com.algaworks.algafood.api.controllers.PedidoController;
 import com.algaworks.algafood.api.controllers.RestauranteController;
@@ -42,6 +43,21 @@ public class AlgaLinks {
 	}
 	
 	//Foram criadas sobrecargas para quando o usuario nao informar o rel, ele automaticamente setar SELF;
+	
+	public Link linkToConfirmacaoPedido(String codigoPedido, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(FluxoPedidoController.class)
+	            .confirmar(codigoPedido)).withRel(rel);
+	}
+	
+	public Link linkToEntregaPedido(String codigoPedido, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(FluxoPedidoController.class)
+	            .entregar(codigoPedido)).withRel(rel);
+	}
+	
+	public Link linkToCancelamentoPedido(String codigoPedido, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(FluxoPedidoController.class)
+	            .cancelar(codigoPedido)).withRel(rel);
+	}
 	
 	public Link linkToRestaurante(Long restauranteId, String rel) {
 	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteController.class)

@@ -35,6 +35,12 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 		
 //		pedidoModel.add(WebMvcLinkBuilder.linkTo(PedidoController.class).withRel("pedidos"));
 		
+		pedidoModel.add(algaLinks.linkToConfirmacaoPedido(pedido.getCodigo(), "confirmar"));
+		
+		pedidoModel.add(algaLinks.linkToEntregaPedido(pedido.getCodigo(), "entregar"));
+		
+		pedidoModel.add(algaLinks.linkToCancelamentoPedido(pedido.getCodigo(), "cancelar"));
+		
 		pedidoModel.getRestaurante().add(algaLinks.linkToRestaurante(pedido.getRestaurante().getId()));
 		
 		pedidoModel.getCliente().add(algaLinks.linkToUsuario(pedido.getCliente().getId()));
