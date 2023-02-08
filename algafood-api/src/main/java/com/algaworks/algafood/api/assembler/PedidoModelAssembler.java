@@ -31,7 +31,7 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 		PedidoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
 		modelMapper.map(pedido, pedidoModel);
 		
-		pedidoModel.add(algaLinks.linkToPedidos());
+		pedidoModel.add(algaLinks.linkToPedidos("pedidos"));
 		
 //		pedidoModel.add(WebMvcLinkBuilder.linkTo(PedidoController.class).withRel("pedidos"));
 		
