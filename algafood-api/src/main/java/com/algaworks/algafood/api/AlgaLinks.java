@@ -16,6 +16,7 @@ import com.algaworks.algafood.api.controllers.FluxoPedidoController;
 import com.algaworks.algafood.api.controllers.FormaPagamentoController;
 import com.algaworks.algafood.api.controllers.PedidoController;
 import com.algaworks.algafood.api.controllers.RestauranteController;
+import com.algaworks.algafood.api.controllers.RestauranteFormaPagamentoController;
 import com.algaworks.algafood.api.controllers.RestauranteProdutoController;
 import com.algaworks.algafood.api.controllers.RestauranteUsuarioResponsavelController;
 import com.algaworks.algafood.api.controllers.UsuarioController;
@@ -42,7 +43,7 @@ public class AlgaLinks {
 		return Link.of(UriTemplate.of(pedidosUrl, PAGINACAO_VARIABLES.concat(filtroVariables)), "pedidos");
 	}
 	
-	//Foram criadas sobrecargas para quando o usuario nao informar o rel, ele automaticamente setar SELF;
+	//Foram criadas sobrecargas em alguns metodos para quando o usuario nao informar o rel, ele automaticamente setar SELF;
 	
 	public Link linkToConfirmacaoPedido(String codigoPedido, String rel) {
 		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(FluxoPedidoController.class)
@@ -163,6 +164,28 @@ public class AlgaLinks {
 	public Link linkToCozinhas() {
 	    return linkToCozinhas(IanaLinkRelations.SELF.value());
 	}
+	
+	public Link linkToRestaurantes(String rel) {
+	    return WebMvcLinkBuilder.linkTo(RestauranteController.class).withRel(rel);
+	}
+
+	public Link linkToRestaurantes() {
+	    return linkToRestaurantes(IanaLinkRelations.SELF.value());
+	}
+
+	public Link linkToRestauranteFormasPagamento(Long restauranteId, String rel) {
+	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteFormaPagamentoController.class)
+	            .listar(restauranteId)).withRel(rel);
+	}
+
+	public Link linkToCozinha(Long cozinhaId, String rel) {
+	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CozinhaController.class)
+	            .buscar(cozinhaId)).withRel(rel);
+	}
+
+	public Link linkToCozinha(Long cozinhaId) {
+	    return linkToCozinha(cozinhaId, IanaLinkRelations.SELF.value());
+	}       
 	
 	
 }
