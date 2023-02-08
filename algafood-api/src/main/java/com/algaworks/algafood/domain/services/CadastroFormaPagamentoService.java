@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public class CadastroFormaPagamentoService {
 	private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
 	
 	@Transactional(readOnly = true)
-	public List<FormaPagamentoModel> buscarTodos() {
+	public CollectionModel<FormaPagamentoModel> buscarTodos() {
 		List<FormaPagamento> formasPagamento = formaPagamentoRepository.findAll();
 		return formaPagamentoModelAssembler.toCollectionModel(formasPagamento);
 	}

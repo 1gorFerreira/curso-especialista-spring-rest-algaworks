@@ -1,12 +1,12 @@
 package com.algaworks.algafood.api.controllers;
 
 import java.net.URI;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	private CadastroFormaPagamentoService cadastroFormaPagamentoService;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request){
+	public ResponseEntity<CollectionModel<FormaPagamentoModel>> listar(ServletWebRequest request){
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 		
 		String eTag = cadastroFormaPagamentoService.gerandoETag();
@@ -44,7 +44,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 			return null;
 		}
 		
-		List<FormaPagamentoModel> formasPagamento = cadastroFormaPagamentoService.buscarTodos();
+		CollectionModel<FormaPagamentoModel> formasPagamento = cadastroFormaPagamentoService.buscarTodos();
 		return ResponseEntity.ok()
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
 				.eTag(eTag)
