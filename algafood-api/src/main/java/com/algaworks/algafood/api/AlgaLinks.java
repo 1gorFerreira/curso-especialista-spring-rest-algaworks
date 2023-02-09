@@ -168,6 +168,15 @@ public class AlgaLinks {
 	    return linkToCozinhas(IanaLinkRelations.SELF.value());
 	}
 	
+	public Link linkToCozinha(Long cozinhaId, String rel) {
+	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CozinhaController.class)
+	            .buscar(cozinhaId)).withRel(rel);
+	}
+
+	public Link linkToCozinha(Long cozinhaId) {
+	    return linkToCozinha(cozinhaId, IanaLinkRelations.SELF.value());
+	}       
+	
 	public Link linkToRestaurantes(String rel) {
 		String restaurantesUrl = WebMvcLinkBuilder.linkTo(RestauranteController.class).toUri().toString();
 		
@@ -182,15 +191,6 @@ public class AlgaLinks {
 	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteFormaPagamentoController.class)
 	            .listar(restauranteId)).withRel(rel);
 	}
-
-	public Link linkToCozinha(Long cozinhaId, String rel) {
-	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CozinhaController.class)
-	            .buscar(cozinhaId)).withRel(rel);
-	}
-
-	public Link linkToCozinha(Long cozinhaId) {
-	    return linkToCozinha(cozinhaId, IanaLinkRelations.SELF.value());
-	}       
 	
 	public Link linkToRestauranteAbertura(Long restauranteId, String rel) {
 	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteController.class)
@@ -215,7 +215,12 @@ public class AlgaLinks {
 	public Link linkToRestauranteFormasPagamento(Long restauranteId) {
 	    return linkToRestauranteFormasPagamento(restauranteId, IanaLinkRelations.SELF.value());
 	}
-
+	
+	public Link linkToRestauranteFormaPagamentoDessasociacao(Long restauranteId, Long formaPagamentoId, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteFormaPagamentoController.class)
+				.removerFormaPagamento(restauranteId, formaPagamentoId)).withRel(rel);
+	}
+	
 	public Link linkToFormasPagamento(String rel) {
 	    return WebMvcLinkBuilder.linkTo(FormaPagamentoController.class).withRel(rel);
 	}

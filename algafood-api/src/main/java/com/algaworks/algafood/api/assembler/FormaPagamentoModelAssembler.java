@@ -29,7 +29,7 @@ public class FormaPagamentoModelAssembler extends RepresentationModelAssemblerSu
 		FormaPagamentoModel formaPagamentoModel = createModelWithId(formaPagamento.getId(), formaPagamento);
 		modelMapper.map(formaPagamento, formaPagamentoModel);
 		
-		formaPagamentoModel.add(algaLinks.linkToFormasPagamento());
+		formaPagamentoModel.add(algaLinks.linkToFormasPagamento("formasPagamento"));
 		
 		return formaPagamentoModel;
 	}

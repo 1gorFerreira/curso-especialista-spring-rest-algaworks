@@ -34,9 +34,16 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 	@GetMapping
 	public CollectionModel<FormaPagamentoModel> listar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
-		return formaPagamentoModelAssembler.toCollectionModel(restaurante.getFormasPagamento())
+		CollectionModel<FormaPagamentoModel> formasPagamentoModel = 
+				formaPagamentoModelAssembler.toCollectionModel(restaurante.getFormasPagamento())
 				.removeLinks()
 				.add(algaLinks.linkToRestauranteFormasPagamento(restauranteId));
+		
+		formasPagamentoModel.getContent().forEach(formaPagamentoModel -> {
+			formaPagamentoModel.add(algaLinks.linkToRestauranteFormaPagamentoDessasociacao(restauranteId, formaPagamentoModel.getId(), "desassociar"));
+		});
+		
+		return formasPagamentoModel;
 	}
 	
 	@PutMapping("/{formaPagamentoId}")
