@@ -221,6 +221,11 @@ public class AlgaLinks {
 				.removerFormaPagamento(restauranteId, formaPagamentoId)).withRel(rel);
 	}
 	
+	public Link linkToRestauranteFormaPagamentoAssociacao(Long restauranteId, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteFormaPagamentoController.class)
+				.adicionarFormaPagamento(restauranteId, null)).withRel(rel);
+	}
+	
 	public Link linkToFormasPagamento(String rel) {
 	    return WebMvcLinkBuilder.linkTo(FormaPagamentoController.class).withRel(rel);
 	}
