@@ -29,9 +29,15 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	@GetMapping
 	public ResponseEntity<CollectionModel<UsuarioModel>> listarResponsaveis(@PathVariable Long restauranteId){
 		CollectionModel<UsuarioModel> responsaveis = cadastroRestauranteService.listarResponsaveis(restauranteId);
-		return ResponseEntity.ok(responsaveis
-				.removeLinks()
-				.add(algaLinks.linkToResponsaveisRestaurante(restauranteId)));
+		responsaveis.removeLinks()
+				.add(algaLinks.linkToResponsaveisRestaurante(restauranteId))
+				.add(algaLinks.linkToRestauranteResponsavelAssociacao(restauranteId, "associar"));
+		
+		responsaveis.getContent().forEach(responsavelModel -> {
+			responsavelModel.add(algaLinks.linkToRestauranteResponsavelDesassociacao(restauranteId, responsavelModel.getId(), "desassociar"));
+		});
+		
+		return ResponseEntity.ok(responsaveis);
 	}
 	
 	@PutMapping("/{responsavelId}")

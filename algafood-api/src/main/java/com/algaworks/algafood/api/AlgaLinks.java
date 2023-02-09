@@ -226,6 +226,16 @@ public class AlgaLinks {
 				.adicionarFormaPagamento(restauranteId, null)).withRel(rel);
 	}
 	
+	public Link linkToRestauranteResponsavelDesassociacao(Long restauranteId, Long usuarioId, String rel) {
+		 return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class)
+		            .desassociarResponsavel(restauranteId, usuarioId)).withRel(rel);
+	}
+
+	public Link linkToRestauranteResponsavelAssociacao(Long restauranteId, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class)
+		          .associarResponsavel(restauranteId, null)).withRel(rel);
+	}
+	
 	public Link linkToFormasPagamento(String rel) {
 	    return WebMvcLinkBuilder.linkTo(FormaPagamentoController.class).withRel(rel);
 	}
