@@ -3,10 +3,12 @@ package com.algaworks.algafood.api.assembler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.controllers.RestauranteProdutoController;
+import com.algaworks.algafood.api.controllers.RestauranteProdutoFotoController;
 import com.algaworks.algafood.api.model.ProdutoModel;
 import com.algaworks.algafood.domain.model.Produto;
 
@@ -29,6 +31,9 @@ public class ProdutoModelAssembler extends RepresentationModelAssemblerSupport<P
 		modelMapper.map(produto, produtoModel);
 		
 		produtoModel.add(algaLinks.linkToProdutos(produto.getRestaurante().getId(), "produtos"));
+		
+		produtoModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteProdutoFotoController.class)
+				.buscar(produto.getRestaurante().getId(), produto.getId())).withRel("foto"));
 		
 		return produtoModel;
 	}
