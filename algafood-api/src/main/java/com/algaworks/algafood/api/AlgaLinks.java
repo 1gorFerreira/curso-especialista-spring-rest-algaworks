@@ -301,4 +301,14 @@ public class AlgaLinks {
 	            .desassociar(grupoId, permissaoId)).withRel(rel);
 	}
 	
+	public Link linkToUsuarioGrupoAssociacao(Long usuarioId, String rel) {
+	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class)
+	            .associarGrupo(usuarioId, null)).withRel(rel);
+	}
+
+	public Link linkToUsuarioGrupoDesassociacao(Long usuarioId, Long grupoId, String rel) {
+	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class)
+	            .desassociarGrupo(usuarioId, grupoId)).withRel(rel);
+	}     
+	
 }

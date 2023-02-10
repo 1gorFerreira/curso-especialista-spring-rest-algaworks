@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.model.GrupoModel;
 import com.algaworks.algafood.api.openapi.controller.UsuarioGrupoControllerOpenApi;
 import com.algaworks.algafood.domain.services.CadastroUsuarioService;
@@ -22,10 +24,21 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 	@Autowired
 	private CadastroUsuarioService cadastroUsuarioService;
 	
+	@Autowired
+	private AlgaLinks algaLinks;
+	
 	@GetMapping
 	public ResponseEntity<CollectionModel<GrupoModel>> listar(@PathVariable Long usuarioId){
 		CollectionModel<GrupoModel> grupos = cadastroUsuarioService.listarGrupos(usuarioId);
-		return ResponseEntity.ok(grupos.removeLinks());
+		
+		grupos.removeLinks()
+			.add(algaLinks.linkToUsuarioGrupoAssociacao(usuarioId, "associar"));
+		
+		grupos.getContent().forEach(grupoModel -> {
+			grupoModel.add(algaLinks.linkToUsuarioGrupoDesassociacao(usuarioId, grupoModel.getId(), "desassociar"));
+		});
+		
+		return ResponseEntity.ok(grupos);
 	}
 	
 	@PutMapping("/{grupoId}")
