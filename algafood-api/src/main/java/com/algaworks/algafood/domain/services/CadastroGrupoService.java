@@ -86,7 +86,7 @@ public class CadastroGrupoService {
 	}
 	
 	@Transactional
-	public List<PermissaoModel> listarPermissoes(Long grupoId) {
+	public CollectionModel<PermissaoModel> listarPermissoes(Long grupoId) {
 		Grupo grupo = buscarOuFalhar(grupoId);
 		return permissaoModelAssembler.toCollectionModel(grupo.getPermissoes());
 	}

@@ -1,8 +1,7 @@
 package com.algaworks.algafood.api.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.model.PermissaoModel;
 import com.algaworks.algafood.api.openapi.controller.GrupoPermissaoControllerOpenApi;
 import com.algaworks.algafood.domain.services.CadastroGrupoService;
@@ -23,9 +23,22 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 	@Autowired
 	private CadastroGrupoService cadastroGrupoService;
 	
+	@Autowired
+	private AlgaLinks algaLinks;
+	
 	@GetMapping
-	public ResponseEntity<List<PermissaoModel>> listar(@PathVariable Long grupoId){
-		List<PermissaoModel> permissoes = cadastroGrupoService.listarPermissoes(grupoId);
+	public ResponseEntity<CollectionModel<PermissaoModel>> listar(@PathVariable Long grupoId){
+		CollectionModel<PermissaoModel> permissoes = cadastroGrupoService.listarPermissoes(grupoId);
+		
+        permissoes.removeLinks()
+                .add(algaLinks.linkToGrupoPermissoes(grupoId))
+                .add(algaLinks.linkToGrupoPermissaoAssociacao(grupoId, "associar"));
+        
+        permissoes.getContent().forEach(permissaoModel -> {
+            permissaoModel.add(algaLinks.linkToGrupoPermissaoDesassociacao(
+                    grupoId, permissaoModel.getId(), "desassociar"));
+        });
+
 		return ResponseEntity.ok(permissoes);
 	}
 	
