@@ -107,7 +107,7 @@ public class CadastroUsuarioService {
 	}
 	
 	@Transactional
-	public List<GrupoModel> listarGrupos(Long usuarioId){
+	public CollectionModel<GrupoModel> listarGrupos(Long usuarioId){
 		Usuario usuario = buscarOuFalhar(usuarioId);
 		return grupoModelAssembler.toCollectionModel(usuario.getGrupos());
 	}

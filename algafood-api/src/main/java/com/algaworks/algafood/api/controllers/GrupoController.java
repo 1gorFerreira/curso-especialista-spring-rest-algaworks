@@ -1,11 +1,11 @@
 package com.algaworks.algafood.api.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,8 +31,8 @@ public class GrupoController implements GrupoControllerOpenApi {
 	private CadastroGrupoService cadastroGrupoService;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<GrupoModel>> buscarTodos(){
-		List<GrupoModel> grupos = cadastroGrupoService.listarGrupos();
+	public ResponseEntity<CollectionModel<GrupoModel>> buscarTodos(){
+		CollectionModel<GrupoModel> grupos = cadastroGrupoService.listarGrupos();
 		return ResponseEntity.ok(grupos);
 	}
 	
