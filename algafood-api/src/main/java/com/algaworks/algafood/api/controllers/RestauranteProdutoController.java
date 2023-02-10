@@ -1,11 +1,11 @@
 package com.algaworks.algafood.api.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.model.ProdutoModel;
 import com.algaworks.algafood.api.model.input.ProdutoInput;
 import com.algaworks.algafood.api.openapi.controller.RestauranteProdutoControllerOpenApi;
@@ -30,9 +31,15 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	@Autowired
 	private CadastroProdutoService cadastroProdutoService;
 	
+	@Autowired
+	private AlgaLinks algaLinks;
+	
 	@GetMapping
-	public ResponseEntity<List<ProdutoModel>> listarProdutos(@PathVariable Long restauranteId, @RequestParam(required = false) boolean incluirInativos) {
-		List<ProdutoModel> produtos = cadastroProdutoService.listarProdutos(restauranteId, incluirInativos);
+	public ResponseEntity<CollectionModel<ProdutoModel>> listarProdutos(@PathVariable Long restauranteId, @RequestParam(required = false, defaultValue = "false") Boolean incluirInativos) {
+		CollectionModel<ProdutoModel> produtos = cadastroProdutoService.listarProdutos(restauranteId, incluirInativos);
+		
+		produtos.add(algaLinks.linkToProdutos(restauranteId));
+		
 		return ResponseEntity.ok(produtos);
 	}
 	

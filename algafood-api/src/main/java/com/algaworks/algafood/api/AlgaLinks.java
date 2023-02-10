@@ -239,6 +239,15 @@ public class AlgaLinks {
 	public Link linkToFormasPagamento(String rel) {
 	    return WebMvcLinkBuilder.linkTo(FormaPagamentoController.class).withRel(rel);
 	}
+	
+	public Link linkToProdutos(Long restauranteId, String rel) {
+	    return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteProdutoController.class)
+	            .listarProdutos(restauranteId, null)).withRel(rel);
+	}
+
+	public Link linkToProdutos(Long restauranteId) {
+	    return linkToProdutos(restauranteId, IanaLinkRelations.SELF.value());
+	}
 
 	public Link linkToFormasPagamento() {
 	    return linkToFormasPagamento(IanaLinkRelations.SELF.value());
