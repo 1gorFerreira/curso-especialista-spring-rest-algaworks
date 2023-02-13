@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Links;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +25,7 @@ import com.algaworks.algafood.api.exceptionhandler.Problem;
 import com.algaworks.algafood.api.model.CozinhaModel;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.openapi.model.CozinhasModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.LinksModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PageableModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PedidosResumoModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
@@ -76,6 +78,7 @@ public class SpringFoxConfig {
 	                    URL.class, URI.class, URLStreamHandler.class, Resource.class,
 	                    File.class, InputStream.class)
 	            .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+	            .directModelSubstitute(Links.class, LinksModelOpenApi.class)
 	            .alternateTypeRules(AlternateTypeRules.newRule(
 	                    typeResolver.resolve(Page.class, CozinhaModel.class),
 	                    CozinhasModelOpenApi.class))
