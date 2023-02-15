@@ -11,12 +11,12 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.api.assembler.PedidoInputDisassembler;
-import com.algaworks.algafood.api.assembler.PedidoModelAssembler;
-import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
-import com.algaworks.algafood.api.model.PedidoModel;
-import com.algaworks.algafood.api.model.PedidoResumoModel;
-import com.algaworks.algafood.api.model.input.PedidoInput;
+import com.algaworks.algafood.api.v1.assembler.PedidoInputDisassembler;
+import com.algaworks.algafood.api.v1.assembler.PedidoModelAssembler;
+import com.algaworks.algafood.api.v1.assembler.PedidoResumoModelAssembler;
+import com.algaworks.algafood.api.v1.model.PedidoModel;
+import com.algaworks.algafood.api.v1.model.PedidoResumoModel;
+import com.algaworks.algafood.api.v1.model.input.PedidoInput;
 import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;

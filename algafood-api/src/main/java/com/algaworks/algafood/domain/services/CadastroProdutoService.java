@@ -7,10 +7,10 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.api.assembler.ProdutoInputDisassembler;
-import com.algaworks.algafood.api.assembler.ProdutoModelAssembler;
-import com.algaworks.algafood.api.model.ProdutoModel;
-import com.algaworks.algafood.api.model.input.ProdutoInput;
+import com.algaworks.algafood.api.v1.assembler.ProdutoInputDisassembler;
+import com.algaworks.algafood.api.v1.assembler.ProdutoModelAssembler;
+import com.algaworks.algafood.api.v1.model.ProdutoModel;
+import com.algaworks.algafood.api.v1.model.input.ProdutoInput;
 import com.algaworks.algafood.domain.exception.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Produto;

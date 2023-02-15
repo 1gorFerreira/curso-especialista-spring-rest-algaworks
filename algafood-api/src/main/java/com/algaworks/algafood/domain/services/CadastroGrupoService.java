@@ -9,12 +9,12 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.api.assembler.GrupoInputDisassembler;
-import com.algaworks.algafood.api.assembler.GrupoModelAssembler;
-import com.algaworks.algafood.api.assembler.PermissaoModelAssembler;
-import com.algaworks.algafood.api.model.GrupoModel;
-import com.algaworks.algafood.api.model.PermissaoModel;
-import com.algaworks.algafood.api.model.input.GrupoInput;
+import com.algaworks.algafood.api.v1.assembler.GrupoInputDisassembler;
+import com.algaworks.algafood.api.v1.assembler.GrupoModelAssembler;
+import com.algaworks.algafood.api.v1.assembler.PermissaoModelAssembler;
+import com.algaworks.algafood.api.v1.model.GrupoModel;
+import com.algaworks.algafood.api.v1.model.PermissaoModel;
+import com.algaworks.algafood.api.v1.model.input.GrupoInput;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Grupo;

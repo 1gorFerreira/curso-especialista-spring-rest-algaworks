@@ -7,8 +7,8 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.api.assembler.UsuarioModelAssembler;
-import com.algaworks.algafood.api.model.UsuarioModel;
+import com.algaworks.algafood.api.v1.assembler.UsuarioModelAssembler;
+import com.algaworks.algafood.api.v1.model.UsuarioModel;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Cidade;
