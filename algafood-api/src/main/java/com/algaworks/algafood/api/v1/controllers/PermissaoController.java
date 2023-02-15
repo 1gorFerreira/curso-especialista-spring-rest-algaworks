@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.v1.openapi.controller;
+package com.algaworks.algafood.api.v1.controllers;
 
 import java.util.List;
 
@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.v1.assembler.PermissaoModelAssembler;
 import com.algaworks.algafood.api.v1.model.PermissaoModel;
+import com.algaworks.algafood.api.v1.openapi.controller.PermissaoControllerOpenApi;
 import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repositories.PermissaoRepository;
 
 @RestController
-@RequestMapping(path = "/permissoes", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/permissoes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PermissaoController implements PermissaoControllerOpenApi{
 
 	@Autowired

@@ -18,6 +18,7 @@ import com.algaworks.algafood.api.v1.controllers.FormaPagamentoController;
 import com.algaworks.algafood.api.v1.controllers.GrupoController;
 import com.algaworks.algafood.api.v1.controllers.GrupoPermissaoController;
 import com.algaworks.algafood.api.v1.controllers.PedidoController;
+import com.algaworks.algafood.api.v1.controllers.PermissaoController;
 import com.algaworks.algafood.api.v1.controllers.RestauranteController;
 import com.algaworks.algafood.api.v1.controllers.RestauranteFormaPagamentoController;
 import com.algaworks.algafood.api.v1.controllers.RestauranteProdutoController;
@@ -25,7 +26,6 @@ import com.algaworks.algafood.api.v1.controllers.RestauranteProdutoFotoControlle
 import com.algaworks.algafood.api.v1.controllers.RestauranteUsuarioResponsavelController;
 import com.algaworks.algafood.api.v1.controllers.UsuarioController;
 import com.algaworks.algafood.api.v1.controllers.UsuarioGrupoController;
-import com.algaworks.algafood.api.v1.openapi.controller.PermissaoController;
 
 @Component
 public class AlgaLinks {
