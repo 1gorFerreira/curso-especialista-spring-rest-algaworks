@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,6 @@ import com.algaworks.algafood.api.v1.assembler.CidadeModelAssembler;
 import com.algaworks.algafood.api.v1.model.CidadeModel;
 import com.algaworks.algafood.api.v1.model.input.CidadeInput;
 import com.algaworks.algafood.api.v1.openapi.controller.CidadeControllerOpenApi;
-import com.algaworks.algafood.core.web.AlgaMediaTypes;
 import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cidade;
@@ -31,7 +31,7 @@ import com.algaworks.algafood.domain.repositories.CidadeRepository;
 import com.algaworks.algafood.domain.services.CadastroCidadeService;
 
 @RestController
-@RequestMapping(path = "/cidades", produces = AlgaMediaTypes.V1_APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CidadeController implements CidadeControllerOpenApi{
 
 	@Autowired
@@ -46,14 +46,14 @@ public class CidadeController implements CidadeControllerOpenApi{
 	@Autowired
 	private CidadeInputDisassembler cidadeInputDisassembler;
 	
-	@GetMapping(produces = AlgaMediaTypes.V1_APPLICATION_JSON_VALUE)
+	@GetMapping
 	public CollectionModel<CidadeModel> listar() {
 		List<Cidade> todasCidades = cidadeRepository.findAll();
 		
 		return cidadeModelAssembler.toCollectionModel(todasCidades);
 	}
 
-	@GetMapping(path = "/{cidadeId}", produces = AlgaMediaTypes.V1_APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/{cidadeId}")
 	public ResponseEntity<CidadeModel> buscar(@PathVariable Long cidadeId) {
 		Cidade cidade = cadastroCidadeService.buscarOuFalhar(cidadeId);
 		
@@ -62,7 +62,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 		return ResponseEntity.ok(cidadeModel);
 	}
 
-	@PostMapping(produces = AlgaMediaTypes.V1_APPLICATION_JSON_VALUE)
+	@PostMapping
 	public ResponseEntity<CidadeModel> adicionar(@Valid @RequestBody CidadeInput cidadeInput) {
 		try {
 			Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
@@ -77,7 +77,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 		}
 	}
 
-	@PutMapping(path = "/{id}", produces = AlgaMediaTypes.V1_APPLICATION_JSON_VALUE)
+	@PutMapping(path = "/{id}")
 	public ResponseEntity<CidadeModel> atualizar(@PathVariable Long id, @Valid @RequestBody CidadeInput cidadeInput) {
 		
 		Cidade cidadeAtual = cadastroCidadeService.buscarOuFalhar(id);
