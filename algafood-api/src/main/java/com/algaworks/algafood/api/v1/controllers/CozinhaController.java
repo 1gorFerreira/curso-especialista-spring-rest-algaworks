@@ -25,7 +25,7 @@ import com.algaworks.algafood.api.v1.openapi.controller.CozinhaControllerOpenApi
 import com.algaworks.algafood.domain.services.CadastroCozinhaService;
 
 @RestController
-@RequestMapping(path = "/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CozinhaController implements CozinhaControllerOpenApi {
 	
 	@Autowired

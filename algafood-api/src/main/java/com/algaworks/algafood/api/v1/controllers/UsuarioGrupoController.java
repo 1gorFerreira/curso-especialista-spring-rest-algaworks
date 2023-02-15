@@ -17,7 +17,7 @@ import com.algaworks.algafood.api.v1.openapi.controller.UsuarioGrupoControllerOp
 import com.algaworks.algafood.domain.services.CadastroUsuarioService;
 
 @RestController
-@RequestMapping(path = "/usuarios/{usuarioId}/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/usuarios/{usuarioId}/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 
 	@Autowired

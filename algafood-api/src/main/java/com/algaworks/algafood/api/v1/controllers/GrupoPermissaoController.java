@@ -17,7 +17,7 @@ import com.algaworks.algafood.api.v1.openapi.controller.GrupoPermissaoController
 import com.algaworks.algafood.domain.services.CadastroGrupoService;
 
 @RestController
-@RequestMapping(path = "/grupos/{grupoId}/permissoes", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/grupos/{grupoId}/permissoes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi{
 
 	@Autowired
