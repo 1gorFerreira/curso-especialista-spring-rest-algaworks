@@ -23,7 +23,7 @@ import com.algaworks.algafood.api.v1.model.input.SenhaInput;
 import com.algaworks.algafood.api.v1.model.input.UsuarioComSenhaInput;
 import com.algaworks.algafood.api.v1.model.input.UsuarioInput;
 import com.algaworks.algafood.api.v1.openapi.controller.UsuarioControllerOpenApi;
-import com.algaworks.algafood.domain.v1.services.CadastroUsuarioService;
+import com.algaworks.algafood.domain.services.CadastroUsuarioService;
 
 @RestController
 @RequestMapping(path = "/v1/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.algaworks.algafood.core.email.EmailProperties;
-import com.algaworks.algafood.domain.v1.services.EnvioEmailService;
+import com.algaworks.algafood.domain.services.EnvioEmailService;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

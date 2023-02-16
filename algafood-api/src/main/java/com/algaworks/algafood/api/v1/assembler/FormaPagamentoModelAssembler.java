@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.FormaPagamentoController;
 import com.algaworks.algafood.api.v1.model.FormaPagamentoModel;
-import com.algaworks.algafood.domain.v1.model.FormaPagamento;
+import com.algaworks.algafood.domain.model.FormaPagamento;
 
 @Component
 public class FormaPagamentoModelAssembler extends RepresentationModelAssemblerSupport<FormaPagamento, FormaPagamentoModel>{

@@ -6,9 +6,9 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.algaworks.algafood.domain.v1.model.filter.VendaDiariaFilter;
-import com.algaworks.algafood.domain.v1.services.VendaQueryService;
-import com.algaworks.algafood.domain.v1.services.VendaReportService;
+import com.algaworks.algafood.domain.model.filter.VendaDiariaFilter;
+import com.algaworks.algafood.domain.services.VendaQueryService;
+import com.algaworks.algafood.domain.services.VendaReportService;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;

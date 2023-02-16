@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.RestauranteController;
 import com.algaworks.algafood.api.v1.model.RestauranteModel;
-import com.algaworks.algafood.domain.v1.model.Restaurante;
+import com.algaworks.algafood.domain.model.Restaurante;
 
 @Component
 public class RestauranteModelAssembler extends RepresentationModelAssemblerSupport<Restaurante, RestauranteModel>{

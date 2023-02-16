@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.v1.openapi.controller.FluxoPedidoControllerOpenApi;
-import com.algaworks.algafood.domain.v1.services.FluxoPedidoService;
+import com.algaworks.algafood.domain.services.FluxoPedidoService;
 
 @RestController
 @RequestMapping(path = "/v1/pedidos/{codigoPedido}", produces = MediaType.APPLICATION_JSON_VALUE)

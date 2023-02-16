@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.api.v1.model.FotoProdutoModel;
 import com.algaworks.algafood.api.v1.model.input.FotoProdutoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteProdutoFotoControllerOpenApi;
-import com.algaworks.algafood.domain.v1.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.v1.services.CatalogoFotoProdutoService;
-import com.algaworks.algafood.domain.v1.services.FotoStorageService.FotoRecuperada;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.services.CatalogoFotoProdutoService;
+import com.algaworks.algafood.domain.services.FotoStorageService.FotoRecuperada;
 
 @RestController
 @RequestMapping(path = "/v1/restaurantes/{restauranteId}/produtos/{produtoId}/foto", produces = MediaType.APPLICATION_JSON_VALUE)

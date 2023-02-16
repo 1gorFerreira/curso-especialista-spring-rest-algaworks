@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.CozinhaController;
 import com.algaworks.algafood.api.v1.model.CozinhaModel;
-import com.algaworks.algafood.domain.v1.model.Cozinha;
+import com.algaworks.algafood.domain.model.Cozinha;
 
 @Component
 public class CozinhaModelAssembler extends RepresentationModelAssemblerSupport<Cozinha, CozinhaModel>{

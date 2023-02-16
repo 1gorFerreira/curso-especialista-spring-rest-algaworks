@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.algaworks.algafood.domain.v1.model.Restaurante;
+import com.algaworks.algafood.domain.model.Restaurante;
 
 public class RestauranteSpecs {
 

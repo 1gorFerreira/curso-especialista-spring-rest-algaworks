@@ -22,9 +22,9 @@ import com.algaworks.algafood.api.v1.assembler.EstadoModelAssembler;
 import com.algaworks.algafood.api.v1.model.EstadoModel;
 import com.algaworks.algafood.api.v1.model.input.EstadoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.EstadoControllerOpenApi;
-import com.algaworks.algafood.domain.v1.model.Estado;
-import com.algaworks.algafood.domain.v1.repositories.EstadoRepository;
-import com.algaworks.algafood.domain.v1.services.CadastroEstadoService;
+import com.algaworks.algafood.domain.model.Estado;
+import com.algaworks.algafood.domain.repositories.EstadoRepository;
+import com.algaworks.algafood.domain.services.CadastroEstadoService;
 
 @RestController
 @RequestMapping(path = "/v1/estados", produces = MediaType.APPLICATION_JSON_VALUE)

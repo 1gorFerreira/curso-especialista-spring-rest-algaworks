@@ -5,7 +5,7 @@ import java.net.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.algaworks.algafood.core.storage.StorageProperties;
-import com.algaworks.algafood.domain.v1.services.FotoStorageService;
+import com.algaworks.algafood.domain.services.FotoStorageService;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;

@@ -6,8 +6,8 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.domain.v1.model.FotoProduto;
-import com.algaworks.algafood.domain.v1.repositories.ProdutoRepositoryQueries;
+import com.algaworks.algafood.domain.model.FotoProduto;
+import com.algaworks.algafood.domain.repositories.ProdutoRepositoryQueries;
 
 @Repository
 public class ProdutoRepositoryImpl implements ProdutoRepositoryQueries{

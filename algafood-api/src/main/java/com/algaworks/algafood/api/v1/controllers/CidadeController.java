@@ -24,11 +24,11 @@ import com.algaworks.algafood.api.v1.assembler.CidadeModelAssembler;
 import com.algaworks.algafood.api.v1.model.CidadeModel;
 import com.algaworks.algafood.api.v1.model.input.CidadeInput;
 import com.algaworks.algafood.api.v1.openapi.controller.CidadeControllerOpenApi;
-import com.algaworks.algafood.domain.v1.exception.EstadoNaoEncontradoException;
-import com.algaworks.algafood.domain.v1.exception.NegocioException;
-import com.algaworks.algafood.domain.v1.model.Cidade;
-import com.algaworks.algafood.domain.v1.repositories.CidadeRepository;
-import com.algaworks.algafood.domain.v1.services.CadastroCidadeService;
+import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
+import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.repositories.CidadeRepository;
+import com.algaworks.algafood.domain.services.CadastroCidadeService;
 
 @RestController
 @RequestMapping(path = "/v1/cidades", produces = MediaType.APPLICATION_JSON_VALUE)

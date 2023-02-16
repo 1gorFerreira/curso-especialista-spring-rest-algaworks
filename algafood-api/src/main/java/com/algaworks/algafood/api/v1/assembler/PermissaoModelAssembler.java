@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.PermissaoModel;
-import com.algaworks.algafood.domain.v1.model.Permissao;
+import com.algaworks.algafood.domain.model.Permissao;
 
 @Component
 public class PermissaoModelAssembler implements RepresentationModelAssembler<Permissao, PermissaoModel>{

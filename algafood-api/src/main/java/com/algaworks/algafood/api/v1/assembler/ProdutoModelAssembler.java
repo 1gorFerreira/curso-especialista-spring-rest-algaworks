@@ -10,7 +10,7 @@ import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.RestauranteProdutoController;
 import com.algaworks.algafood.api.v1.controllers.RestauranteProdutoFotoController;
 import com.algaworks.algafood.api.v1.model.ProdutoModel;
-import com.algaworks.algafood.domain.v1.model.Produto;
+import com.algaworks.algafood.domain.model.Produto;
 
 @Component
 public class ProdutoModelAssembler extends RepresentationModelAssemblerSupport<Produto, ProdutoModel>{

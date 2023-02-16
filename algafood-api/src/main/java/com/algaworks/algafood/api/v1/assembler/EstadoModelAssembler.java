@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.EstadoController;
 import com.algaworks.algafood.api.v1.model.EstadoModel;
-import com.algaworks.algafood.domain.v1.model.Estado;
+import com.algaworks.algafood.domain.model.Estado;
 
 @Component
 public class EstadoModelAssembler extends RepresentationModelAssemblerSupport<Estado, EstadoModel>{
