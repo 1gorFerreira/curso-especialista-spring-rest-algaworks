@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.CozinhaController;
 import com.algaworks.algafood.api.v1.model.CozinhaModel;
-import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.v1.model.Cozinha;
 
 @Component
 public class CozinhaModelAssembler extends RepresentationModelAssemblerSupport<Cozinha, CozinhaModel>{
@@ -26,7 +26,7 @@ public class CozinhaModelAssembler extends RepresentationModelAssemblerSupport<C
 	@Override
 	public CozinhaModel toModel(Cozinha cozinha) {
 		CozinhaModel cozinhaModel = createModelWithId(cozinha.getId(), cozinha);
-		modelMapper.map(cozinha, CozinhaModel.class);
+		modelMapper.map(cozinha, cozinhaModel);
 		
 		cozinhaModel.add(algaLinks.linkToCozinhas("cozinhas"));
 		

@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.openapi.controller.EstatisticasControllerOpenApi;
-import com.algaworks.algafood.domain.model.dto.VendaDiaria;
-import com.algaworks.algafood.domain.model.filter.VendaDiariaFilter;
-import com.algaworks.algafood.domain.services.VendaQueryService;
-import com.algaworks.algafood.domain.services.VendaReportService;
+import com.algaworks.algafood.domain.v1.model.dto.VendaDiaria;
+import com.algaworks.algafood.domain.v1.model.filter.VendaDiariaFilter;
+import com.algaworks.algafood.domain.v1.services.VendaQueryService;
+import com.algaworks.algafood.domain.v1.services.VendaReportService;
 
 @RestController
 @RequestMapping(path = "/v1/estatisticas")

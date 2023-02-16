@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.PedidoController;
 import com.algaworks.algafood.api.v1.model.PedidoModel;
-import com.algaworks.algafood.domain.model.Pedido;
+import com.algaworks.algafood.domain.v1.model.Pedido;
 
 @Component
 public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pedido, PedidoModel>{

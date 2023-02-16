@@ -20,9 +20,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repositories.RestauranteRepository;
-import com.algaworks.algafood.domain.repositories.RestauranteRepositoryQueries;
+import com.algaworks.algafood.domain.v1.model.Restaurante;
+import com.algaworks.algafood.domain.v1.repositories.RestauranteRepository;
+import com.algaworks.algafood.domain.v1.repositories.RestauranteRepositoryQueries;
 
 @Repository
 public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {

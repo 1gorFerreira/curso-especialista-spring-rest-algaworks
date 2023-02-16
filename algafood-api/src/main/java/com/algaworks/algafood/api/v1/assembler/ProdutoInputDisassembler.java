@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.api.v1.model.input.ProdutoInput;
-import com.algaworks.algafood.domain.model.Produto;
+import com.algaworks.algafood.domain.v1.model.Produto;
 
 @Component
 public class ProdutoInputDisassembler {

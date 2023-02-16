@@ -8,7 +8,7 @@ import org.flywaydb.core.internal.util.FileCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.algaworks.algafood.core.storage.StorageProperties;
-import com.algaworks.algafood.domain.services.FotoStorageService;
+import com.algaworks.algafood.domain.v1.services.FotoStorageService;
 
 public class LocalFotoStorageService implements FotoStorageService {
 

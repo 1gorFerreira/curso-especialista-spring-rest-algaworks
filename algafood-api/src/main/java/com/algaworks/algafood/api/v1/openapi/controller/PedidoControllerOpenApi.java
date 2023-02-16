@@ -8,7 +8,7 @@ import com.algaworks.algafood.api.exceptionhandler.Problem;
 import com.algaworks.algafood.api.v1.model.PedidoModel;
 import com.algaworks.algafood.api.v1.model.PedidoResumoModel;
 import com.algaworks.algafood.api.v1.model.input.PedidoInput;
-import com.algaworks.algafood.domain.model.filter.PedidoFilter;
+import com.algaworks.algafood.domain.v1.model.filter.PedidoFilter;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

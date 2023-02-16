@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.CidadeController;
 import com.algaworks.algafood.api.v1.model.CidadeModel;
-import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.v1.model.Cidade;
 
 @Component
 public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Cidade, CidadeModel> {

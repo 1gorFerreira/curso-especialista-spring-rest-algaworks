@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.algaworks.algafood.api.v1.controllers.EstatisticasController.EstatisticasModel;
-import com.algaworks.algafood.domain.model.dto.VendaDiaria;
-import com.algaworks.algafood.domain.model.filter.VendaDiariaFilter;
+import com.algaworks.algafood.domain.v1.model.dto.VendaDiaria;
+import com.algaworks.algafood.domain.v1.model.filter.VendaDiariaFilter;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

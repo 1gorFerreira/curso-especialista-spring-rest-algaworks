@@ -11,10 +11,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repositories.CozinhaRepository;
-import com.algaworks.algafood.domain.repositories.RestauranteRepository;
+import com.algaworks.algafood.domain.v1.model.Cozinha;
+import com.algaworks.algafood.domain.v1.model.Restaurante;
+import com.algaworks.algafood.domain.v1.repositories.CozinhaRepository;
+import com.algaworks.algafood.domain.v1.repositories.RestauranteRepository;
 import com.algaworks.algafood.util.DatabaseCleaner;
 import com.algaworks.algafood.util.ResourceUtils;
 

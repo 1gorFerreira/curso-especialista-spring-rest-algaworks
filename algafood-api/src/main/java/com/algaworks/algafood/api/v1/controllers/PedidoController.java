@@ -21,8 +21,8 @@ import com.algaworks.algafood.api.v1.model.PedidoModel;
 import com.algaworks.algafood.api.v1.model.PedidoResumoModel;
 import com.algaworks.algafood.api.v1.model.input.PedidoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
-import com.algaworks.algafood.domain.model.filter.PedidoFilter;
-import com.algaworks.algafood.domain.services.EmissaoPedidoService;
+import com.algaworks.algafood.domain.v1.model.filter.PedidoFilter;
+import com.algaworks.algafood.domain.v1.services.EmissaoPedidoService;
 
 @RestController
 @RequestMapping(path = "/v1/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)

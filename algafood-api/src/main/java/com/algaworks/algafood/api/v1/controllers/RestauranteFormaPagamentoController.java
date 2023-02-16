@@ -15,8 +15,8 @@ import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.assembler.FormaPagamentoModelAssembler;
 import com.algaworks.algafood.api.v1.model.FormaPagamentoModel;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteFormaPagamentoControllerOpenApi;
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.services.CadastroRestauranteService;
+import com.algaworks.algafood.domain.v1.model.Restaurante;
+import com.algaworks.algafood.domain.v1.services.CadastroRestauranteService;
 
 @RestController
 @RequestMapping(path = "/v1/restaurantes/{restauranteId}/formas-pagamento", produces = MediaType.APPLICATION_JSON_VALUE)

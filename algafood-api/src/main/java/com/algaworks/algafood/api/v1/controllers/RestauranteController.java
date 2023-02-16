@@ -30,12 +30,12 @@ import com.algaworks.algafood.api.v1.model.RestauranteBasicoModel;
 import com.algaworks.algafood.api.v1.model.RestauranteModel;
 import com.algaworks.algafood.api.v1.model.input.RestauranteInput;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteControllerOpenApi;
-import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.NegocioException;
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repositories.RestauranteRepository;
-import com.algaworks.algafood.domain.services.CadastroRestauranteService;
+import com.algaworks.algafood.domain.v1.exception.CidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.v1.exception.CozinhaNaoEncontradaException;
+import com.algaworks.algafood.domain.v1.exception.NegocioException;
+import com.algaworks.algafood.domain.v1.model.Restaurante;
+import com.algaworks.algafood.domain.v1.repositories.RestauranteRepository;
+import com.algaworks.algafood.domain.v1.services.CadastroRestauranteService;
 
 @RestController
 @RequestMapping(path = "/v1/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)

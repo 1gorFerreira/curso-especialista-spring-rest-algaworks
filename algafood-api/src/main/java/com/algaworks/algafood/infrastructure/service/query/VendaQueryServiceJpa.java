@@ -10,11 +10,11 @@ import javax.persistence.criteria.Predicate;
 
 import org.springframework.stereotype.Repository;
 
-import com.algaworks.algafood.domain.model.Pedido;
-import com.algaworks.algafood.domain.model.StatusPedido;
-import com.algaworks.algafood.domain.model.dto.VendaDiaria;
-import com.algaworks.algafood.domain.model.filter.VendaDiariaFilter;
-import com.algaworks.algafood.domain.services.VendaQueryService;
+import com.algaworks.algafood.domain.v1.model.Pedido;
+import com.algaworks.algafood.domain.v1.model.StatusPedido;
+import com.algaworks.algafood.domain.v1.model.dto.VendaDiaria;
+import com.algaworks.algafood.domain.v1.model.filter.VendaDiariaFilter;
+import com.algaworks.algafood.domain.v1.services.VendaQueryService;
 
 @Repository
 public class VendaQueryServiceJpa implements VendaQueryService{

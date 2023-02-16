@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import com.algaworks.algafood.api.v1.model.EnderecoModel;
 import com.algaworks.algafood.api.v1.model.input.ItemPedidoInput;
 import com.algaworks.algafood.api.v2.model.input.CidadeInputV2;
-import com.algaworks.algafood.domain.model.Cidade;
-import com.algaworks.algafood.domain.model.Endereco;
-import com.algaworks.algafood.domain.model.ItemPedido;
+import com.algaworks.algafood.domain.v1.model.Cidade;
+import com.algaworks.algafood.domain.v1.model.Endereco;
+import com.algaworks.algafood.domain.v1.model.ItemPedido;
 
 @Configuration
 public class ModelMapperConfig {

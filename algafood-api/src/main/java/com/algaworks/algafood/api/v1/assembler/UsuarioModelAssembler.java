@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.UsuarioController;
 import com.algaworks.algafood.api.v1.model.UsuarioModel;
-import com.algaworks.algafood.domain.model.Usuario;
+import com.algaworks.algafood.domain.v1.model.Usuario;
 
 @Component
 public class UsuarioModelAssembler extends RepresentationModelAssemblerSupport<Usuario, UsuarioModel>{

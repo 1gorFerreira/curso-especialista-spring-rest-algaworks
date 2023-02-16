@@ -21,7 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.algaworks.algafood.api.v1.model.GrupoModel;
 import com.algaworks.algafood.api.v1.model.input.GrupoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.GrupoControllerOpenApi;
-import com.algaworks.algafood.domain.services.CadastroGrupoService;
+import com.algaworks.algafood.domain.v1.services.CadastroGrupoService;
 
 @RestController
 @RequestMapping(path = "/v1/grupos", produces = MediaType.APPLICATION_JSON_VALUE)

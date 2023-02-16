@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.GrupoModel;
 import com.algaworks.algafood.api.v1.openapi.controller.UsuarioGrupoControllerOpenApi;
-import com.algaworks.algafood.domain.services.CadastroUsuarioService;
+import com.algaworks.algafood.domain.v1.services.CadastroUsuarioService;
 
 @RestController
 @RequestMapping(path = "/v1/usuarios/{usuarioId}/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
