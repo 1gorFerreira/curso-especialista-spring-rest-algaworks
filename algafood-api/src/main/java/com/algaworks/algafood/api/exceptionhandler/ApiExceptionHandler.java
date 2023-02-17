@@ -33,6 +33,9 @@ import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ControllerAdvice
 //ResponseEntityExceptionHandler já trata algumas exceções do spring MVC;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
@@ -215,7 +218,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 	    // fazendo logging) para mostrar a stacktrace no console
 	    // Se não fizer isso, você não vai ver a stacktrace de exceptions que seriam importantes
 	    // para você durante, especialmente na fase de desenvolvimento
-	    ex.printStackTrace();
+		log.error(ex.getMessage(), ex);
 		
 		Problem problem = createProblemBuilder(status, problemType, detail)
 				.userMessage(detail)
