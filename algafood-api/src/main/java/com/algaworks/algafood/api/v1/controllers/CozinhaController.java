@@ -38,10 +38,6 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	public ResponseEntity<PagedModel<CozinhaModel>> listar(@PageableDefault(size = 10) Pageable pageable){
 		log.info("Listando cozihas com paginas de {} registros...", pageable.getPageSize());
 		
-		if(true) {
-			throw new RuntimeException("Teste Exception");
-		}
-		
 		PagedModel<CozinhaModel> cozinhas = cadastroCozinhaService.listar(pageable);
 		return ResponseEntity.ok(cozinhas);
 	}
