@@ -23,11 +23,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
-			.withClient("algafood-web")
+			.withClient("algafood-web") // Acesso do client para autenticar no AuthorizationServer
 			.secret(passwordEncoder.encode("web123"))
 			.authorizedGrantTypes("password")
 			.scopes("write", "read")
-			.accessTokenValiditySeconds(60 * 60 * 6); // 6 horas (Padrao e 12h)
+			.accessTokenValiditySeconds(60 * 60 * 6) // 6 horas (Padrao e 12h)
+		.and()
+			.withClient("checktoken") // Acesso proprio do ResourceServer para autenticar no AuthorizationServer;
+			.secret(passwordEncoder.encode("check123"));
 	}
 
 	@Override
@@ -37,7 +40,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-//		security.checkTokenAccess("isAuthenticated()");
+//		security.check TokenAccess("isAuthenticated()");
 		security.checkTokenAccess("permitAll()");
 	}
 	
