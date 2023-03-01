@@ -35,9 +35,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.refreshTokenValiditySeconds(60 * 24 * 60 * 60) // 60 dias
 			
 		.and()
+			.withClient("foodanalytics") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
+			.secret(passwordEncoder.encode("food123"))
+			.authorizedGrantTypes("authorization_code") // Aceita refresh token;
+			.scopes("write", "read")
+			.redirectUris("http://aplicacao-cliente")
+		
+		.and()
 			.withClient("faturamento") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
 			.secret(passwordEncoder.encode("faturamento123"))
-			.authorizedGrantTypes("client_credentials")
+			.authorizedGrantTypes("client_credentials") // Nao aceita REFRESH TOKEN;
 			.scopes("write", "read")
 			
 		.and()
