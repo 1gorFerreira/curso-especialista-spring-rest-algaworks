@@ -41,6 +41,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.scopes("write", "read")
 			.redirectUris("http://localhost:8082")
 		
+		.and() // Nao recomendado
+			.withClient("webadmin") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
+			.authorizedGrantTypes("implicit") // Nao aceita refresh token;
+			.scopes("write", "read")
+			.redirectUris("http://aplicacao-cliente")
+			
 		.and()
 			.withClient("faturamento") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
 			.secret(passwordEncoder.encode("faturamento123"))
