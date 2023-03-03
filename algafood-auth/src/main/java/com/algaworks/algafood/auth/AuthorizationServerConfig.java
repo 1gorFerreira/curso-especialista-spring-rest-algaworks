@@ -40,10 +40,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			
 		.and()
 			.withClient("foodanalytics") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
-			.secret(passwordEncoder.encode("food123"))
+			.secret(passwordEncoder.encode(""))
 			.authorizedGrantTypes("authorization_code") // Aceita refresh token;
 			.scopes("write", "read")
-			.redirectUris("http://localhost:8082")
+			.redirectUris("http://aplicacao-cliente")
 		
 		.and() // Nao recomendado
 			.withClient("webadmin") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
@@ -74,7 +74,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 //		security.check TokenAccess("isAuthenticated()");
-		security.checkTokenAccess("permitAll()");
+		security.checkTokenAccess("permitAll()")
+		
+// Ao inves de passar as credenciais do cliente apenas como HTTPBasic no Authorization, passaremos uma chave no corpo da req (x-www-form/form-data);
+			.allowFormAuthenticationForClients();
 	}
 	
 	
