@@ -73,6 +73,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 //		security.check TokenAccess("isAuthenticated()");
 		security.checkTokenAccess("permitAll()")
+			.tokenKeyAccess("permitAll()") // Liberando acesso para o endpoint de oauth/token_key para resgate da chave publica;
 		
 // Ao inves de passar as credenciais do cliente apenas como HTTPBasic no Authorization, passaremos uma chave no corpo da req (x-www-form/form-data);
 			.allowFormAuthenticationForClients();
