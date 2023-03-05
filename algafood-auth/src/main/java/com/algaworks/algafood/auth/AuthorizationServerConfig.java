@@ -32,6 +32,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	@Autowired
+	private JwtKeyStoreProperties jwtKeyStoreProperties;
+	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
@@ -90,9 +93,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
 //		jwtAccessTokenConverter.setSigningKey("89asjkdhiuhep121289u3hdpasuighd1he9"); Chave simetrica
 
-		var jksResource = new ClassPathResource("keystores/algafood.jks");
-		var keyStorePass = "123456";
-		var keyPairAlias = "algafood";
+		var jksResource = new ClassPathResource(jwtKeyStoreProperties.getPath());
+		var keyStorePass = jwtKeyStoreProperties.getKeyStorePass();
+		var keyPairAlias = jwtKeyStoreProperties.getKeyPairAlias();
 		
 		var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, keyStorePass.toCharArray());
 		var keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias);
