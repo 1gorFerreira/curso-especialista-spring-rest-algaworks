@@ -16,6 +16,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
@@ -50,13 +53,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.secret(passwordEncoder.encode(""))
 			.authorizedGrantTypes("authorization_code") // Aceita refresh token;
 			.scopes("write", "read")
-			.redirectUris("http://aplicacao-cliente")
+			.redirectUris("http://localhost:8082")
 		
 		.and() // Nao recomendado
 			.withClient("webadmin") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
 			.authorizedGrantTypes("implicit") // Nao aceita refresh token;
 			.scopes("write", "read")
-			.redirectUris("http://aplicacao-cliente")
+			.redirectUris("http://localhost:8082")
 			
 		.and()
 			.withClient("faturamento") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
@@ -86,7 +89,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.userDetailsService(userDetailsService)
 			.reuseRefreshTokens(false)
 			.accessTokenConverter(jwtAccessTokenConverter())
+			.approvalStore(approvalStore(endpoints.getTokenStore()))
 			.tokenGranter(tokenGranter(endpoints));
+	}
+	
+//  Atribuindo ao approvalStore um tokenApprovalStore que vai permitir que o AuthorizationServer permita aprovacao granular dos escopos (write, read, etc)
+	private ApprovalStore approvalStore(TokenStore tokenStore) {
+		var approvalStore = new TokenApprovalStore();
+		approvalStore.setTokenStore(tokenStore);
+		
+		return approvalStore;
 	}
 	
 	@Bean
