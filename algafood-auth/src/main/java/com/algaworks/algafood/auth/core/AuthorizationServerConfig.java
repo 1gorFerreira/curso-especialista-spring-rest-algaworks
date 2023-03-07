@@ -1,4 +1,4 @@
-package com.algaworks.algafood.auth;
+package com.algaworks.algafood.auth.core;
 
 import java.util.Arrays;
 
@@ -56,7 +56,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.redirectUris("http://localhost:8082")
 		
 		.and() // Nao recomendado
-			.withClient("webadmin") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
+			.withClient("webad min") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
 			.authorizedGrantTypes("implicit") // Nao aceita refresh token;
 			.scopes("write", "read")
 			.redirectUris("http://localhost:8082")
