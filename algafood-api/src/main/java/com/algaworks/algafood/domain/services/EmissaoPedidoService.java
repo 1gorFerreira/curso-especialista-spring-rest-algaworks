@@ -19,6 +19,7 @@ import com.algaworks.algafood.api.v1.model.PedidoResumoModel;
 import com.algaworks.algafood.api.v1.model.input.PedidoInput;
 import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.PedidoNaoEncontradoException;
@@ -66,6 +67,9 @@ public class EmissaoPedidoService {
 	@Autowired
 	private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;	
 	
+	@Autowired
+	private AlgaSecurity algaSecurity;
+	
 //	IMPLEMENTACAO SEM HATEOAS
 //	@Transactional(readOnly = true)
 //	public Page<PedidoResumoModel> buscarTodos(PedidoFilter filtro, Pageable pageable){
@@ -104,7 +108,7 @@ public class EmissaoPedidoService {
 		Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(pedido.getRestaurante().getId());
 		FormaPagamento formaPagamento = cadastroFormaPagamentoService.buscarOuFalhar(pedido.getFormaPagamento().getId());
 		Cidade cidade = cadastroCidadeService.buscarOuFalhar(pedido.getEnderecoEntrega().getCidade().getId());
-		Usuario usuario = cadastroUsuarioService.buscarOuFalhar(1L);
+		Usuario usuario = cadastroUsuarioService.buscarOuFalhar(algaSecurity.getUsuarioId());
 		
 		pedido.getEnderecoEntrega().setCidade(cidade);
 		pedido.setRestaurante(restaurante);
