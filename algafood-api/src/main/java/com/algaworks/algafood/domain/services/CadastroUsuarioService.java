@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +48,9 @@ public class CadastroUsuarioService {
 	@Autowired
 	private CadastroGrupoService cadastroGrupoService;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Transactional(readOnly = true)
 	public CollectionModel<UsuarioModel> buscarTodos() {
 		List<Usuario> todosUsuarios = usuarioRepository.findAll();
@@ -65,6 +69,10 @@ public class CadastroUsuarioService {
 		Usuario usuario = usuarioInputDisassembler.toDomainObject(usuarioComSenhaInput);
 		
 		regraEmail(usuario);
+		
+		if(usuario.isNovo()) {
+			usuario.setSenha(passwordEncoder.encode(usuarioComSenhaInput.getSenha()));
+		}
 		
 		usuario = usuarioRepository.save(usuario);
 		return usuarioModelAssembler.toModel(usuario);
@@ -99,11 +107,11 @@ public class CadastroUsuarioService {
 	public void atualizarSenha(Long usuarioId, SenhaInput senhaInput) {
 		Usuario usuario = buscarOuFalhar(usuarioId);
 		
-		if(usuario.senhaNaoCoincideCom(senhaInput.getSenhaAtual())) {
+		if(!passwordEncoder.matches(senhaInput.getSenhaAtual(), usuario.getSenha())) {
 			throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
 		}
 		
-		usuario.setSenha(senhaInput.getNovaSenha());
+		usuario.setSenha(passwordEncoder.encode(senhaInput.getNovaSenha()));
 	}
 	
 	@Transactional
@@ -144,4 +152,5 @@ public class CadastroUsuarioService {
 					String.format("Já existe um usuário cadastrado com e-mail %s", usuario.getEmail()));
 		}
 	}
+	
 }
