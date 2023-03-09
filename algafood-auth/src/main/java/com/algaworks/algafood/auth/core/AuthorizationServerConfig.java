@@ -45,7 +45,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.withClient("algafood-web") // Acesso do client (Resource Owner) para autenticar no AuthorizationServer
 			.secret(passwordEncoder.encode("web123"))
 			.authorizedGrantTypes("password", "refresh_token")
-			.scopes("write", "read")
+			.scopes("WRITE", "READ")
 			.accessTokenValiditySeconds(6 * 60 * 60) // 6 horas (Padrao e 12h)
 			.refreshTokenValiditySeconds(60 * 24 * 60 * 60) // 60 dias
 			
@@ -53,20 +53,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.withClient("foodanalytics") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
 			.secret(passwordEncoder.encode(""))
 			.authorizedGrantTypes("authorization_code") // Aceita refresh token;
-			.scopes("write", "read")
+			.scopes("WRITE", "READ")
 			.redirectUris("http://localhost:8082")
 		
 		.and() // Nao recomendado
 			.withClient("webad min") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
 			.authorizedGrantTypes("implicit") // Nao aceita refresh token;
-			.scopes("write", "read")
+			.scopes("WRITE", "READ")
 			.redirectUris("http://localhost:8082")
 			
 		.and()
 			.withClient("faturamento") // Acesso do client (Alguma API) para autenticar no AuthorizationServer
 			.secret(passwordEncoder.encode("faturamento123"))
 			.authorizedGrantTypes("client_credentials") // Nao aceita REFRESH TOKEN;
-			.scopes("write", "read")
+			.scopes("WRITE", "READ")
 			
 		.and()
 			.withClient("checktoken") // Acesso proprio do ResourceServer para autenticar no AuthorizationServer;

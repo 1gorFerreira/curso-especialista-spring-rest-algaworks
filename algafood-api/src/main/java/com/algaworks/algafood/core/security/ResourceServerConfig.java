@@ -1,5 +1,6 @@
 package com.algaworks.algafood.core.security;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -8,8 +9,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,9 +39,19 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter{
 				authorities = Collections.emptyList();
 			}
 			
-			return authorities.stream()
+//			Chamamos o conversor instanciado na variavel scopesAuthoritiesConverter e carregamos 
+//			a variavel grantedAuthorities apenas com a colecao dos escopos, fazemos isso pelo fato
+//			de que ao usar o setJwtGrantedAuthoritiesConverter, estamos substituindo a forma de 
+//			converter do spring pela nossa, que nao possui os escopos convertidos;
+			var scopesAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+			Collection<GrantedAuthority> grantedAuthorities = scopesAuthoritiesConverter.convert(jwt);
+			
+//			Adicionando as authorities do usuario com as authorities do escopo dentro da variavel grantedAuthorities; 
+			grantedAuthorities.addAll(authorities.stream()
 					.map(SimpleGrantedAuthority::new)
-					.collect(Collectors.toList());
+					.collect(Collectors.toList()));
+			
+			return grantedAuthorities;
 		});
 		
 		return jwtAuthenticationConverter;

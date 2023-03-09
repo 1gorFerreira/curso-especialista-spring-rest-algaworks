@@ -9,6 +9,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,8 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	@CheckSecurity.Cozinhas.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagedModel<CozinhaModel>> listar(@PageableDefault(size = 10) Pageable pageable){
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities()); // Debugando as authorities do token informado;
+		
 		log.info("Listando cozihas com paginas de {} registros...", pageable.getPageSize());
 		
 		PagedModel<CozinhaModel> cozinhas = cadastroCozinhaService.listar(pageable);
