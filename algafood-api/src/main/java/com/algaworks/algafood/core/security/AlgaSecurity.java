@@ -17,4 +17,10 @@ public class AlgaSecurity {
 		
 		return jwt.getClaim("usuario_id");
 	}
+	
+	public String getUsuarioToken() {
+		Jwt jwt = (Jwt) getAuthentication().getPrincipal();
+		
+		return jwt.getTokenValue();
+	}
 }

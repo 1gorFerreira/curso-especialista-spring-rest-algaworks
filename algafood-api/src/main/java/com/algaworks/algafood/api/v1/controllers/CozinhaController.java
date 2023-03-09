@@ -40,7 +40,6 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagedModel<CozinhaModel>> listar(@PageableDefault(size = 10) Pageable pageable){
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities()); // Debugando as authorities do token informado;
-		
 		log.info("Listando cozihas com paginas de {} registros...", pageable.getPageSize());
 		
 		PagedModel<CozinhaModel> cozinhas = cadastroCozinhaService.listar(pageable);
