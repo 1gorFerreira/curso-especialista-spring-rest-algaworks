@@ -22,6 +22,7 @@ import com.algaworks.algafood.api.v1.assembler.EstadoModelAssembler;
 import com.algaworks.algafood.api.v1.model.EstadoModel;
 import com.algaworks.algafood.api.v1.model.input.EstadoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.EstadoControllerOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repositories.EstadoRepository;
 import com.algaworks.algafood.domain.services.CadastroEstadoService;
@@ -42,17 +43,20 @@ public class EstadoController implements EstadoControllerOpenApi {
 	@Autowired
 	private EstadoInputDisassembler estadoInputDisassembler;
 
+	@CheckSecurity.Estados.PodeConsultar
 	@GetMapping
 	public CollectionModel<EstadoModel> listar() {
 		return estadoModelAssembler.toCollectionModel(estadoRepository.findAll());
 	}
 
+	@CheckSecurity.Estados.PodeConsultar
 	@GetMapping("/{estadoId}")
 	public ResponseEntity<EstadoModel> buscar(@PathVariable Long estadoId) {
 		Estado estado = cadastroEstadoService.buscarOuFalhar(estadoId);
 		return ResponseEntity.ok(estadoModelAssembler.toModel(estado));
 	}
 
+	@CheckSecurity.Estados.PodeEditar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EstadoModel adicionar(@Valid @RequestBody EstadoInput estadoInput) {
@@ -60,6 +64,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		return estadoModelAssembler.toModel(cadastroEstadoService.salvar(estado));
 	}
 
+	@CheckSecurity.Estados.PodeEditar
 	@PutMapping("/{estadoId}")
 	public ResponseEntity<EstadoModel> atualizar(@PathVariable Long estadoId, @Valid @RequestBody EstadoInput estadoInput) {
 		Estado estadoAtual = cadastroEstadoService.buscarOuFalhar(estadoId);
@@ -71,6 +76,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Estados.PodeEditar
 	@DeleteMapping("/{estadoId}")
 	public ResponseEntity<?> remover(@PathVariable Long estadoId) {
 		cadastroEstadoService.excluir(estadoId);
