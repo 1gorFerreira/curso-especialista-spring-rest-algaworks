@@ -64,6 +64,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 		return ResponseEntity.ok(pedido);
 	}
 	
+	@CheckSecurity.Pedidos.PodeCriar
 	@PostMapping
 	public ResponseEntity<PedidoModel> emitir(@Valid @RequestBody PedidoInput pedidoInput){
 		PedidoModel pedido = emissaoPedidoService.emitir(pedidoInput);

@@ -33,6 +33,7 @@ public interface RestauranteRepository
 
 	int countByCozinhaId(Long cozinha);
 	
+	//Query no orm.xml
 	boolean existsResponsavel(Long restauranteId, Long usuarioId);
 
 //	Mesmo sem ter uma ligação explicita de RestauranteRepository com RestauranteRepositoryImpl,
