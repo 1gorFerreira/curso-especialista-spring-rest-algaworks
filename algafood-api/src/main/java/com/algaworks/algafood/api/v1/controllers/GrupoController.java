@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.algaworks.algafood.api.v1.model.GrupoModel;
 import com.algaworks.algafood.api.v1.model.input.GrupoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.GrupoControllerOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.services.CadastroGrupoService;
 
 @RestController
@@ -30,18 +31,21 @@ public class GrupoController implements GrupoControllerOpenApi {
 	@Autowired
 	private CadastroGrupoService cadastroGrupoService;
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CollectionModel<GrupoModel>> buscarTodos(){
 		CollectionModel<GrupoModel> grupos = cadastroGrupoService.listarGrupos();
 		return ResponseEntity.ok(grupos);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping(path = "/{grupoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> buscar(@PathVariable Long grupoId){
 		GrupoModel grupo = cadastroGrupoService.buscar(grupoId);
 		return ResponseEntity.ok(grupo);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> adicionar(@Valid @RequestBody GrupoInput grupoInput){
 		GrupoModel grupo = cadastroGrupoService.adicionar(grupoInput);
@@ -50,12 +54,14 @@ public class GrupoController implements GrupoControllerOpenApi {
 		return ResponseEntity.created(uri).body(grupo);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PutMapping(path = "/{grupoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> atualizar(@PathVariable Long grupoId, @Valid @RequestBody GrupoInput grupoInput){
 		GrupoModel grupo = cadastroGrupoService.atualizar(grupoId, grupoInput);
 		return ResponseEntity.ok(grupo);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@DeleteMapping("/{grupoId}")
 	public ResponseEntity<Void> deletar(@PathVariable Long grupoId){
 		cadastroGrupoService.deletar(grupoId);

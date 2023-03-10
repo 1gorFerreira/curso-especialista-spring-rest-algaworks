@@ -23,6 +23,7 @@ import com.algaworks.algafood.api.v1.model.input.SenhaInput;
 import com.algaworks.algafood.api.v1.model.input.UsuarioComSenhaInput;
 import com.algaworks.algafood.api.v1.model.input.UsuarioInput;
 import com.algaworks.algafood.api.v1.openapi.controller.UsuarioControllerOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.services.CadastroUsuarioService;
 
 @RestController
@@ -32,18 +33,21 @@ public class UsuarioController implements UsuarioControllerOpenApi{
 	@Autowired
 	private CadastroUsuarioService cadastroUsuarioService;
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping
 	public ResponseEntity<CollectionModel<UsuarioModel>> buscarTodos(){
 		CollectionModel<UsuarioModel> usuarios = cadastroUsuarioService.buscarTodos();
 		return ResponseEntity.ok(usuarios);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping("/{usuarioId}")
 	public ResponseEntity<UsuarioModel> buscar(@PathVariable Long usuarioId){
 		UsuarioModel usuario = cadastroUsuarioService.buscar(usuarioId);
 		return ResponseEntity.ok(usuario);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PostMapping
 	public ResponseEntity<UsuarioModel> adicionar(@Valid @RequestBody UsuarioComSenhaInput usuarioComSenhaInput){
 		UsuarioModel usuario = cadastroUsuarioService.adicionar(usuarioComSenhaInput);
@@ -54,18 +58,21 @@ public class UsuarioController implements UsuarioControllerOpenApi{
 		return ResponseEntity.created(uri).body(usuario);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeAlterarUsuario
 	@PutMapping("/{usuarioId}")
 	public ResponseEntity<UsuarioModel> atualizar(@PathVariable Long usuarioId, @Valid @RequestBody UsuarioInput usuarioInput){
 		UsuarioModel usuario = cadastroUsuarioService.atualizar(usuarioId, usuarioInput);
 		return ResponseEntity.ok(usuario);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@DeleteMapping("/{usuarioId}")
 	public ResponseEntity<Void> deletar(@PathVariable Long usuarioId){
 		cadastroUsuarioService.deletar(usuarioId);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeAlterarPropriaSenha
 	@PutMapping("/{usuarioId}/senha")
 	public ResponseEntity<Void> atualizarSenha(@PathVariable Long usuarioId, @Valid @RequestBody SenhaInput senhaInput) {
 		cadastroUsuarioService.atualizarSenha(usuarioId, senhaInput);
