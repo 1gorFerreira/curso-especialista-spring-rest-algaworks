@@ -12,7 +12,7 @@ public @interface CheckSecurity {
 
 	public @interface Cozinhas {
 		
-		@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_COZINHAS')")
+		@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_RESTAURANTE')")
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeEditar {}
@@ -21,6 +21,18 @@ public @interface CheckSecurity {
 		@Retention(RUNTIME)
 		@Target(METHOD)
 		public @interface PodeConsultar {}
+	}
+	
+	public @interface Restaurantes {
 		
+		@PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDITAR_RESTAURANTE')")
+		@Retention(RUNTIME)
+		@Target(METHOD)
+		public @interface PodeEditar {}
+		
+		@PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+		@Retention(RUNTIME)
+		@Target(METHOD)
+		public @interface PodeConsultar {}
 	}
 }

@@ -22,6 +22,7 @@ import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.ProdutoModel;
 import com.algaworks.algafood.api.v1.model.input.ProdutoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteProdutoControllerOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.services.CadastroProdutoService;
 
 @RestController
@@ -34,6 +35,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	@Autowired
 	private AlgaLinks algaLinks;
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping
 	public ResponseEntity<CollectionModel<ProdutoModel>> listarProdutos(@PathVariable Long restauranteId, @RequestParam(required = false, defaultValue = "false") Boolean incluirInativos) {
 		CollectionModel<ProdutoModel> produtos = cadastroProdutoService.listarProdutos(restauranteId, incluirInativos);
@@ -43,12 +45,14 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		return ResponseEntity.ok(produtos);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping("/{produtoId}")
 	public ResponseEntity<ProdutoModel> buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId){
 		ProdutoModel produto = cadastroProdutoService.buscar(restauranteId, produtoId);
 		return ResponseEntity.ok(produto);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PostMapping
 	public ResponseEntity<ProdutoModel> adicionar(@PathVariable Long restauranteId, @Valid @RequestBody ProdutoInput produtoInput){
 		ProdutoModel produto = cadastroProdutoService.adicionar(restauranteId, produtoInput);
@@ -59,6 +63,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		return ResponseEntity.created(uri).body(produto);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/{produtoId}")
 	public ResponseEntity<ProdutoModel> atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid @RequestBody ProdutoInput produtoInput) {
 		ProdutoModel produto = cadastroProdutoService.atualizar(restauranteId, produtoId, produtoInput);

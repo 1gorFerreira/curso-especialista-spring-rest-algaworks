@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.api.v1.model.FotoProdutoModel;
 import com.algaworks.algafood.api.v1.model.input.FotoProdutoInput;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteProdutoFotoControllerOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.services.CatalogoFotoProdutoService;
 import com.algaworks.algafood.domain.services.FotoStorageService.FotoRecuperada;
@@ -33,12 +34,14 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	@Autowired
 	private CatalogoFotoProdutoService catalogoFotoProdutoService;
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping
 	public ResponseEntity<FotoProdutoModel> buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId){
 		FotoProdutoModel foto = catalogoFotoProdutoService.buscar(restauranteId, produtoId);
 		return ResponseEntity.ok(foto);
 	}
 	
+	// As fotos dos produtos ficarão públicas (não precisa de autorização para acessá-las)
 	@GetMapping(produces = MediaType.ALL_VALUE) // (produces = { MediaType.IMAGE_JPEG_VALUE , MediaType.IMAGE_PNG_VALUE }) -> Implementado em verificarCompatibilidadeMediaType;
 	public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId,
 			@RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException{
@@ -63,6 +66,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 		}
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<FotoProdutoModel> atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, 
 			@Valid FotoProdutoInput fotoProdutoInput) throws IOException {
@@ -73,6 +77,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 		return ResponseEntity.ok(fotoSalva);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@DeleteMapping
 	public ResponseEntity<Void> excluir(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		catalogoFotoProdutoService.deletar(restauranteId, produtoId);
