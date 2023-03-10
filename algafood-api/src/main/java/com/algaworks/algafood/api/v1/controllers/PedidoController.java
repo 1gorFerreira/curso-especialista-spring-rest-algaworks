@@ -50,6 +50,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 //		return pedidosWrapper;
 //	}
 	
+	@CheckSecurity.Pedidos.PodePesquisar
 	@GetMapping
 	public ResponseEntity<PagedModel<PedidoResumoModel>> pesquisar(PedidoFilter filtro, Pageable pageable){
 		PagedModel<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos(filtro, pageable);
