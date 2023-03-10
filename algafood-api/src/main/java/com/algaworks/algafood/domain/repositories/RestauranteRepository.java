@@ -32,6 +32,8 @@ public interface RestauranteRepository
 	List<Restaurante> findTop2ByNomeContaining(String nome);
 
 	int countByCozinhaId(Long cozinha);
+	
+	boolean existsResponsavel(Long restauranteId, Long usuarioId);
 
 //	Mesmo sem ter uma ligação explicita de RestauranteRepository com RestauranteRepositoryImpl,
 //	o SpringDataJPA ao invés de tentar criar uma consulta pelo nome do método, orm.xml etc, ele vai

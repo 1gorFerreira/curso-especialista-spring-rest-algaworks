@@ -42,14 +42,14 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 		return ResponseEntity.ok(responsaveis);
 	}
 	
-	@CheckSecurity.Restaurantes.PodeEditar
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@PutMapping("/{responsavelId}")
 	public ResponseEntity<Void> associarResponsavel(@PathVariable Long restauranteId, @PathVariable Long responsavelId){
 		cadastroRestauranteService.associarResponsavel(restauranteId, responsavelId);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@CheckSecurity.Restaurantes.PodeEditar
+	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@DeleteMapping("/{responsavelId}")
 	public ResponseEntity<Void> desassociarResponsavel(@PathVariable Long restauranteId, @PathVariable Long responsavelId){
 		cadastroRestauranteService.desassociarResponsavel(restauranteId, responsavelId);

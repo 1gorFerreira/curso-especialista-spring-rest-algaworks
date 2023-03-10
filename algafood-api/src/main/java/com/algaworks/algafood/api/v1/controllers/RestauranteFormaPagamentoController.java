@@ -49,14 +49,14 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 		return formasPagamentoModel;
 	}
 	
-	@CheckSecurity.Restaurantes.PodeEditar
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@PutMapping("/{formaPagamentoId}")
 	public ResponseEntity<Void> adicionarFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
 		cadastroRestauranteService.adicionarFormaPagamento(restauranteId, formaPagamentoId);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@CheckSecurity.Restaurantes.PodeEditar
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@DeleteMapping("/{formaPagamentoId}")
 	public ResponseEntity<Void> removerFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
 		cadastroRestauranteService.removerFormaPagamento(restauranteId, formaPagamentoId);

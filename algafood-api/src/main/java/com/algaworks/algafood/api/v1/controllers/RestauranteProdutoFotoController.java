@@ -66,7 +66,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 		}
 	}
 	
-	@CheckSecurity.Restaurantes.PodeEditar
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<FotoProdutoModel> atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, 
 			@Valid FotoProdutoInput fotoProdutoInput) throws IOException {
@@ -77,7 +77,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 		return ResponseEntity.ok(fotoSalva);
 	}
 	
-	@CheckSecurity.Restaurantes.PodeEditar
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@DeleteMapping
 	public ResponseEntity<Void> excluir(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		catalogoFotoProdutoService.deletar(restauranteId, produtoId);

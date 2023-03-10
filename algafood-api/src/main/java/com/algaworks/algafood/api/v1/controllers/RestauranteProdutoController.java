@@ -52,7 +52,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		return ResponseEntity.ok(produto);
 	}
 	
-	@CheckSecurity.Restaurantes.PodeEditar
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@PostMapping
 	public ResponseEntity<ProdutoModel> adicionar(@PathVariable Long restauranteId, @Valid @RequestBody ProdutoInput produtoInput){
 		ProdutoModel produto = cadastroProdutoService.adicionar(restauranteId, produtoInput);
@@ -63,7 +63,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		return ResponseEntity.created(uri).body(produto);
 	}
 	
-	@CheckSecurity.Restaurantes.PodeEditar
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@PutMapping("/{produtoId}")
 	public ResponseEntity<ProdutoModel> atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid @RequestBody ProdutoInput produtoInput) {
 		ProdutoModel produto = cadastroProdutoService.atualizar(restauranteId, produtoId, produtoInput);
