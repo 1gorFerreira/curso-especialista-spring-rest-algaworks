@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.controllers.PedidoController;
 import com.algaworks.algafood.api.v1.model.PedidoModel;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.model.Pedido;
 
 @Component
@@ -21,6 +22,9 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 	
 	@Autowired
 	private AlgaLinks algaLinks;
+	
+	@Autowired
+	private AlgaSecurity algaSecurity;
 	
 	public PedidoModelAssembler() {
 		super(PedidoController.class, PedidoModel.class);
@@ -35,16 +39,18 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 		
 //		pedidoModel.add(WebMvcLinkBuilder.linkTo(PedidoController.class).withRel("pedidos"));
 		
-		if(pedido.podeSerConfirmado()) {
-			pedidoModel.add(algaLinks.linkToConfirmacaoPedido(pedido.getCodigo(), "confirmar"));
-		}
-		
-		if(pedido.podeSerEntregue()) {
-			pedidoModel.add(algaLinks.linkToEntregaPedido(pedido.getCodigo(), "entregar"));
-		}
-		
-		if(pedido.podeSerCancelado()) {
-			pedidoModel.add(algaLinks.linkToCancelamentoPedido(pedido.getCodigo(), "cancelar"));
+		if(algaSecurity.podeGerenciarPedidos(pedido.getCodigo())) {
+			if(pedido.podeSerConfirmado()) {
+				pedidoModel.add(algaLinks.linkToConfirmacaoPedido(pedido.getCodigo(), "confirmar"));
+			}
+			
+			if(pedido.podeSerEntregue()) {
+				pedidoModel.add(algaLinks.linkToEntregaPedido(pedido.getCodigo(), "entregar"));
+			}
+			
+			if(pedido.podeSerCancelado()) {
+				pedidoModel.add(algaLinks.linkToCancelamentoPedido(pedido.getCodigo(), "cancelar"));
+			}
 		}
 		
 		pedidoModel.getRestaurante().add(algaLinks.linkToRestaurante(pedido.getRestaurante().getId()));
