@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.PermissaoModel;
 import com.algaworks.algafood.api.v1.openapi.controller.GrupoPermissaoControllerOpenApi;
+import com.algaworks.algafood.core.security.AlgaSecurity;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.services.CadastroGrupoService;
 
 @RestController
@@ -26,28 +28,36 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 	@Autowired
 	private AlgaLinks algaLinks;
 	
+	@Autowired
+	private AlgaSecurity algaSecurity; 
+	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping
 	public ResponseEntity<CollectionModel<PermissaoModel>> listar(@PathVariable Long grupoId){
 		CollectionModel<PermissaoModel> permissoes = cadastroGrupoService.listarPermissoes(grupoId);
 		
         permissoes.removeLinks()
-                .add(algaLinks.linkToGrupoPermissoes(grupoId))
-                .add(algaLinks.linkToGrupoPermissaoAssociacao(grupoId, "associar"));
+                .add(algaLinks.linkToGrupoPermissoes(grupoId));
         
-        permissoes.getContent().forEach(permissaoModel -> {
-            permissaoModel.add(algaLinks.linkToGrupoPermissaoDesassociacao(
-                    grupoId, permissaoModel.getId(), "desassociar"));
-        });
-
+        if (algaSecurity.podeEditarUsuariosGruposPermissoes()) {
+        	permissoes.add(algaLinks.linkToGrupoPermissaoAssociacao(grupoId, "associar"));
+            
+            permissoes.getContent().forEach(permissaoModel -> {
+                permissaoModel.add(algaLinks.linkToGrupoPermissaoDesassociacao(
+                        grupoId, permissaoModel.getId(), "desassociar"));
+            });
+        }
 		return ResponseEntity.ok(permissoes);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PutMapping("/{permissaoId}")
 	public ResponseEntity<Void> associar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
 		cadastroGrupoService.associarPermissao(grupoId, permissaoId);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@DeleteMapping("/{permissaoId}")
 	public ResponseEntity<Void> desassociar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
 		cadastroGrupoService.desassociarPermissao(grupoId, permissaoId);

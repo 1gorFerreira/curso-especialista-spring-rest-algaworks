@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.model.UsuarioModel;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.services.CadastroRestauranteService;
 
@@ -27,17 +28,23 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	@Autowired
 	private AlgaLinks algaLinks;
 	
+	@Autowired
+	private AlgaSecurity algaSecurity;
+	
 	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping
 	public ResponseEntity<CollectionModel<UsuarioModel>> listarResponsaveis(@PathVariable Long restauranteId){
 		CollectionModel<UsuarioModel> responsaveis = cadastroRestauranteService.listarResponsaveis(restauranteId);
 		responsaveis.removeLinks()
-				.add(algaLinks.linkToResponsaveisRestaurante(restauranteId))
-				.add(algaLinks.linkToRestauranteResponsavelAssociacao(restauranteId, "associar"));
+				.add(algaLinks.linkToResponsaveisRestaurante(restauranteId));
 		
-		responsaveis.getContent().forEach(responsavelModel -> {
-			responsavelModel.add(algaLinks.linkToRestauranteResponsavelDesassociacao(restauranteId, responsavelModel.getId(), "desassociar"));
-		});
+		if (algaSecurity.podeGerenciarCadastroRestaurantes()) {
+			responsaveis.add(algaLinks.linkToRestauranteResponsavelAssociacao(restauranteId, "associar"));
+			
+			responsaveis.getContent().forEach(responsavelModel -> {
+				responsavelModel.add(algaLinks.linkToRestauranteResponsavelDesassociacao(restauranteId, responsavelModel.getId(), "desassociar"));
+			});
+		}
 		
 		return ResponseEntity.ok(responsaveis);
 	}
