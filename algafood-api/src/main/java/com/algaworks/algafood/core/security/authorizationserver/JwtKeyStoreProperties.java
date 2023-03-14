@@ -1,4 +1,4 @@
-package com.algaworks.algafood.auth.core;
+package com.algaworks.algafood.core.security.authorizationserver;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,41 +11,25 @@ import org.springframework.validation.annotation.Validated;
 import lombok.Getter;
 import lombok.Setter;
 
+@Setter
+@Getter
 @Validated
 @Component
 @ConfigurationProperties("algafood.jwt.keystore")
 public class JwtKeyStoreProperties {
 
-	@NotBlank
-	private String path;
+//	@NotBlank
+//	private String path;
+	
+//	Trocamos para Resource para usar o classpath:... no application.properties
+	
+	@NotNull
+	private Resource jksLocation;
 	
 	@NotBlank
 	private String keyStorePass;
 	
 	@NotBlank
 	private String keyPairAlias;
-
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	public String getKeyStorePass() {
-		return keyStorePass;
-	}
-
-	public void setKeyStorePass(String keyStorePass) {
-		this.keyStorePass = keyStorePass;
-	}
-
-	public String getKeyPairAlias() {
-		return keyPairAlias;
-	}
-
-	public void setKeyPairAlias(String keyPairAlias) {
-		this.keyPairAlias = keyPairAlias;
-	}
+	
 }

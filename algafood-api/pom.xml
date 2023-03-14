@@ -22,6 +22,8 @@
 		<aws-java-sdk-s3.version>1.12.369</aws-java-sdk-s3.version>
 		<springfox.version>3.0.0</springfox.version>
 		<logback-ext-loggly.version>0.1.5</logback-ext-loggly.version>
+		<spring-security-oauth2.version>2.3.7.RELEASE</spring-security-oauth2.version>
+		<spring-security-jwt.version>1.0.11.RELEASE</spring-security-jwt.version>
 	</properties>
 	<dependencies>
 
@@ -182,8 +184,8 @@
 			<artifactId>logback-ext-loggly</artifactId>
 			<version>${logback-ext-loggly.version}</version>
 		</dependency>
-		
-		<!--  Spring Security  -->
+
+		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -193,14 +195,28 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		<!--  Resource Server -->
+
+		<!-- Resource Server -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
-	</dependencies>
 
+		<!-- Authorization Server -->
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>${spring-security-oauth2.version}</version>
+		</dependency>
+
+		<!-- JWT -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-jwt</artifactId>
+			<version>${spring-security-jwt.version}</version>
+		</dependency>
+		
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
