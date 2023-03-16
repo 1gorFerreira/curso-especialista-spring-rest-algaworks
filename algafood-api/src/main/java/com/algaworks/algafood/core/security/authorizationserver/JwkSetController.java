@@ -16,7 +16,6 @@ public class JwkSetController {
 	
 	@GetMapping("/.well-known/jwks.json")
 	public Map<String, Object> keys(){
-		System.out.println("JWKS Endpoint");
 		return this.jwkSet.toJSONObject();
 	}
 }
