@@ -1,5 +1,7 @@
 package com.algaworks.algafood.core.security.authorizationserver;
 
+import java.security.KeyPair;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
 
 import javax.sql.DataSource;
@@ -22,6 +24,11 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.KeyUse;
+import com.nimbusds.jose.jwk.RSAKey;
 
 @Configuration
 @EnableAuthorizationServer
@@ -79,19 +86,33 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 	
 	@Bean
+	public JWKSet jwkSet() {
+		RSAKey.Builder builder = new RSAKey.Builder((RSAPublicKey) keyPair().getPublic())
+				.keyUse(KeyUse.SIGNATURE)
+				.algorithm(JWSAlgorithm.RS256)
+				.keyID("algafood-key-id");
+		
+		return new JWKSet(builder.build());
+	}
+	
+	@Bean
 	public JwtAccessTokenConverter jwtAccessTokenConverter() {
 		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
 //		jwtAccessTokenConverter.setSigningKey("89asjkdhiuhep121289u3hdpasuighd1he9"); Chave simetrica
 
+		jwtAccessTokenConverter.setKeyPair(keyPair()); // Chave assimetrica
+		
+		return jwtAccessTokenConverter;
+	}
+	
+	private KeyPair keyPair() {
 		var keyStorePass = jwtKeyStoreProperties.getKeyStorePass();
 		var keyPairAlias = jwtKeyStoreProperties.getKeyPairAlias();
 		
 		var keyStoreKeyFactory = new KeyStoreKeyFactory(jwtKeyStoreProperties.getJksLocation(), keyStorePass.toCharArray());
-		var keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias);
 		
-		jwtAccessTokenConverter.setKeyPair(keyPair); // Chave assimetrica
+		return keyStoreKeyFactory.getKeyPair(keyPairAlias);
 		
-		return jwtAccessTokenConverter;
 	}
 	
 	// Parte da configuração do Authorization Server, para adicionar o TokenGranter customizado (PKCE)
