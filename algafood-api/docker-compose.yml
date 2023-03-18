@@ -23,9 +23,17 @@ services:
       S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY}
       SPRING_MAIL_PASSWORD: ${SPRING_MAIL_PASSWORD}
       LOGGLY_TOKEN: ${LOGGLY_TOKEN}
-    ports:
-      - "8080:8080"
     networks:
       - algafood-network
     depends_on:
       - algafood-mysql
+
+  algafood-proxy:
+    build: ./nginx
+    image: algafood-proxy
+    ports:
+      - "80:80"
+    networks:
+      - algafood-network
+    depends_on:
+      - algafood-api
