@@ -27,9 +27,9 @@ public class JwtKeyStoreProperties {
 	private Resource jksLocation;
 	
 	@NotBlank
-	private String keyStorePass;
+	private String password;
 	
 	@NotBlank
-	private String keyPairAlias;
+	private String keypairAlias;
 	
 }
