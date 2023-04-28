@@ -1,6 +1,8 @@
 package com.algaworks.algafood.api.v1.openapi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.hateoas.CollectionModel;
@@ -17,15 +19,16 @@ public interface CidadeControllerOpenApi {
 	CollectionModel<CidadeModel> listar();
 
 	@Operation(summary = "Busca uma cidade por id")
-	ResponseEntity<CidadeModel> buscar(Long cidadeId);
+	ResponseEntity<CidadeModel> buscar(@Parameter(description = "Id de uma cidade", example = "1", required = true) Long cidadeId);
 
 	@Operation(summary = "Cadastra uma cidade",
 			description = "Cadastro de uma cidade, necessita de um estado e um nome valido")
-	ResponseEntity<CidadeModel> adicionar(CidadeInput cidadeInput);
+	ResponseEntity<CidadeModel> adicionar(@RequestBody(description = "Representacao de uma nova cidade", required = true) CidadeInput cidadeInput);
 
-	@Operation(summary = "Atualizar uma cidade por ID")
-	ResponseEntity<CidadeModel> atualizar(Long id, CidadeInput cidadeInput);
+	@Operation(summary = "Atualiza uma cidade por ID")
+	ResponseEntity<CidadeModel> atualizar(@Parameter(description = "Id de uma cidade", example = "1", required = true)Long id,
+										  @RequestBody(description = "Representacao de uma cidade com dados atualizados", required = true) CidadeInput cidadeInput);
 
 	@Operation(summary = "Excluir uma cidade por ID")
-	ResponseEntity<?> remover(Long cidadeId);
+	ResponseEntity<?> remover(@Parameter(description = "Id de uma cidade", example = "1", required = true)Long cidadeId);
 }
