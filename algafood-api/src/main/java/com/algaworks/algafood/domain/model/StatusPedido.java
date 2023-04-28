@@ -3,6 +3,8 @@ package com.algaworks.algafood.domain.model;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.Id;
+
 public enum StatusPedido {
 
     CRIADO("Criado"),

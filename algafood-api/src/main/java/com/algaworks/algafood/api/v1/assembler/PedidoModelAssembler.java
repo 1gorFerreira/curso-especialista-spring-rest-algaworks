@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.v1.assembler;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,6 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 	}
 	
 	public List<PedidoModel> toCollectionModel(Collection<Pedido> pedidos){
-		return pedidos.stream().map(pedido -> toModel(pedido)).toList();
+		return pedidos.stream().map(pedido -> toModel(pedido)).collect(Collectors.toList());
 	}
 }
