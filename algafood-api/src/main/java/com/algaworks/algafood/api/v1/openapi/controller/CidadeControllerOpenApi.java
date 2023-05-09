@@ -2,7 +2,10 @@ package com.algaworks.algafood.api.v1.openapi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.hateoas.CollectionModel;
@@ -18,7 +21,11 @@ public interface CidadeControllerOpenApi {
 	@Operation(summary = "Lista as cidades")
 	CollectionModel<CidadeModel> listar();
 
-	@Operation(summary = "Busca uma cidade por id")
+	@Operation(summary = "Busca uma cidade por id", responses = {
+			@ApiResponse(responseCode = "200"),
+			@ApiResponse(responseCode = "400", description = "ID da cidade invalido",
+					content = @Content(schema = @Schema)) // Com isso ele passara um Schema vazio;
+	})
 	ResponseEntity<CidadeModel> buscar(@Parameter(description = "Id de uma cidade", example = "1", required = true) Long cidadeId);
 
 	@Operation(summary = "Cadastra uma cidade",
