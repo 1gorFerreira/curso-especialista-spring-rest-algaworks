@@ -24,7 +24,7 @@ public interface CidadeControllerOpenApi {
 	@Operation(summary = "Busca uma cidade por id", responses = {
 			@ApiResponse(responseCode = "200"),
 			@ApiResponse(responseCode = "400", description = "ID da cidade invalido",
-					content = @Content(schema = @Schema)) // Com isso ele passara um Schema vazio;
+					content = @Content(schema = @Schema(ref = "Problema"))) // Com isso ele passara um Schema vazio;
 	})
 	ResponseEntity<CidadeModel> buscar(@Parameter(description = "Id de uma cidade", example = "1", required = true) Long cidadeId);
 
