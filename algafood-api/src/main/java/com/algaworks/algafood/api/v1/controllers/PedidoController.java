@@ -51,6 +51,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 //	}
 	
 	@CheckSecurity.Pedidos.PodePesquisar
+	@Override
 	@GetMapping
 	public ResponseEntity<PagedModel<PedidoResumoModel>> pesquisar(PedidoFilter filtro, Pageable pageable){
 		PagedModel<PedidoResumoModel> pedidos = emissaoPedidoService.buscarTodos(filtro, pageable);
@@ -58,6 +59,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 	}
 	
 	@CheckSecurity.Pedidos.PodeBuscar
+	@Override
 	@GetMapping("/{codigoPedido}")
 	public ResponseEntity<PedidoModel> buscar(@PathVariable String codigoPedido){
 		PedidoModel pedido = emissaoPedidoService.buscar(codigoPedido);
@@ -65,6 +67,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 	}
 	
 	@CheckSecurity.Pedidos.PodeCriar
+	@Override
 	@PostMapping
 	public ResponseEntity<PedidoModel> emitir(@Valid @RequestBody PedidoInput pedidoInput){
 		PedidoModel pedido = emissaoPedidoService.emitir(pedidoInput);
