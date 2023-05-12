@@ -36,8 +36,8 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	@Autowired
 	private CadastroCozinhaService cadastroCozinhaService;
 
-	@Override
 	@CheckSecurity.Cozinhas.PodeConsultar
+	@Override
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagedModel<CozinhaModel>> listar(@PageableDefault(size = 10) Pageable pageable){
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities()); // Debugando as authorities do token informado;
@@ -46,8 +46,9 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 		PagedModel<CozinhaModel> cozinhas = cadastroCozinhaService.listar(pageable);
 		return ResponseEntity.ok(cozinhas);
 	}
-	
+
 	@CheckSecurity.Cozinhas.PodeConsultar
+	@Override
 	@GetMapping(value = "/{cozinhaId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CozinhaModel> buscar(@PathVariable Long cozinhaId) {
 		CozinhaModel cozinha = cadastroCozinhaService.buscar(cozinhaId);
@@ -55,6 +56,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	}
 	
 	@CheckSecurity.Cozinhas.PodeEditar
+	@Override
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaModel adicionar(@Valid @RequestBody CozinhaInput cozinhaInput) {
@@ -63,6 +65,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	}
 	
 	@CheckSecurity.Cozinhas.PodeEditar
+	@Override
 	@PutMapping(value = "/{cozinhaId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CozinhaModel> atualizar(@PathVariable Long cozinhaId, @Valid @RequestBody CozinhaInput cozinhaInput){
 		CozinhaModel cozinha = cadastroCozinhaService.atualizar(cozinhaId, cozinhaInput);
@@ -70,6 +73,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	}
 	
 	@CheckSecurity.Cozinhas.PodeEditar
+	@Override
 	@DeleteMapping(value = "/{cozinhaId}", produces = {})
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cozinhaId) {

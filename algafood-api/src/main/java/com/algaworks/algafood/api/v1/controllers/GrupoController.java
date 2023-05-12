@@ -31,24 +31,24 @@ public class GrupoController implements GrupoControllerOpenApi {
 	@Autowired
 	private CadastroGrupoService cadastroGrupoService;
 
-	@Override
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+	@Override
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CollectionModel<GrupoModel>> buscarTodos(){
 		CollectionModel<GrupoModel> grupos = cadastroGrupoService.listarGrupos();
 		return ResponseEntity.ok(grupos);
 	}
 
-	@Override
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+	@Override
 	@GetMapping(path = "/{grupoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> buscar(@PathVariable Long grupoId){
 		GrupoModel grupo = cadastroGrupoService.buscar(grupoId);
 		return ResponseEntity.ok(grupo);
 	}
 
-	@Override
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+	@Override
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> adicionar(@Valid @RequestBody GrupoInput grupoInput){
 		GrupoModel grupo = cadastroGrupoService.adicionar(grupoInput);
@@ -57,16 +57,16 @@ public class GrupoController implements GrupoControllerOpenApi {
 		return ResponseEntity.created(uri).body(grupo);
 	}
 
-	@Override
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+	@Override
 	@PutMapping(path = "/{grupoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GrupoModel> atualizar(@PathVariable Long grupoId, @Valid @RequestBody GrupoInput grupoInput){
 		GrupoModel grupo = cadastroGrupoService.atualizar(grupoId, grupoInput);
 		return ResponseEntity.ok(grupo);
 	}
 
-	@Override
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+	@Override
 	@DeleteMapping("/{grupoId}")
 	public ResponseEntity<Void> deletar(@PathVariable Long grupoId){
 		cadastroGrupoService.deletar(grupoId);
