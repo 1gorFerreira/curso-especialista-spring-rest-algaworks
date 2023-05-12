@@ -36,6 +36,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	private CadastroFormaPagamentoService cadastroFormaPagamentoService;
 	
 	@CheckSecurity.FormasPagamento.PodeConsultar
+	@Override
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CollectionModel<FormaPagamentoModel>> listar(ServletWebRequest request){
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
@@ -54,6 +55,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	}
 	
 	@CheckSecurity.FormasPagamento.PodeConsultar
+	@Override
 	@GetMapping(path = "/{formaPagamentoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId, ServletWebRequest request){
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
@@ -76,6 +78,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	}
 	
 	@CheckSecurity.FormasPagamento.PodeEditar
+	@Override
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FormaPagamentoModel> adicionar(@Valid @RequestBody FormaPagamentoInput formaPagamentoInput){
 		FormaPagamentoModel formaPagamento = cadastroFormaPagamentoService.adicionar(formaPagamentoInput);
@@ -85,6 +88,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	}
 	
 	@CheckSecurity.FormasPagamento.PodeEditar
+	@Override
 	@PutMapping(path = "/{formaPagamentoId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FormaPagamentoModel> atualizar(@Valid @PathVariable Long formaPagamentoId, @RequestBody FormaPagamentoInput formaPagamentoInput){
 		FormaPagamentoModel formaPagamentoModel = cadastroFormaPagamentoService.atualizar(formaPagamentoId, formaPagamentoInput);
@@ -92,6 +96,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	}
 	
 	@CheckSecurity.FormasPagamento.PodeEditar
+	@Override
 	@DeleteMapping("/{formaPagamentoId}")
 	public ResponseEntity<Void> deletar(@PathVariable Long formaPagamentoId){
 		cadastroFormaPagamentoService.deletar(formaPagamentoId);
