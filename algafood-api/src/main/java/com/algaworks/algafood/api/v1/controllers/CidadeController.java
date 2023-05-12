@@ -46,7 +46,8 @@ public class CidadeController implements CidadeControllerOpenApi{
 
 	@Autowired
 	private CidadeInputDisassembler cidadeInputDisassembler;
-	
+
+	@Override
 	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping
 	public CollectionModel<CidadeModel> listar() {
@@ -55,6 +56,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 		return cidadeModelAssembler.toCollectionModel(todasCidades);
 	}
 
+	@Override
 	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping(path = "/{cidadeId}")
 	public ResponseEntity<CidadeModel> buscar(@PathVariable Long cidadeId) {
@@ -65,6 +67,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 		return ResponseEntity.ok(cidadeModel);
 	}
 
+	@Override
 	@CheckSecurity.Cidades.PodeEditar
 	@PostMapping
 	public ResponseEntity<CidadeModel> adicionar(@Valid @RequestBody CidadeInput cidadeInput) {
@@ -81,6 +84,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 		}
 	}
 
+	@Override
 	@CheckSecurity.Cidades.PodeEditar
 	@PutMapping(path = "/{id}")
 	public ResponseEntity<CidadeModel> atualizar(@PathVariable Long id, @Valid @RequestBody CidadeInput cidadeInput) {
@@ -97,6 +101,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 		}
 	}
 
+	@Override
 	@CheckSecurity.Cidades.PodeEditar
 	@DeleteMapping("/{cidadeId}")
 	public ResponseEntity<?> remover(@PathVariable Long cidadeId) {
