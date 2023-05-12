@@ -35,7 +35,8 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	
 	@Autowired
 	private CadastroCozinhaService cadastroCozinhaService;
-	
+
+	@Override
 	@CheckSecurity.Cozinhas.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PagedModel<CozinhaModel>> listar(@PageableDefault(size = 10) Pageable pageable){
