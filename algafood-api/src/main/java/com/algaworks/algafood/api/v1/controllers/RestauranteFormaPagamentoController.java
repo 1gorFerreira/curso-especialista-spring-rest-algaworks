@@ -37,6 +37,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 	private AlgaSecurity algaSecurity;
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
+	@Override
 	@GetMapping
 	public CollectionModel<FormaPagamentoModel> listar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
@@ -57,6 +58,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 	}
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
+	@Override
 	@PutMapping("/{formaPagamentoId}")
 	public ResponseEntity<Void> adicionarFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
 		cadastroRestauranteService.adicionarFormaPagamento(restauranteId, formaPagamentoId);
@@ -64,6 +66,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 	}
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
+	@Override
 	@DeleteMapping("/{formaPagamentoId}")
 	public ResponseEntity<Void> removerFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
 		cadastroRestauranteService.removerFormaPagamento(restauranteId, formaPagamentoId);
