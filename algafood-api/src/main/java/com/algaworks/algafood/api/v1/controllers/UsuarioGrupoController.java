@@ -32,6 +32,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 	private AlgaSecurity algaSecurity;
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+	@Override
 	@GetMapping
 	public ResponseEntity<CollectionModel<GrupoModel>> listar(@PathVariable Long usuarioId){
 		CollectionModel<GrupoModel> grupos = cadastroUsuarioService.listarGrupos(usuarioId);
@@ -50,6 +51,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 	}
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+	@Override
 	@PutMapping("/{grupoId}")
 	public ResponseEntity<Void> associarGrupo(@PathVariable Long usuarioId, @PathVariable Long grupoId){
 		cadastroUsuarioService.associarGrupo(usuarioId, grupoId);
@@ -57,6 +59,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 	}
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+	@Override
 	@DeleteMapping("/{grupoId}")
 	public ResponseEntity<Void> desassociarGrupo(@PathVariable Long usuarioId, @PathVariable Long grupoId){
 		cadastroUsuarioService.desassociarGrupo(usuarioId, grupoId);

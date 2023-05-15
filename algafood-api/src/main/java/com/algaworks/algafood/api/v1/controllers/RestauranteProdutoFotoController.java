@@ -35,6 +35,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	private CatalogoFotoProdutoService catalogoFotoProdutoService;
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
+	@Override
 	@GetMapping
 	public ResponseEntity<FotoProdutoModel> buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId){
 		FotoProdutoModel foto = catalogoFotoProdutoService.buscar(restauranteId, produtoId);
@@ -43,6 +44,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	
 	// As fotos dos produtos ficarão públicas (não precisa de autorização para acessá-las)
 	@GetMapping(produces = MediaType.ALL_VALUE) // (produces = { MediaType.IMAGE_JPEG_VALUE , MediaType.IMAGE_PNG_VALUE }) -> Implementado em verificarCompatibilidadeMediaType;
+	@Override
 	public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId,
 			@RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException{
 		try {
@@ -67,6 +69,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	}
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
+	@Override
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<FotoProdutoModel> atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, 
 			@Valid FotoProdutoInput fotoProdutoInput) throws IOException {
@@ -78,6 +81,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	}
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
+	@Override
 	@DeleteMapping
 	public ResponseEntity<Void> excluir(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		catalogoFotoProdutoService.deletar(restauranteId, produtoId);

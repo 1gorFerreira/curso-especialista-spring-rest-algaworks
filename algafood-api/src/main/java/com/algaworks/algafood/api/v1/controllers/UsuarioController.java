@@ -34,6 +34,7 @@ public class UsuarioController implements UsuarioControllerOpenApi{
 	private CadastroUsuarioService cadastroUsuarioService;
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+	@Override
 	@GetMapping
 	public ResponseEntity<CollectionModel<UsuarioModel>> buscarTodos(){
 		CollectionModel<UsuarioModel> usuarios = cadastroUsuarioService.buscarTodos();
@@ -41,6 +42,7 @@ public class UsuarioController implements UsuarioControllerOpenApi{
 	}
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+	@Override
 	@GetMapping("/{usuarioId}")
 	public ResponseEntity<UsuarioModel> buscar(@PathVariable Long usuarioId){
 		UsuarioModel usuario = cadastroUsuarioService.buscar(usuarioId);
@@ -48,6 +50,7 @@ public class UsuarioController implements UsuarioControllerOpenApi{
 	}
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+	@Override
 	@PostMapping
 	public ResponseEntity<UsuarioModel> adicionar(@Valid @RequestBody UsuarioComSenhaInput usuarioComSenhaInput){
 		UsuarioModel usuario = cadastroUsuarioService.adicionar(usuarioComSenhaInput);
@@ -59,6 +62,7 @@ public class UsuarioController implements UsuarioControllerOpenApi{
 	}
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeAlterarUsuario
+	@Override
 	@PutMapping("/{usuarioId}")
 	public ResponseEntity<UsuarioModel> atualizar(@PathVariable Long usuarioId, @Valid @RequestBody UsuarioInput usuarioInput){
 		UsuarioModel usuario = cadastroUsuarioService.atualizar(usuarioId, usuarioInput);
@@ -73,6 +77,7 @@ public class UsuarioController implements UsuarioControllerOpenApi{
 	}
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeAlterarPropriaSenha
+	@Override
 	@PutMapping("/{usuarioId}/senha")
 	public ResponseEntity<Void> atualizarSenha(@PathVariable Long usuarioId, @Valid @RequestBody SenhaInput senhaInput) {
 		cadastroUsuarioService.atualizarSenha(usuarioId, senhaInput);

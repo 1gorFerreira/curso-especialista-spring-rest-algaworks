@@ -35,6 +35,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi{
 	
 	// Se o usuário da API não especificar nenhum Offset, retornaremos em UTC (+00:00):
 	@CheckSecurity.Estatisticas.PodeConsultar
+	@Override
 	@GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<VendaDiaria> consultarVendasDiarias(
 			VendaDiariaFilter filtro, 
@@ -44,6 +45,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi{
 	}
 	
 	@CheckSecurity.Estatisticas.PodeConsultar
+	@Override
 	@GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<byte[]> consultarVendasDiariasPdf(
 			VendaDiariaFilter filtro, 

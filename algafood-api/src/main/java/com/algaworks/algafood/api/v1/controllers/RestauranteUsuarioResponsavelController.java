@@ -32,6 +32,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	private AlgaSecurity algaSecurity;
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
+	@Override
 	@GetMapping
 	public ResponseEntity<CollectionModel<UsuarioModel>> listarResponsaveis(@PathVariable Long restauranteId){
 		CollectionModel<UsuarioModel> responsaveis = cadastroRestauranteService.listarResponsaveis(restauranteId);
@@ -50,6 +51,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	}
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
+	@Override
 	@PutMapping("/{responsavelId}")
 	public ResponseEntity<Void> associarResponsavel(@PathVariable Long restauranteId, @PathVariable Long responsavelId){
 		cadastroRestauranteService.associarResponsavel(restauranteId, responsavelId);
@@ -57,6 +59,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	}
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
+	@Override
 	@DeleteMapping("/{responsavelId}")
 	public ResponseEntity<Void> desassociarResponsavel(@PathVariable Long restauranteId, @PathVariable Long responsavelId){
 		cadastroRestauranteService.desassociarResponsavel(restauranteId, responsavelId);

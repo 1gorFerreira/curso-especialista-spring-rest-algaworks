@@ -32,6 +32,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 	private AlgaSecurity algaSecurity; 
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+	@Override
 	@GetMapping
 	public ResponseEntity<CollectionModel<PermissaoModel>> listar(@PathVariable Long grupoId){
 		CollectionModel<PermissaoModel> permissoes = cadastroGrupoService.listarPermissoes(grupoId);
@@ -51,6 +52,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 	}
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+	@Override
 	@PutMapping("/{permissaoId}")
 	public ResponseEntity<Void> associar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
 		cadastroGrupoService.associarPermissao(grupoId, permissaoId);
@@ -58,6 +60,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 	}
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+	@Override
 	@DeleteMapping("/{permissaoId}")
 	public ResponseEntity<Void> desassociar(@PathVariable Long grupoId, @PathVariable Long permissaoId){
 		cadastroGrupoService.desassociarPermissao(grupoId, permissaoId);

@@ -36,6 +36,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	private AlgaLinks algaLinks;
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
+	@Override
 	@GetMapping
 	public ResponseEntity<CollectionModel<ProdutoModel>> listarProdutos(@PathVariable Long restauranteId, @RequestParam(required = false, defaultValue = "false") Boolean incluirInativos) {
 		CollectionModel<ProdutoModel> produtos = cadastroProdutoService.listarProdutos(restauranteId, incluirInativos);
@@ -46,6 +47,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	}
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
+	@Override
 	@GetMapping("/{produtoId}")
 	public ResponseEntity<ProdutoModel> buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId){
 		ProdutoModel produto = cadastroProdutoService.buscar(restauranteId, produtoId);
@@ -53,6 +55,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	}
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
+	@Override
 	@PostMapping
 	public ResponseEntity<ProdutoModel> adicionar(@PathVariable Long restauranteId, @Valid @RequestBody ProdutoInput produtoInput){
 		ProdutoModel produto = cadastroProdutoService.adicionar(restauranteId, produtoInput);
@@ -64,6 +67,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	}
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
+	@Override
 	@PutMapping("/{produtoId}")
 	public ResponseEntity<ProdutoModel> atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid @RequestBody ProdutoInput produtoInput) {
 		ProdutoModel produto = cadastroProdutoService.atualizar(restauranteId, produtoId, produtoInput);
