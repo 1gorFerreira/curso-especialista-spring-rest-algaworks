@@ -44,12 +44,14 @@ public class EstadoController implements EstadoControllerOpenApi {
 	private EstadoInputDisassembler estadoInputDisassembler;
 
 	@CheckSecurity.Estados.PodeConsultar
+	@Override
 	@GetMapping
 	public CollectionModel<EstadoModel> listar() {
 		return estadoModelAssembler.toCollectionModel(estadoRepository.findAll());
 	}
 
 	@CheckSecurity.Estados.PodeConsultar
+	@Override
 	@GetMapping("/{estadoId}")
 	public ResponseEntity<EstadoModel> buscar(@PathVariable Long estadoId) {
 		Estado estado = cadastroEstadoService.buscarOuFalhar(estadoId);
@@ -57,6 +59,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 	}
 
 	@CheckSecurity.Estados.PodeEditar
+	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EstadoModel adicionar(@Valid @RequestBody EstadoInput estadoInput) {
@@ -65,6 +68,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 	}
 
 	@CheckSecurity.Estados.PodeEditar
+	@Override
 	@PutMapping("/{estadoId}")
 	public ResponseEntity<EstadoModel> atualizar(@PathVariable Long estadoId, @Valid @RequestBody EstadoInput estadoInput) {
 		Estado estadoAtual = cadastroEstadoService.buscarOuFalhar(estadoId);
@@ -77,6 +81,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 	}
 
 	@CheckSecurity.Estados.PodeEditar
+	@Override
 	@DeleteMapping("/{estadoId}")
 	public ResponseEntity<?> remover(@PathVariable Long estadoId) {
 		cadastroEstadoService.excluir(estadoId);
