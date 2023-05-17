@@ -23,14 +23,14 @@ import java.util.stream.Collectors;
 public class ResourceServerConfig {
 
     @Bean
-    public SecurityFilterChain resourceServerFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests()
+    public SecurityFilterChain resourceServerFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
                 .antMatchers("/oauth2/**").authenticated()
                 .and()
                 .csrf().disable()
                 .cors().and()
                 .oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
-        return httpSecurity.formLogin(Customizer.withDefaults()).build();
+        return http.formLogin(customizer -> customizer.loginPage("/login")).build();
     }
 
     private JwtAuthenticationConverter jwtAuthenticationConverter(){
