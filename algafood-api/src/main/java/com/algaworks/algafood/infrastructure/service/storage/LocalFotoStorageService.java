@@ -1,20 +1,19 @@
 package com.algaworks.algafood.infrastructure.service.storage;
 
+import com.algaworks.algafood.core.storage.StorageProperties;
+import com.algaworks.algafood.domain.services.FotoStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import org.flywaydb.core.internal.util.FileCopyUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.algaworks.algafood.core.storage.StorageProperties;
-import com.algaworks.algafood.domain.services.FotoStorageService;
 
 public class LocalFotoStorageService implements FotoStorageService {
 
 	// Estamos usando o NovaFoto e não o MultipartFile para não ficar dependente de um pacote externo;
 	// Perceba que o método MultipartFile.transferTo faz exatamente o que estamos fazendo com o FileCopyUtils.copy();
-	
+
 	@Autowired
 	private StorageProperties storageProperties;
 	

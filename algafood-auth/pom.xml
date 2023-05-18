@@ -43,10 +43,10 @@
 		</dependency>
 
 		<!-- Spring Security OAuth2 com Java 11+ lança exception: Caused by: java.lang.ClassNotFoundException: 
-			javax.xml.bind.JAXBException Em um projeto com Spring Boot, adicione as dependências 
-			abaixo para resolver o problema. Leia também: https://stackoverflow.com/questions/52502189/java-11-package-javax-xml-bind-does-not-exist -->
+			jakarta.xml.bind.JAXBException Em um projeto com Spring Boot, adicione as dependências
+			abaixo para resolver o problema. Leia também: https://stackoverflow.com/questions/52502189/java-11-package-jakarta-xml-bind-does-not-exist -->
 		<dependency>
-			<groupId>javax.xml.bind</groupId>
+			<groupId>jakarta.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 		</dependency>
 		<dependency>
@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
-			<version>${javax-jaxb.version}</version>
+			<version>${jakarta-jaxb.version}</version>
 		</dependency>
 
 		<!-- Redis -->
